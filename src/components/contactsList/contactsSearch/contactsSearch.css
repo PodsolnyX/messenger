@@ -1,0 +1,30 @@
+.contacts-search {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    height: 32px;
+    margin: 12px 24px;
+    padding: 0 5px;
+    border: solid 1px var(--color-border-primary);
+    border-radius: 8px;
+}
+
+.contacts-search > input {
+    background-color: rgba(0, 0, 0, 0);
+    border: 0;
+    width: 100%;
+    font-size: 14px;
+    color: var(--color-text-secondary);
+}
+
+.contacts-search > img{
+    height: 18px;
+    margin: 0 5px;
+}
+
+.contacts-search > input:focus{
+    outline: none;
+}
+.contacts-search > input::placeholder{
+    color: var(--color-text-tertiary);
+}
