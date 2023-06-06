@@ -1,29 +1,65 @@
 import "./messagesArea.css"
-import sendIcon from "./../../assets/icons/send.svg"
-import clipIcon from "./../../assets/icons/clip.svg"
+import MessageInput from "./messageInput/messageInput";
+import MessageItem from "./messageItem/messageItem";
 
 const MessagesArea = (props) => {
+
+    const data=[
+        {
+            text: "Разнообразный и богатый опыт выбранный нами инновационный путь позволяет выполнить важнейшие задания по разработке соответствующих условий активизации! Значимость этих проблем настолько очевидна, что начало повседневной работы по формированию позиции создаёт предпосылки качественно новых шагов для модели развития?",
+            isIncoming: true
+        },
+        {
+            text: "Привет, как дела?",
+            isIncoming: true
+        },
+        {
+            text: "Привет, как дела?",
+            isIncoming: false
+        },
+        {
+            text: "Привет, как дела?",
+            isIncoming: true
+        },
+        {
+            text: "Привет, как дела?",
+            isIncoming: false
+        },
+        {
+            text: "Привет, как дела?",
+            isIncoming: true
+        },
+        {
+            text: "Привет, как дела? Нормально нормально не реально реально не реально",
+            isIncoming: true
+        },
+        {
+            text: "Привет, как дела?",
+            isIncoming: true
+        },
+        {
+            text: "Привет, как дела?",
+            isIncoming: false
+        },
+        {
+            text: "Разнообразный и богатый опыт выбранный нами инновационный путь позволяет выполнить важнейшие задания по разработке соответствующих условий активизации! Значимость этих проблем настолько очевидна, что начало повседневной работы по формированию позиции создаёт предпосылки качественно новых шагов для модели развития?",
+            isIncoming: false
+        },
+    ]
+
     return (
         <div className={"messages-area"}>
-            <div className={"messages-container "}>
+            <div className={"messages-list-container"}>
                 <div className={"messages-list"}>
-
+                    {
+                        data.map((message, i) =>
+                            <MessageItem text={message.text} isIncoming={message.isIncoming} key={i + "34343"}/>
+                        )
+                    }
                 </div>
-                <div className={"message-input-container"}>
-                    <div className={"message-input"}>
-                        <span
-                            className="textarea"
-                            contentEditable>
-
-                        </span>
-                        <div className={"button-attach-file"}>
-                            <img src={clipIcon} alt={""}/>
-                        </div>
-                    </div>
-                    <div className={"button-send-message"}>
-                        <img alt={""} src={sendIcon}/>
-                    </div>
-                </div>
+            </div>
+            <div className={"input-container"}>
+                <MessageInput/>
             </div>
         </div>
     );
