@@ -1,5 +1,5 @@
 import "./contactsSearch.css";
-import searchIcon from "./../../../assets/icons/search.svg";
+import searchIcon from "../../../../../assets/icons/search.svg";
 
 const ContactsSearch = (props) => {
     return (

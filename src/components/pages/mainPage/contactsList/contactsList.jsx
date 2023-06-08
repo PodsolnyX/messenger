@@ -1,10 +1,10 @@
 import "./contactsList.css"
 import ContactsSearch from "./contactsSearch/contactsSearch";
 import ContactsItem from "./contactsItem/contactsItem";
-import avatar from "./../../assets/images/avatar.png"
-import avatar2 from "./../../assets/images/avatar2.png"
-import avatar3 from "./../../assets/images/avatar3.jpg"
-import pencil from "./../../assets/icons/pencil.svg"
+import avatar from "../../../../assets/images/avatar.png"
+import avatar2 from "../../../../assets/images/avatar2.png"
+import avatar3 from "../../../../assets/images/avatar3.jpg"
+import pencil from "../../../../assets/icons/pencil.svg"
 
 const ContactsList = (props) => {
 

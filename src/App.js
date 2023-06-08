@@ -1,16 +1,19 @@
 import './App.css';
-import Navbar from "./components/navbar/navbar";
-import MessagesArea from "./components/messagesArea/messagesArea";
-import ContactsList from "./components/contactsList/contactsList";
+import MainPage from "./components/pages/mainPage/mainPage";
+import {Route, Routes} from "react-router-dom";
+import ToasterContainer from "./components/other/toaster/toasterContainer";
+import LoginPage from "./components/pages/loginPage/loginPageContainer";
+import RegistrationPage from "./components/pages/registrationPage/registrationPageContainer";
 
 function App() {
     return (
         <div className="App">
-            <Navbar/>
-            <div className={"content"}>
-                <ContactsList/>
-                <MessagesArea/>
-            </div>
+            <ToasterContainer/>
+            <Routes>
+                <Route path="/" element={<MainPage/>}/>
+                <Route path="/login" element={<LoginPage/>}/>
+                <Route path="/registration" element={<RegistrationPage/>}/>
+            </Routes>
         </div>
     );
 }

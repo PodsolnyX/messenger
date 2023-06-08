@@ -1,6 +1,6 @@
 import "./messageInput.css"
-import clipIcon from "../../../assets/icons/clip.svg";
-import sendIcon from "../../../assets/icons/send.svg";
+import clipIcon from "../../../../../assets/icons/clip.svg";
+import sendIcon from "../../../../../assets/icons/send.svg";
 
 const MessageInput = (props) => {
     return (
