@@ -1,36 +1,49 @@
 import "./registrationPage.css"
 import {Link} from "react-router-dom";
-import {Field, reduxForm} from "redux-form";
+import {reduxForm} from "redux-form";
+import {correctEmail, correctFullName, maxLength, minLength, required} from "../../../helpers/validators";
+import Input from "../../other/input/input";
+import {registerUser} from "../../../store/reducers/userReducer";
+import {useAuth} from "../../../hooks/useAuth";
+import {useSelector} from "react-redux";
 
+const maxLength30 = maxLength(30);
+const minLength8 = minLength(8);
 
 const RegistrationForm = (props) => {
     return (
-        <form onSubmit={props.handleSubmit} className={"login-form"}>
+        <form onSubmit={props.handleSubmit} className={"register-form"}>
             <div>
-                <label htmlFor="fullName">Имя</label>
-                <Field className={"form-input"} type="text" name={"fullName"} component={"input"}/>
+                <div>
+                    <label htmlFor="fullName">Имя</label>
+                    <Input type="text" name="fullName" validate={[required, correctFullName]}/>
+                </div>
+                <div>
+                    <label htmlFor="email">Почта</label>
+                    <Input type="email" name="email" validate={[required, correctEmail]}/>
+                </div>
             </div>
             <div>
-                <label htmlFor="email">Почта</label>
-                <Field className={"form-input"} type="email" name={"email"} component={"input"}/>
+                <div>
+                    <label htmlFor="birthDate">Дата рождения</label>
+                    <Input type="date" name="birthDate" validate={[required]}/>
+                </div>
+                <div>
+                    <label htmlFor="phoneNumber">Телефон</label>
+                    <Input type="text" name="phoneNumber" validate={[required]}/>
+                </div>
             </div>
             <div>
-                <label htmlFor="birthDate">Дата рождения</label>
-                <Field className={"form-input"} type="date" name={"birthDate"} component={"input"}/>
+                <div>
+                    <label htmlFor="password">Пароль</label>
+                    <Input type="password" name="password" validate={[required, maxLength30, minLength8]}/>
+                </div>
+                <div>
+                    <label htmlFor="passwordConfirm">Подтверждение пароля</label>
+                    <Input type="password" name="passwordConfirm" validate={[required]}/>
+                </div>
             </div>
-            <div>
-                <label htmlFor="phoneNumber">Телефон</label>
-                <Field className={"form-input"} type="text" name={"phoneNumber"} component={"input"}/>
-            </div>
-            <div>
-                <label htmlFor="password">Пароль</label>
-                <Field className={"form-input"} type="password" name={"password"} component={"input"}/>
-            </div>
-            <div>
-                <label htmlFor="passwordConfirm">Подтверждение пароля</label>
-                <Field className={"form-input"} type="password" name={"passwordConfirm"} component={"input"}/>
-            </div>
-            <button>Зарегистрироваться</button>
+            <button disabled={props.isLoading}>Зарегистрироваться</button>
         </form>
     );
 }
@@ -39,15 +52,18 @@ const RegistrationFormRedux = reduxForm({form: "register"})(RegistrationForm)
 
 const RegistrationPage = (props) => {
 
+    const user = useAuth();
+    const isLoading = useSelector((state) => state.user.isLoading)
+
     const onSubmit = (formData) => {
-        console.log(111, formData)
+        user.signUp(formData);
     }
 
     return (
-        <div className={"login-page-bg"}>
-            <div className={"login-page-content"}>
+        <div className={"register-page-bg"}>
+            <div className={"register-page-content"}>
                 <h4>Регистрация</h4>
-                <RegistrationFormRedux onSubmit={onSubmit}/>
+                <RegistrationFormRedux onSubmit={onSubmit} isLoading={isLoading}/>
                 <div>
                     Уже есть аккаунт? <Link to={"/login"}>Войдите</Link>
                 </div>

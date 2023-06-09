@@ -1,15 +1,18 @@
 import "./navbar.css"
-import {Link} from "react-router-dom";
+import {useAuth} from "../../../hooks/useAuth";
 
 const Navbar = (props) => {
+
+    const user = useAuth();
+
     return (
         <div className={"navbar-container"}>
             <div className={"navbar-logo text-primary"}>Messenger</div>
             <div className={"navbar-settings"}>
                 <div className={"text-secondary"}>
-                    <Link to={"/login"}>
+                    <button onClick={user.signOut}>
                         Выйти
-                    </Link>
+                    </button>
                 </div>
             </div>
         </div>

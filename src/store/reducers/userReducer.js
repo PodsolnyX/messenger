@@ -5,16 +5,13 @@ import {toastError} from "../../helpers/toaster";
 const SET_USER_DATA = "SET_USER_DATA",
     CLEAR_USER_DATA = "CLEAR_USER_DATA",
     SET_IS_AUTH = "SET_IS_AUTH",
-    SET_USERS = "SET_USERS",
-    SET_LOADING_LOGIN = "SET_LOADING_LOGIN",
-    SET_LOADING_REGISTER = "SET_LOADING_REGISTER"
+    SET_LOADING_USER = "SET_LOADING_USER"
 ;
 
 let initialState = {
-    userData: {},
-    userRoles: [],
-    users: [],
-    isAuth: !!localStorage.getItem("token")
+    userData: null,
+    isLoading: false,
+    isAuth: !!localStorage.getItem("accessToken")
 };
 
 const userReducer = (state = initialState, action) => {
@@ -27,32 +24,15 @@ const userReducer = (state = initialState, action) => {
         case SET_IS_AUTH:
             return {
                 ...state,
-                isAuth: true
+                isAuth: action.value
             };
         case CLEAR_USER_DATA:
             return {
                 ...state,
-                userRoles: {},
-                userData: [],
+                userData: null,
                 isAuth: false
             };
-        case SET_USERS:
-            action.data.forEach((el) => {
-                Object.assign(el, {
-                    ["value"]: el["id"],
-                    ["label"]: el["fullName"],
-                })
-            });
-            return {
-                ...state,
-                users: action.data
-            };
-        case SET_LOADING_LOGIN:
-            return {
-                ...state,
-                isLoading: action.isLoading
-            };
-        case SET_LOADING_REGISTER:
+        case SET_LOADING_USER:
             return {
                 ...state,
                 isLoading: action.isLoading
@@ -63,73 +43,68 @@ const userReducer = (state = initialState, action) => {
 }
 
 export const setUserProfile = (userData) => ({type: SET_USER_DATA, userData});
-export const setIsAuth = () => ({type: SET_IS_AUTH});
-export const clearUserProfile = () => ({type: CLEAR_USER_DATA});
-export const setUsers = (data) => ({type: SET_USERS, data});
-export const setLoadingLogin = (isLoading) => ({type: SET_LOADING_LOGIN, isLoading});
-export const setLoadingRegister = (isLoading) => ({type: SET_LOADING_REGISTER, isLoading});
+export const setIsAuth = (value) => ({type: SET_IS_AUTH, value});
+export const clearUserData = () => ({type: CLEAR_USER_DATA});
+export const setLoadingUser = (isLoading) => ({type: SET_LOADING_USER, isLoading});
 
 export const getUserProfile = () => (dispatch) => {
     userAPI.getProfile()
         .then(response => {
+            console.log(response)
             if (response.status === 200)
                 dispatch(setUserProfile(response.data));
-            else dispatch(clearUserProfile())
+            else dispatch(clearUserData())
         })
 }
 
-export const loginUser = () => (dispatch, getState) => {
-    // dispatch(setLoadingLogin(true));
-    userAPI.loginUser(getState().user.loginFormData).then(response => {
+export const loginUser = (userData, callback) => (dispatch) => {
+    dispatch(setLoadingUser(true));
+    userAPI.loginUser(userData).then(response => {
         if (response.status === 200) {
-            localStorage.setItem('accessToken', response.data.token);
-            localStorage.setItem('refreshToken', response.data.token);
-            // dispatch(setIsAuth());
-            // dispatch(getUserProfile());
-            // dispatch(setSuccessToast("Вы успешно авторизовались!"));
+            console.log(response)
+            localStorage.setItem('accessToken', response.data.accessToken);
+            localStorage.setItem('refreshToken', response.data.refreshToken);
+            dispatch(setIsAuth(true));
+            callback();
         }
-        // else dispatch(setErrorToast("Неверный логин или пароль"));
+        //else dispatch(setErrorToast("Неверный логин или пароль"));
 
-        // dispatch(setLoadingLogin(false));
+        dispatch(setLoadingUser(false));
     });
 
 }
 
-export const registerUser = () => (dispatch, getState) => {
-    // dispatch(setLoadingRegister(true))
-
-    userAPI.registerUser(getState().user.registrationFormData).then(response => {
+export const registerUser = (userData, callback) => (dispatch) => {
+    dispatch(setLoadingUser(true));
+    userAPI.registerUser(userData).then(response => {
         console.log(response)
         if (response.status === 200) {
-            localStorage.setItem('accessToken', response.data.token);
-            localStorage.setItem('refreshToken', response.data.token);
-            // dispatch(setSuccessToast("Вы успешно зарегистрировались!"));
-            // dispatch(setIsAuth());
-            // dispatch(getUserProfile());
+            localStorage.setItem('accessToken', response.data.accessToken);
+            localStorage.setItem('refreshToken', response.data.refreshToken);
+            dispatch(setIsAuth(true));
+            callback();
         }
         // else if (response.status === 409)
-            // dispatch(setErrorToast("Аккаунт с данным email-адресом уже существует"));
+        //     dispatch(setErrorToast("Аккаунт с данным email-адресом уже существует"));
         // else dispatch(setErrorToast("Неверный формат данных"));
 
-        // dispatch(setLoadingRegister(false))
+        dispatch(setLoadingUser(false))
     });
 
 }
 
-export const logoutUser = () => (dispatch) => {
+export const logoutUser = (callback) => (dispatch) => {
     userAPI.logoutUser().then(response => {
         if (response.status === 200) {
-            localStorage.removeItem('token');
-            dispatch(clearUserProfile());
+            localStorage.removeItem('accessToken');
+            localStorage.removeItem('refreshToken');
+            dispatch(setIsAuth(false));
+            dispatch(clearUserData());
+            callback();
         }
     })
 }
 
-export const getUsers = () => (dispatch) => {
-    userAPI.getUsers().then(response => {
-        if (response.status === 200)
-            dispatch(setUsers(response.data));
-    })
-}
+
 
 export default userReducer;

@@ -13,7 +13,12 @@
   --color-text-tertiary: #778592;
 
   --color-border-primary: #4a545c;
-  --color-border-primary-focus: #707d86
+  --color-border-primary-focus: #707d86;
+
+  --color-shadow-primary: rgba(155, 143, 143, 0.2);
+  --color-shadow-error: rgba(254, 40, 54, 0.2);
+
+  --color-error: #FE2836;
 }
 
 .text-primary {
@@ -33,6 +38,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: var(--color-bg-primary);
 }
 
 code {

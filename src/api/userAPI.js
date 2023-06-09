@@ -1,7 +1,6 @@
 import {instance} from "./instance";
 
 const registerUser = (userData) => {
-    console.log(userData);
     return instance.post("auth/register", {
         email: userData.email,
         password: userData.password,
@@ -10,7 +9,7 @@ const registerUser = (userData) => {
         birthDate: `${userData.birthDate}T10:12:10.412Z`
     })
         .then(response => {
-            instance.defaults.headers["Authorization"] = `Bearer ${response.data.token}`;
+            instance.defaults.headers["Authorization"] = `Bearer ${response.data.accessToken}`;
             return response;
         })
         .catch(error => error.response);
@@ -22,32 +21,41 @@ const loginUser = (userData) => {
         password: userData.password
     })
         .then(response => {
-            instance.defaults.headers["Authorization"] = `Bearer ${response.data.token}`;
+            instance.defaults.headers["Authorization"] = `Bearer ${response.data.accessToken}`;
             return response;
         })
         .catch(error => error.response);
 }
 
+const refreshToken = () => {
+    console.log(
+        localStorage.getItem("refreshToken"),
+        localStorage.getItem("accessToken")
+    )
+    return instance.post("auth/refresh", {
+        refreshToken: localStorage.getItem("refreshToken"),
+        accessToken: localStorage.getItem("accessToken")
+    })
+        .then(response => {
+            console.log("ЧЕЕЕЕК", response)
+            instance.defaults.headers["Authorization"] = `Bearer ${response.data.accessToken}`;
+            localStorage.setItem('accessToken', response.data.accessToken);
+            return response;
+        })
+        .catch(error => {
+            // error.response;
+            console.log("ЧЕЕЕЕК6666", error.response)
+        });
+}
+
 const getProfile = () => {
-    return instance.get("profile")
-        .then(response => response)
-        .catch(error => error.response);
-}
-
-const getRoles = () => {
-    return instance.get("roles")
-        .then(response => response)
-        .catch(error => error.response);
-}
-
-const getUsers = () => {
-    return instance.get("users")
+    return instance.get("account")
         .then(response => response)
         .catch(error => error.response);
 }
 
 const logoutUser = () => {
-    return instance.post("logout")
+    return instance.post("auth/logout")
         .then(response => {
             instance.defaults.headers["Authorization"] = `Bearer`;
             return response;
@@ -55,22 +63,13 @@ const logoutUser = () => {
         .catch(error => error.response);
 }
 
-const editUserProfile = (userData) => {
-    return instance.put("profile", {
-        fullName: userData.fullName.trimEnd(),
-        birthDate: userData.birthDate
-    })
-        .then(response => response)
-        .catch(error => error.response);
-}
+
 
 export const userAPI = {
     registerUser,
     loginUser,
+    refreshToken,
     getProfile,
-    getRoles,
-    logoutUser,
-    editUserProfile,
-    getUsers
+    logoutUser
 };
 

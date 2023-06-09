@@ -1,0 +1,81 @@
+.register-page-bg {
+    background-color: var(--color-bg-primary);
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.register-page-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--color-bg-secondary);
+    padding: 16px;
+    width: 100%;
+    max-width: 600px;
+    border-radius: 16px;
+    margin-bottom: 20px;
+}
+
+.register-page-content > h4 {
+    color: var(--color-text-primary);
+    margin: 30px 0;
+    font-weight: normal;
+    font-size: 24px;
+}
+
+.register-form {
+    display: flex;
+    flex-direction: column;
+    font-size: 16px;
+    margin: 20px 0;
+    width: 600px;
+}
+
+.register-form > div {
+    margin: 5px 0;
+}
+
+.register-form > button {
+    margin: 18px 10px 0 10px;
+    font-size: 16px;
+    border-radius: 8px;
+    border: 0;
+    height: 35px;
+    background-color: var(--color-bg-block-3);
+    box-shadow: 0 3px 10px 0 rgba(155, 143, 143, 0.5);
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.register-form > button:hover {
+    background-color: var(--color-bg-block-3-hover);
+}
+
+.register-form > button:disabled {
+    box-shadow: 0 0 0;
+}
+
+.register-form > div {
+    display: flex;
+    flex-direction: row;
+    color: var(--color-text-tertiary);
+}
+
+.register-form > div > div {
+    width: 50%;
+    margin: 0 10px
+}
+
+.register-form ~ div {
+    font-size: 12px;
+    margin: 20px 0;
+    color: var(--color-text-tertiary);
+}
+
+.register-form ~ div > a {
+    color: var(--color-text-tertiary);
+}

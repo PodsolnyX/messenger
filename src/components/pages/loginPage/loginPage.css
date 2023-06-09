@@ -35,24 +35,7 @@
     width: 300px;
 }
 
-.form-input{
-    height: 25px;
-    background-color: rgba(0, 0, 0, 0);
-    border: 1px solid var(--color-border-primary);
-    color: var(--color-text-primary);
-    border-radius: 8px;
-    font-size: 16px;
-    padding: 5px 10px;
-    margin-top: 5px;
-    transition: 0.2s;
-}
 
-
-.form-input:focus {
-    outline: none;
-    border: 1px solid var(--color-border-primary-focus);
-    box-shadow: 0 3px 10px 0 rgba(155, 143, 143, 0.2);
-}
 
 .login-form > div {
     margin: 5px 0;
@@ -74,6 +57,9 @@
     background-color: var(--color-bg-block-3-hover);
 }
 
+.login-form > button:disabled {
+    box-shadow: 0 0 0;
+}
 
 .login-form > div {
     display: flex;
@@ -86,6 +72,7 @@
     margin: 20px 0;
     color: var(--color-text-tertiary);
 }
+
 .login-form ~ div > a {
     color: var(--color-text-tertiary);
 }

@@ -1,0 +1,32 @@
+.form-input{
+    height: 25px;
+    width: 93%;
+    background-color: rgba(0, 0, 0, 0);
+    border: 1px solid var(--color-border-primary);
+    color: var(--color-text-primary);
+    border-radius: 8px;
+    font-size: 16px;
+    padding: 5px 10px;
+    margin-top: 5px;
+    transition: 0.2s;
+}
+
+.form-input-error {
+    border-color: var(--color-error);
+}
+
+.form-input:focus {
+    outline: none;
+    border: 1px solid var(--color-border-primary-focus);
+    box-shadow: 0 3px 10px 0 var(--color-shadow-primary);
+}
+
+.form-input-error:focus {
+    border: 1px solid var(--color-error);
+    box-shadow: 0 3px 10px 0 var(--color-shadow-error);
+}
+
+.form-control > span {
+    font-size: 12px;
+    color: var(--color-error);
+}
