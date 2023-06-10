@@ -29,7 +29,6 @@ function App() {
                     <UnrequireAuth>
                         <LoginPage/>
                     </UnrequireAuth>
-
                 }/>
                 <Route path="/registration" element={
                     <UnrequireAuth>

@@ -35,6 +35,7 @@ const refreshToken = () => {
         .then(response => {
             instance.defaults.headers["Authorization"] = `Bearer ${response.data.accessToken}`;
             localStorage.setItem('accessToken', response.data.accessToken);
+            console.log("Токен обновлён")
             return response;
         })
         .catch(error => error.response);

@@ -9,16 +9,10 @@ export function useRefreshToken() {
 
     useEffect(() => {
         if (user.isAuth) {
-            userAPI.refreshToken().then((response) => {
-                if (response.status === 200)
-                    console.log("Токен обновлён")
-            })
+            userAPI.refreshToken()
             setRefreshInterval(
                 setInterval(() => {
-                    userAPI.refreshToken().then((response) => {
-                        if (response.status === 200)
-                            console.log("Токен обновлён")
-                    })
+                    userAPI.refreshToken()
                 }, 120000))
         }
         else {
