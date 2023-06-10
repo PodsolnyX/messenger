@@ -7,7 +7,7 @@ export const maxLength = (maxLength) => (value) => {
 }
 
 export const minLength = (minLength) => (value) => {
-    return value.length <= minLength ? undefined : `Длина поля не менее ${minLength} символов`;
+    return value.length >= minLength ? undefined : `Длина поля не менее ${minLength} символов`;
 }
 
 export const correctEmail = (value) => {

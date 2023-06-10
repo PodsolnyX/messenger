@@ -105,6 +105,16 @@ export const logoutUser = (callback) => (dispatch) => {
     })
 }
 
+export const changePassword = (data) => (dispatch) => {
+    userAPI.changePassword(data).then(response => {
+        if (response.status === 200) {
+            console.log("Успешно")
+        }
+        else {
+            console.log("Беда")
+        }
 
+    })
+}
 
 export default userReducer;

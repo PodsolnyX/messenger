@@ -16,7 +16,8 @@
 }
 
 .profile-main-info {
-    padding: 10px 15px;
+    padding: 10px 25px;
+    border-bottom: 3px solid var(--color-border-primary);
 }
 
 .profile-data-primary {
@@ -53,19 +54,23 @@
     padding: 10px 15px;
 }
 
-.btn-exit {
-    color: var(--color-error);
+.profile-btn-secondary {
+    font-size: 16px;
     display: flex;
+    color: var(--color-text-secondary);
+    margin: 2px 0;
     cursor: pointer;
+    padding: 10px 15px;
+    border-radius: 15px;
     transition: 0.2s;
 }
 
-.btn-exit:hover {
-    filter: brightness(70%);
+.profile-btn-secondary:hover{
+    background-color: var(--color-bg-secondary-hover);
 }
 
-.btn-exit > img {
+.profile-btn-secondary > img {
     height: 25px;
-    margin-right: 4px;
+    margin-right: 7px;
 }
 

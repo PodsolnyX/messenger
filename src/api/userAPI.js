@@ -56,11 +56,21 @@ const logoutUser = () => {
         .catch(error => error.response);
 }
 
+const changePassword = (data) => {
+    return instance.put("auth/change-password", {
+        oldPassword: data.oldPassword,
+        newPassword: data.newPassword
+    })
+        .then(response => response)
+        .catch(error => error.response);
+}
+
 export const userAPI = {
     registerUser,
     loginUser,
     refreshToken,
     getProfile,
-    logoutUser
+    logoutUser,
+    changePassword
 };
 

@@ -33,7 +33,7 @@ export function useSignalR() {
                 console.log("Connected to signalr")
 
                 connection.on('ReceiveMessage', function (message) {
-                    console.log(message);
+                    console.log(JSON.parse(message));
                 });
 
 

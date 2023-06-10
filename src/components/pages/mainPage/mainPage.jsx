@@ -5,6 +5,8 @@ import Navbar from "../../other/navbar/navbar";
 import UserProfile from "./userProfile/userProfile";
 import {VIEWS} from "../../../store/reducers/generalReducer";
 import {useSelector} from "react-redux";
+import ChangePassword from "./changePassword/changePassword";
+import EditProfile from "./editProfile/editProfile";
 
 const MainPage = (props) => {
 
@@ -15,12 +17,10 @@ const MainPage = (props) => {
             <Navbar/>
             <div className={"content"}>
                 <div className={"side-bar"}>
-                    {
-                        currentView === VIEWS.CONTACTS && <ContactsList/>
-                    }
-                    {
-                        currentView === VIEWS.PROFILE && <UserProfile/>
-                    }
+                    { currentView === VIEWS.CONTACTS && <ContactsList/> }
+                    { currentView === VIEWS.PROFILE && <UserProfile/> }
+                    { currentView === VIEWS.CHANGE_PASSWORD && <ChangePassword/> }
+                    { currentView === VIEWS.EDIT_PROFILE && <EditProfile/> }
                 </div>
                 <MessagesArea/>
             </div>

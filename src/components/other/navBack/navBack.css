@@ -1,0 +1,29 @@
+
+.nav-back-container {
+    height: 50px;
+    padding: 6px 0;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    border-bottom: 3px solid var(--color-border-primary);
+}
+
+.title-nav-back {
+    color: var(--color-text-primary);
+    font-size: 18px;
+}
+
+.btn-nav-back {
+    margin: 15px;
+    display: flex;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.btn-nav-back:hover {
+    filter: brightness(80%);
+}
+
+.btn-nav-back > img {
+    height: 25px;
+}
