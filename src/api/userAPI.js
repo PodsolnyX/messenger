@@ -28,24 +28,16 @@ const loginUser = (userData) => {
 }
 
 const refreshToken = () => {
-    console.log(
-        localStorage.getItem("refreshToken"),
-        localStorage.getItem("accessToken")
-    )
     return instance.post("auth/refresh", {
         refreshToken: localStorage.getItem("refreshToken"),
         accessToken: localStorage.getItem("accessToken")
     })
         .then(response => {
-            console.log("ЧЕЕЕЕК", response)
             instance.defaults.headers["Authorization"] = `Bearer ${response.data.accessToken}`;
             localStorage.setItem('accessToken', response.data.accessToken);
             return response;
         })
-        .catch(error => {
-            // error.response;
-            console.log("ЧЕЕЕЕК6666", error.response)
-        });
+        .catch(error => error.response);
 }
 
 const getProfile = () => {
@@ -62,8 +54,6 @@ const logoutUser = () => {
         })
         .catch(error => error.response);
 }
-
-
 
 export const userAPI = {
     registerUser,
