@@ -15,7 +15,7 @@ export const AuthProvider = ({children}) => {
         dispatch(loginUser(userData, () => navigate("/")))
     }
     const signUp = (userData) => {
-        dispatch(registerUser(userData, () => navigate("/", )))
+        dispatch(registerUser(userData, () => navigate("/")))
     }
     const signOut = () => {
         dispatch(logoutUser(() => navigate("/login")))

@@ -10,6 +10,10 @@
     box-shadow: 0 2px 10px 0 var(--color-bg-primary);
 }
 
+.navbar-logo {
+    cursor: pointer;
+}
+
 .navbar-settings {
     display: flex;
     justify-content: space-between;
@@ -17,4 +21,12 @@
 
 .navbar-settings > div {
     padding: 0 5px 0 5px;
+}
+
+.nav-user > img {
+    height: 45px;
+    width: 45px;
+    border-radius: 25px;
+    object-fit: cover;
+    cursor: pointer;
 }

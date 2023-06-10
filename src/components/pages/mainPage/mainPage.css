@@ -1,0 +1,12 @@
+.side-bar {
+    min-width: 300px;
+    background-color: var(--color-bg-secondary);
+    transition: 0.2s;
+    box-shadow: 0 2px 10px 0 var(--color-bg-primary) inset;
+}
+
+@media (min-width: 1050px) {
+    .side-bar {
+        min-width: 500px;
+    }
+}
