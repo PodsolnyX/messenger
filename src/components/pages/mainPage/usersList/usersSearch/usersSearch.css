@@ -1,15 +1,16 @@
-.contacts-search {
+.users-search {
+    width: 100%;
     display: flex;
     justify-content: start;
     align-items: center;
     height: 32px;
-    margin: 12px 24px;
+    margin-right: 15px;
     padding: 0 5px;
     border: solid 1px var(--color-border-primary);
     border-radius: 8px;
 }
 
-.contacts-search > input {
+.users-search > input {
     background-color: rgba(0, 0, 0, 0);
     border: 0;
     width: 100%;
@@ -17,14 +18,14 @@
     color: var(--color-text-secondary);
 }
 
-.contacts-search > img{
+.users-search > img{
     height: 18px;
     margin: 0 5px;
 }
 
-.contacts-search > input:focus{
+.users-search > input:focus{
     outline: none;
 }
-.contacts-search > input::placeholder{
+.users-search > input::placeholder{
     color: var(--color-text-tertiary);
 }

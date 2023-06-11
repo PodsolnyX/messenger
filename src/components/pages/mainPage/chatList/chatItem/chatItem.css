@@ -1,4 +1,4 @@
-.contact-item-container {
+.chat-item-container {
     display: flex;
     justify-content: start;
     align-items: center;
@@ -10,22 +10,22 @@
     border-radius: 8px;
 }
 
-.contact-item-container:hover{
+.chat-item-container:hover{
     background-color: var(--color-bg-secondary-hover);
 }
 
-.contact-item-avatar {
+.chat-item-avatar {
     display: flex;
 }
 
-.contact-item-avatar > img {
+.chat-item-avatar > img {
     width: 50px;
     height: 50px;
     border-radius: 25px;
     object-fit: cover;
 }
 
-.contact-item-description {
+.chat-item-description {
     width: 100%;
     padding-left: 8px;
     display: flex;
@@ -33,7 +33,7 @@
     justify-content: space-between;
 }
 
-.contact-item-info {
+.chat-item-info {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -41,14 +41,14 @@
     margin-bottom: 5px;
 }
 
-.contact-item-details {
+.chat-item-details {
     display: flex;
     justify-content: space-between;
     flex-direction: row;
     font-size: 12px;
 }
 
-.contact-item-details > .text-message {
+.chat-item-details > .text-message {
     white-space: nowrap;
     max-width: 150px;
     overflow: auto;
@@ -57,12 +57,12 @@
 }
 
 @media (min-width: 1050px) {
-    .contact-item-details > .text-message {
+    .chat-item-details > .text-message {
         max-width: 350px;
     }
 }
 
-.contact-item-messages-count {
+.chat-item-messages-count {
     background-color: var(--color-bg-block-3);
     padding: 0 6px;
     margin-left:5px;

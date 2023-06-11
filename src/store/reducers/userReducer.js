@@ -1,6 +1,5 @@
 import {userAPI} from "../../api/userAPI";
 import {setErrorToast, setSuccessToast} from "./toasterReducer";
-import {uploadFile} from "./filesReducer";
 import {FILE_TYPE} from "../../helpers/constants";
 import {filesAPI} from "../../api/filesAPI";
 import {convertFileToFormData} from "../../helpers/helpers";
@@ -8,12 +7,16 @@ import {convertFileToFormData} from "../../helpers/helpers";
 const SET_USER_DATA = "SET_USER_DATA",
     CLEAR_USER_DATA = "CLEAR_USER_DATA",
     SET_IS_AUTH = "SET_IS_AUTH",
-    SET_LOADING_USER = "SET_LOADING_USER"
+    SET_LOADING_USER = "SET_LOADING_USER",
+    SET_USERS_LIST = "SET_USERS_LIST",
+    SET_SEARCH_STRING = "SET_SEARCH_STRING"
 ;
 
 let initialState = {
     userData: null,
     isLoading: false,
+    usersList: {},
+    searchString: "",
     isAuth: !!localStorage.getItem("accessToken")
 };
 
@@ -40,6 +43,16 @@ const userReducer = (state = initialState, action) => {
                 ...state,
                 isLoading: action.isLoading
             };
+        case SET_USERS_LIST:
+            return {
+                ...state,
+                usersList: action.usersList
+            };
+        case SET_SEARCH_STRING:
+            return {
+                ...state,
+                searchString: action.searchString
+            };
         default:
             return state;
     }
@@ -49,6 +62,8 @@ export const setUserProfile = (userData) => ({type: SET_USER_DATA, userData});
 export const setIsAuth = (value) => ({type: SET_IS_AUTH, value});
 export const clearUserData = () => ({type: CLEAR_USER_DATA});
 export const setLoadingUser = (isLoading) => ({type: SET_LOADING_USER, isLoading});
+export const setUsersList = (usersList) => ({type: SET_USERS_LIST, usersList});
+export const setSearchString = (searchString) => ({type: SET_SEARCH_STRING, searchString});
 
 export const getUserProfile = () => (dispatch) => {
     userAPI.getProfile()
@@ -57,6 +72,17 @@ export const getUserProfile = () => (dispatch) => {
             if (response.status === 200)
                 dispatch(setUserProfile(response.data));
             else dispatch(clearUserData())
+        })
+}
+
+export const getUserList = (searchString) => (dispatch) => {
+    userAPI.getUsersList(searchString)
+        .then(response => {
+            console.log(response.data)
+            if (response.status === 200)
+                dispatch(setUsersList(response.data))
+            else if (response.status === 404)
+                dispatch(setUsersList({}))
         })
 }
 

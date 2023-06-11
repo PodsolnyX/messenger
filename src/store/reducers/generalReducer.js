@@ -1,19 +1,15 @@
+import {VIEWS} from "../../helpers/constants";
+
 const
     SET_VIEW_PROFILE = "SET_VIEW_PROFILE",
-    SET_VIEW_CONTACTS = "SET_VIEW_CONTACTS",
+    SET_VIEW_CHAT_LIST = "SET_VIEW_CHAT_LIST",
     SET_VIEW_CHANGE_PASSWORD = "SET_VIEW_CHANGE_PASSWORD",
-    SET_VIEW_EDIT_PROFILE = "SET_VIEW_EDIT_PROFILE"
+    SET_VIEW_EDIT_PROFILE = "SET_VIEW_EDIT_PROFILE",
+    SET_VIEW_USERS_LIST = "SET_VIEW_USERS_LIST"
 ;
 
-export const VIEWS = {
-    PROFILE: "VIEW_PROFILE",
-    CONTACTS: "VIEW_CONTACTS",
-    CHANGE_PASSWORD: "CHANGE_PASSWORD",
-    EDIT_PROFILE: "EDIT_PROFILE"
-};
-
 let initialState = {
-    currentView: VIEWS.CONTACTS
+    currentView: VIEWS.CHATS_LIST
 };
 
 const generalReducer = (state = initialState, action) => {
@@ -23,10 +19,10 @@ const generalReducer = (state = initialState, action) => {
                 ...state,
                 currentView: VIEWS.PROFILE
             };
-        case SET_VIEW_CONTACTS:
+        case SET_VIEW_CHAT_LIST:
             return {
                 ...state,
-                currentView: VIEWS.CONTACTS
+                currentView: VIEWS.CHATS_LIST
             };
         case SET_VIEW_CHANGE_PASSWORD:
             return {
@@ -38,13 +34,19 @@ const generalReducer = (state = initialState, action) => {
                 ...state,
                 currentView: VIEWS.EDIT_PROFILE
             };
+        case SET_VIEW_USERS_LIST:
+            return {
+                ...state,
+                currentView: VIEWS.USERS_LIST
+            };
         default:
             return state;
     }
 }
 
 export const setViewProfile = () => ({type: SET_VIEW_PROFILE});
-export const setViewContacts = () => ({type: SET_VIEW_CONTACTS});
+export const setViewChatList = () => ({type: SET_VIEW_CHAT_LIST});
+export const setViewUsersList = () => ({type: SET_VIEW_USERS_LIST});
 export const setViewChangePassword = () => ({type: SET_VIEW_CHANGE_PASSWORD});
 export const setViewEditProfile = () => ({type: SET_VIEW_EDIT_PROFILE});
 

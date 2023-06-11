@@ -47,6 +47,12 @@ const getProfile = () => {
         .catch(error => error.response);
 }
 
+const getUsersList = (searchString) => {
+    return instance.get(`account/users?fullname=${searchString}`)
+        .then(response => response)
+        .catch(error => error.response);
+}
+
 const logoutUser = () => {
     return instance.post("auth/logout")
         .then(response => {
@@ -80,6 +86,7 @@ export const userAPI = {
     loginUser,
     refreshToken,
     getProfile,
+    getUsersList,
     logoutUser,
     changePassword,
     editProfile

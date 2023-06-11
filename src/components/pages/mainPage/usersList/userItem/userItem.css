@@ -1,0 +1,30 @@
+.user-item-container {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    margin: 4px 12px;
+    padding: 0 12px;
+    height: 72px;
+    transition: 0.2s;
+    cursor: pointer;
+    border-radius: 8px;
+}
+
+.user-item-container:hover{
+    background-color: var(--color-bg-secondary-hover);
+}
+
+.user-item-avatar {
+    display: flex;
+}
+
+.user-item-avatar > img {
+    width: 50px;
+    height: 50px;
+    border-radius: 25px;
+    object-fit: cover;
+}
+
+.user-item-description {
+    margin-left: 20px;
+}

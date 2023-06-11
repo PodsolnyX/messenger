@@ -1,11 +1,11 @@
 
-.contacts-list-container {
+.chat-list-container {
     position: relative;
-    height: 98%;
+    height: 100%;
 }
 
-.contacts {
-    height: calc(100% - 45px);
+.chats {
+    height: calc(100%);
     overflow-y: auto;
     overflow-x: hidden;
 }
@@ -32,5 +32,14 @@
 .write-message > img {
     height: 18px;
     width: 18px;
+}
+
+.empty-chat-list {
+    color: var(--color-text-tertiary);
+    text-align: center;
+    height: 90%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
