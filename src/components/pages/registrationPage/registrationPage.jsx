@@ -65,7 +65,7 @@ const RegistrationForm = (props) => {
                     <Input name={"passwordConfirm"} register={register} errors={errors} type={"password"}
                            options={{
                                required: validators.required,
-                               validate: (val) => watch("password") !== val && "Пароли не совпадают"
+                               validate: (val) => watch("password") !== val ? "Пароли не совпадают" : undefined
                            }}/>
                 </div>
             </div>
@@ -80,6 +80,7 @@ const RegistrationPage = (props) => {
     const isLoading = useSelector((state) => state.user.isLoading)
 
     const onSubmit = (formData) => {
+        console.log(formData)
         user.signUp(formData);
     }
 

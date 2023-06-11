@@ -3,11 +3,13 @@ import ThunkMiddleware from "redux-thunk";
 import userReducer from "./reducers/userReducer";
 import toasterReducer from "./reducers/toasterReducer";
 import generalReducer from "./reducers/generalReducer";
+import filesReducer from "./reducers/filesReducer";
 
 let reducers = combineReducers({
     user: userReducer,
     toaster: toasterReducer,
-    general: generalReducer
+    general: generalReducer,
+    files: filesReducer
 });
 
 let store = createStore(reducers, applyMiddleware(ThunkMiddleware));

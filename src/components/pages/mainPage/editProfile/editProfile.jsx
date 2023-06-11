@@ -5,6 +5,8 @@ import {setViewProfile} from "../../../../store/reducers/generalReducer";
 import {useForm} from "react-hook-form";
 import {Input} from "../../../other/input/input";
 import {validators} from "../../../../helpers/validators";
+import {editProfile} from "../../../../store/reducers/userReducer";
+import {getUserAvatar} from "../../../../helpers/helpers";
 
 const EditProfileForm = (props) => {
 
@@ -15,6 +17,15 @@ const EditProfileForm = (props) => {
 
     return (
         <form className={"change-password-form"} onSubmit={handleSubmit(props.onSubmit)}>
+
+            <div className={"edit-profile-avatar"}>
+                <input {...register("avatarFile")} type={"file"} id="avatar-input"
+                       accept="image/png, image/gif, image/jpeg"/>
+                <label htmlFor="avatar-input">
+                    <img src={props.avatarLink} alt=""/>
+                </label>
+            </div>
+
             <div>
                 <label htmlFor="fullName">Имя</label>
                 <Input name={"fullName"} register={register} errors={errors}
@@ -23,6 +34,7 @@ const EditProfileForm = (props) => {
                            pattern: validators.fullNamePattern
                        }}/>
             </div>
+
             <div>
                 <label htmlFor="birthDate">Дата рождения</label>
                 <Input name={"birthDate"} register={register} errors={errors} type={"date"}
@@ -41,22 +53,19 @@ const EditProfileForm = (props) => {
 const EditProfile = (props) => {
 
     const dispatch = useDispatch();
-    const userData = useSelector((state) => state.user.userData)
+    const userData = useSelector((state) => state.user.userData);
+    const isLoading = useSelector((state) => state.user.isLoading);
 
     const onSubmit = (formData) => {
-        console.log(formData)
+        dispatch(editProfile(formData))
     }
 
-    const avatar =
-        `http://chat.markridge.space/api/files/f6cdec02-261c-4583-b5e3-11459c1cf673?attachment=false&access_token=${localStorage.getItem("accessToken")}`;
+    const avatarLink = getUserAvatar(userData.photoId);
 
     return (
         <div>
             <NavBack title={"Редактирование профиля"} callback={() => dispatch(setViewProfile())}/>
-            <div className={"edit-profile-avatar"}>
-                <img src={avatar} alt=""/>
-            </div>
-            <EditProfileForm onSubmit={onSubmit}
+            <EditProfileForm onSubmit={onSubmit} isLoading={isLoading} avatarLink={avatarLink}
                              defaultValues={{
                                  fullName: userData.fullName,
                                  birthDate: userData.birthDate.slice(0, 10)

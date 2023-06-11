@@ -1,6 +1,9 @@
 import {userAPI} from "../../api/userAPI";
 import {setErrorToast, setSuccessToast} from "./toasterReducer";
-import {toastError} from "../../helpers/toaster";
+import {uploadFile} from "./filesReducer";
+import {FILE_TYPE} from "../../helpers/constants";
+import {filesAPI} from "../../api/filesAPI";
+import {convertFileToFormData} from "../../helpers/helpers";
 
 const SET_USER_DATA = "SET_USER_DATA",
     CLEAR_USER_DATA = "CLEAR_USER_DATA",
@@ -50,7 +53,7 @@ export const setLoadingUser = (isLoading) => ({type: SET_LOADING_USER, isLoading
 export const getUserProfile = () => (dispatch) => {
     userAPI.getProfile()
         .then(response => {
-            console.log(response)
+            console.log(response.data)
             if (response.status === 200)
                 dispatch(setUserProfile(response.data));
             else dispatch(clearUserData())
@@ -66,8 +69,7 @@ export const loginUser = (userData, callback) => (dispatch) => {
             localStorage.setItem('refreshToken', response.data.refreshToken);
             dispatch(setIsAuth(true));
             callback();
-        }
-        //else dispatch(setErrorToast("Неверный логин или пароль"));
+        } else dispatch(setErrorToast("Неверный логин или пароль"));
 
         dispatch(setLoadingUser(false));
     });
@@ -83,10 +85,9 @@ export const registerUser = (userData, callback) => (dispatch) => {
             localStorage.setItem('refreshToken', response.data.refreshToken);
             dispatch(setIsAuth(true));
             callback();
-        }
-        // else if (response.status === 409)
-        //     dispatch(setErrorToast("Аккаунт с данным email-адресом уже существует"));
-        // else dispatch(setErrorToast("Неверный формат данных"));
+        } else if (response.status === 409)
+            dispatch(setErrorToast("Аккаунт с данным email-адресом уже существует"));
+        else dispatch(setErrorToast("Неверный формат данных"));
 
         dispatch(setLoadingUser(false))
     });
@@ -106,15 +107,54 @@ export const logoutUser = (callback) => (dispatch) => {
 }
 
 export const changePassword = (data) => (dispatch) => {
+    dispatch(setLoadingUser(true));
     userAPI.changePassword(data).then(response => {
-        if (response.status === 200) {
-            console.log("Успешно")
-        }
-        else {
-            console.log("Беда")
-        }
+        if (response.status === 200)
+            dispatch(setSuccessToast("Пароль успешно изменён"));
+        else
+            dispatch(setErrorToast(response.data.Message))
 
+        dispatch(setLoadingUser(false))
     })
+}
+
+export const editProfile = (data) => (dispatch, getState) => {
+
+    dispatch(setLoadingUser(true));
+    console.log(data)
+
+    if (data.avatarFile.length === 0) {
+
+        data = {...data, photoId: getState().user.userData.photoId}
+
+        userAPI.editProfile(data).then(response => {
+            if (response.status === 200) {
+                dispatch(getUserProfile());
+                dispatch(setSuccessToast("Профиль успешно изменён"));
+            } else if (response.status === 400)
+                dispatch(setErrorToast("Неверный формат данных"))
+
+            dispatch(setLoadingUser(false))
+        })
+    }
+    else {
+        const formData = convertFileToFormData(data.avatarFile[0]);
+        filesAPI.uploadFile(formData, FILE_TYPE.IMAGE, true)
+            .then(response => {
+                data = {...data, photoId: response.data};
+                userAPI.editProfile(data).then(response => {
+                    if (response.status === 200) {
+                        dispatch(getUserProfile());
+                        dispatch(setSuccessToast("Профиль успешно изменён"));
+                    } else if (response.status === 400)
+                        dispatch(setErrorToast("Неверный формат данных"))
+
+                    dispatch(setLoadingUser(false))
+                })
+            })
+
+
+    }
 }
 
 export default userReducer;

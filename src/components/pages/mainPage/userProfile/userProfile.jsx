@@ -8,6 +8,7 @@ import exitIcon from "./../../../../assets/icons/exit.svg"
 import passwordIcon from "./../../../../assets/icons/password.svg"
 import {useAuth} from "../../../../hooks/useAuth";
 import {setViewChangePassword, setViewEditProfile} from "../../../../store/reducers/generalReducer";
+import {getUserAvatar} from "../../../../helpers/helpers";
 
 
 
@@ -17,13 +18,12 @@ const UserProfile = (props) => {
     const dispatch = useDispatch();
     const user = useAuth();
 
-    const avatar =
-        `http://chat.markridge.space/api/files/f6cdec02-261c-4583-b5e3-11459c1cf673?attachment=false&access_token=${localStorage.getItem("accessToken")}`;
+    const avatarLink = getUserAvatar(userData.photoId);
 
     return (
         <div className={"profile-container"}>
             <div className={"profile-content"}>
-                <div className={"profile-avatar"} style={{backgroundImage: `url(${avatar})`}}></div>
+                <div className={"profile-avatar"} style={{backgroundImage: `url(${avatarLink})`}}></div>
                 <div className={"profile-main-info"}>
                     <div>
                         <div className={"profile-data-primary"}>

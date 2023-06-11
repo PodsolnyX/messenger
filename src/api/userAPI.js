@@ -6,7 +6,7 @@ const registerUser = (userData) => {
         password: userData.password,
         fullName: userData.fullName,
         phoneNumber: userData.phoneNumber,
-        birthDate: `${userData.birthDate}T10:12:10.412Z`
+        birthDate: `${userData.birthDate}T00:00:00.000Z`
     })
         .then(response => {
             instance.defaults.headers["Authorization"] = `Bearer ${response.data.accessToken}`;
@@ -65,12 +65,23 @@ const changePassword = (data) => {
         .catch(error => error.response);
 }
 
+const editProfile = (data) => {
+    return instance.put("account", {
+        fullName: data.fullName,
+        photoId: data.photoId,
+        birthDate: `${data.birthDate}T00:00:00.000Z`
+    })
+        .then(response => response)
+        .catch(error => error.response);
+}
+
 export const userAPI = {
     registerUser,
     loginUser,
     refreshToken,
     getProfile,
     logoutUser,
-    changePassword
+    changePassword,
+    editProfile
 };
 

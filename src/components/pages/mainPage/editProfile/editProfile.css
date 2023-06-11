@@ -5,7 +5,11 @@
     margin: 40px auto 10px auto;
 }
 
-.edit-profile-avatar > img{
+.edit-profile-avatar > input {
+    display: none;
+}
+
+.edit-profile-avatar > label > img{
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -14,6 +18,6 @@
     transition: 0.2s;
 }
 
-.edit-profile-avatar > img:hover {
+.edit-profile-avatar > label > img:hover {
     filter: brightness(70%);
 }

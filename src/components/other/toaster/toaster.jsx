@@ -1,4 +1,4 @@
-import {ToastContainer} from "react-toastify";
+import {Slide, ToastContainer} from "react-toastify";
 import {useEffect} from "react";
 import {toastError, toastSuccess} from "../../../helpers/toaster";
 
@@ -19,7 +19,12 @@ const Toaster = (props) => {
 
     return (
         <div>
-            <ToastContainer/>
+            <ToastContainer
+                transition = {Slide}
+                position = "bottom-left"
+                theme = "dark"
+                hideProgressBar={true}
+            />
         </div>
     )
 }

@@ -43,7 +43,7 @@ const ChangePasswordForm = (props) => {
 const ChangePassword = () => {
 
     const dispatch = useDispatch();
-    const isLoading = useSelector((state) => state.user.isLoading)
+    const isLoading = useSelector((state) => state.user.isLoading);
 
     const onSubmit = (formData) => {
         dispatch(changePassword(formData))
