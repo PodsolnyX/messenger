@@ -1,19 +1,32 @@
-export const required = (value) => {
-    return value ? undefined : "Обязательное поле";
-}
 
-export const maxLength = (maxLength) => (value) => {
-    return value.length <= maxLength ? undefined : `Длина поля не более ${maxLength} символов`;
-}
-
-export const minLength = (minLength) => (value) => {
-    return value.length >= minLength ? undefined : `Длина поля не менее ${minLength} символов`;
-}
-
-export const correctEmail = (value) => {
-    return /^[a-zA-Z1-9\-\._]+@[a-z1-9]+(.[a-z1-9]+)+$/.test(value) ? undefined : `Некорректный формат email`;
-}
-
-export const correctFullName = (value) => {
-    return /^([А-ЯA-Z][а-яa-zА-ЯA-Z\-]+\s?){2,}\s*$/.test(value) ? undefined : `Некорректный формат имени`;
+export const validators = {
+    required: "Обязательное поле",
+    fullNamePattern: {
+        value: /^([А-ЯA-Z][а-яa-zА-ЯA-Z\-]+\s?){2,}\s*$/,
+        message: "Неправильный формат ФИО"
+    },
+    emailPattern: {
+        value: /^[a-zA-Z1-9\-._]+@[a-z1-9]+(.[a-z1-9]+)+$/,
+        message: "Неправильный формат email"
+    },
+    passwordPattern: {
+        value: /\d/,
+        message: "Пароль должен содержать хотя бы одну цифру"
+    },
+    maxBirthDate: {
+        value: new Date().toISOString().slice(0, 10),
+        message: "Вы физически не могли родиться"
+    },
+    minBirthDate: {
+        value: "1923-01-01",
+        message: "Вы слишком стары для этого"
+    },
+    minPasswordLength: {
+        value: 8,
+        message: "Длина пароля должна быть более 8 символов"
+    },
+    maxPasswordLength: {
+        value: 32,
+        message: "Пароль слишком длинный, Вы перестарались"
+    },
 }

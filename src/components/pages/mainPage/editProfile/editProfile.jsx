@@ -1,39 +1,47 @@
 import "./editProfile.css"
 import NavBack from "../../../other/navBack/navBack";
-import {connect, useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {setViewProfile} from "../../../../store/reducers/generalReducer";
-import Input from "../../../other/input/input";
-import {required} from "../../../../helpers/validators";
-import {reduxForm} from "redux-form";
+import {useForm} from "react-hook-form";
+import {Input} from "../../../other/input/input";
+import {validators} from "../../../../helpers/validators";
 
 const EditProfileForm = (props) => {
 
+    const {register, handleSubmit, formState: {errors}} = useForm({
+        mode: "onBlur",
+        defaultValues: props.defaultValues
+    });
+
     return (
-        <form className={"change-password-form"} onSubmit={props.handleSubmit}>
+        <form className={"change-password-form"} onSubmit={handleSubmit(props.onSubmit)}>
             <div>
                 <label htmlFor="fullName">Имя</label>
-                <Input type="text" name="fullName" validate={[required]}/>
+                <Input name={"fullName"} register={register} errors={errors}
+                       options={{
+                           required: validators.required,
+                           pattern: validators.fullNamePattern
+                       }}/>
             </div>
             <div>
                 <label htmlFor="birthDate">Дата рождения</label>
-                <Input type="date" name={"birthDate"} validate={[required]}/>
+                <Input name={"birthDate"} register={register} errors={errors} type={"date"}
+                       max={new Date().toISOString().slice(0, 10)}
+                       options={{
+                           required: validators.required,
+                           max: validators.maxBirthDate,
+                           min: validators.minBirthDate
+                       }}/>
             </div>
             <button disabled={props.isLoading}>Сохранить изменения</button>
         </form>
     );
 }
 
-let EditProfileFormRedux = reduxForm({form: "editProfile"})(EditProfileForm)
-
-EditProfileFormRedux = connect(state => ({
-    initialValues: state.user.userData
-    }),
-    {}
-)(EditProfileFormRedux)
-
 const EditProfile = (props) => {
 
     const dispatch = useDispatch();
+    const userData = useSelector((state) => state.user.userData)
 
     const onSubmit = (formData) => {
         console.log(formData)
@@ -48,7 +56,12 @@ const EditProfile = (props) => {
             <div className={"edit-profile-avatar"}>
                 <img src={avatar} alt=""/>
             </div>
-            <EditProfileFormRedux/>
+            <EditProfileForm onSubmit={onSubmit}
+                             defaultValues={{
+                                 fullName: userData.fullName,
+                                 birthDate: userData.birthDate.slice(0, 10)
+                             }}
+            />
         </div>
     );
 }

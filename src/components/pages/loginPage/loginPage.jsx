@@ -1,30 +1,35 @@
 import "./loginPage.css"
 import {Link} from "react-router-dom";
-import {reduxForm} from "redux-form";
-import {required} from "../../../helpers/validators";
-import Input from "../../other/input/input";
 import {useAuth} from "../../../hooks/useAuth";
 import {useSelector} from "react-redux";
-
+import {useForm} from "react-hook-form";
+import {validators} from "../../../helpers/validators";
+import {Input} from "../../other/input/input";
 
 const LoginForm = (props) => {
 
+    const {register, handleSubmit, formState: {errors}} = useForm();
+
     return (
-        <form className={"login-form"} onSubmit={props.handleSubmit}>
+        <form className={"login-form"} onSubmit={handleSubmit(props.onSubmit)}>
             <div>
                 <label htmlFor="email">Логин</label>
-                <Input type="text" name="email" validate={[required]}/>
+                <Input name={"email"} register={register} errors={errors} type={"email"}
+                       options={{
+                           required: validators.required
+                       }}/>
             </div>
             <div>
                 <label htmlFor="password">Пароль</label>
-                <Input type="password" name={"password"} validate={[required]}/>
+                <Input name={"password"} register={register} errors={errors} type={"password"}
+                       options={{
+                           required: validators.required
+                       }}/>
             </div>
             <button disabled={props.isLoading}>Войти</button>
         </form>
     );
 }
-
-const LoginFormRedux = reduxForm({form: "login"})(LoginForm)
 
 const LoginPage = (props) => {
 
@@ -39,7 +44,7 @@ const LoginPage = (props) => {
         <div className={"login-page-bg"}>
             <div className={"login-page-content"}>
                 <h4>Messenger!</h4>
-                <LoginFormRedux onSubmit={onSubmit} isLoading={isLoading}/>
+                <LoginForm onSubmit={onSubmit} isLoading={isLoading}/>
                 <div>
                     У вас нет аккаунта? <Link to={"/registration"}>Зарегистрируйтесь</Link>
                 </div>
