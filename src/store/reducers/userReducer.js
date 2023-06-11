@@ -118,43 +118,43 @@ export const changePassword = (data) => (dispatch) => {
     })
 }
 
-export const editProfile = (data) => (dispatch, getState) => {
-
+export const editInfoProfile = (data) => (dispatch, getState) => {
     dispatch(setLoadingUser(true));
-    console.log(data)
 
-    if (data.avatarFile.length === 0) {
+    data = {
+        fullName: data.fullName,
+        photoId: getState().user.userData.photoId,
+        birthDate: `${data.birthDate}T00:00:00.000Z`
+    }
 
-        data = {...data, photoId: getState().user.userData.photoId}
+    editProfile(dispatch, data);
+}
 
-        userAPI.editProfile(data).then(response => {
-            if (response.status === 200) {
-                dispatch(getUserProfile());
-                dispatch(setSuccessToast("Профиль успешно изменён"));
-            } else if (response.status === 400)
-                dispatch(setErrorToast("Неверный формат данных"))
+export const editAvatarProfile = (avatarFile) => (dispatch, getState) => {
+    dispatch(setLoadingUser(true));
 
-            dispatch(setLoadingUser(false))
+    const formData = convertFileToFormData(avatarFile);
+    filesAPI.uploadFile(formData, FILE_TYPE.IMAGE, true)
+        .then(response => {
+            const data = {
+                fullName: getState().user.userData.fullName,
+                photoId: response.data,
+                birthDate: getState().user.userData.birthDate
+            };
+            editProfile(dispatch, data);
         })
-    }
-    else {
-        const formData = convertFileToFormData(data.avatarFile[0]);
-        filesAPI.uploadFile(formData, FILE_TYPE.IMAGE, true)
-            .then(response => {
-                data = {...data, photoId: response.data};
-                userAPI.editProfile(data).then(response => {
-                    if (response.status === 200) {
-                        dispatch(getUserProfile());
-                        dispatch(setSuccessToast("Профиль успешно изменён"));
-                    } else if (response.status === 400)
-                        dispatch(setErrorToast("Неверный формат данных"))
+}
 
-                    dispatch(setLoadingUser(false))
-                })
-            })
+const editProfile = (dispatch, data) => {
+    userAPI.editProfile(data).then(response => {
+        if (response.status === 200) {
+            dispatch(getUserProfile());
+            dispatch(setSuccessToast("Профиль успешно изменён"));
+        } else if (response.status === 400)
+            dispatch(setErrorToast("Неверный формат данных"))
 
-
-    }
+        dispatch(setLoadingUser(false))
+    })
 }
 
 export default userReducer;

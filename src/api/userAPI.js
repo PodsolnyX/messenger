@@ -69,7 +69,7 @@ const editProfile = (data) => {
     return instance.put("account", {
         fullName: data.fullName,
         photoId: data.photoId,
-        birthDate: `${data.birthDate}T00:00:00.000Z`
+        birthDate: data.birthDate
     })
         .then(response => response)
         .catch(error => error.response);
