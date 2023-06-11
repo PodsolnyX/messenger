@@ -1,25 +1,27 @@
 import "./chatItem.css"
+import UserItem from "../../usersList/userItem/userItem";
+import {getUserAvatar} from "../../../../../helpers/helpers";
 
 const ChatItem = (props) => {
+
+    const chatAvatarLink = getUserAvatar(props.chatAvatarId);
+
     return (
-        <div className={"chat-item-container"}>
-            <div className={"chat-item-avatar"}>
-                <img alt={""} src={props.image}/>
+        <UserItem>
+            <div className={"chat-item-info"}>
+                <div className={"text-primary"} style={{fontSize: "14px"}}>{props.chatName}</div>
+                <div className={"text-tertiary"}>{props.time}</div>
             </div>
-            <div className={"chat-item-description"}>
-                <div className={"chat-item-info"}>
-                    <div className={"text-primary"} style={{fontSize: "14px"}}>{props.name}</div>
-                    <div className={"text-tertiary"}>{props.time}</div>
+            <div className={"chat-item-details"}>
+                <div className={"text-secondary text-message"} style={{fontSize: "14px"}}>
+                    {props.lastMessage.textMessage}
                 </div>
-                <div className={"chat-item-details"}>
-                    <div className={"text-secondary text-message"} style={{fontSize: "14px"}}>{props.message}</div>
-                    {
-                        props.count > 0 &&
-                        <div className={"chat-item-messages-count"}>{props.count}</div>
-                    }
-                </div>
+                {
+                    props.unviewedMessages > 0 &&
+                    <div className={"chat-item-messages-count"}>{props.unviewedMessages}</div>
+                }
             </div>
-        </div>
+        </UserItem>
     );
 }
 

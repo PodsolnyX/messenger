@@ -1,16 +1,16 @@
-
-.chat-list-container {
-    position: relative;
+.friends-list-container {
     height: 100%;
+    width: 100%;
+    position: relative;
 }
 
-.chats {
-    height: calc(100%);
+.friends-list {
+    height: calc(100% - 70px);
+    width: 100%;
     overflow-y: auto;
-    overflow-x: hidden;
 }
 
-.empty-chat-list {
+.empty-friends-list {
     color: var(--color-text-tertiary);
     text-align: center;
     height: 90%;
@@ -18,4 +18,3 @@
     justify-content: center;
     align-items: center;
 }
-

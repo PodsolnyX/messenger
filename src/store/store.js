@@ -5,13 +5,15 @@ import toasterReducer from "./reducers/toasterReducer";
 import generalReducer from "./reducers/generalReducer";
 import filesReducer from "./reducers/filesReducer";
 import chatReducer from "./reducers/chatReducer";
+import friendsReducer from "./reducers/friendReducer";
 
 let reducers = combineReducers({
     user: userReducer,
     toaster: toasterReducer,
     general: generalReducer,
     files: filesReducer,
-    chat: chatReducer
+    chat: chatReducer,
+    friends: friendsReducer
 });
 
 let store = createStore(reducers, applyMiddleware(ThunkMiddleware));

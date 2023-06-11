@@ -1,0 +1,22 @@
+.float-btn {
+    position: absolute;
+    background-color: var(--color-bg-block-3);
+    width: 50px;
+    height: 50px;
+    border-radius: 25px;
+    bottom: 20px;
+    right: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: 0.2s;
+    cursor: pointer;
+}
+
+.float-btn:hover {
+    background-color: var(--color-bg-block-3-hover);
+}
+
+.float-btn > img {
+    width: auto;
+}

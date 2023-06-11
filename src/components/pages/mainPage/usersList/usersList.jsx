@@ -2,7 +2,7 @@ import "./usersList.css"
 import NavBack from "../../../other/navBack/navBack";
 import UsersSearch from "./usersSearch/usersSearch";
 import {useDispatch, useSelector} from "react-redux";
-import {setViewChatList} from "../../../../store/reducers/generalReducer";
+import { setViewFriendsList} from "../../../../store/reducers/generalReducer";
 import UserItem from "./userItem/userItem";
 import {useEffect} from "react";
 import {getUserList} from "../../../../store/reducers/userReducer";
@@ -20,11 +20,9 @@ const UsersList = (props) => {
         dispatch(getUserList(searchString))
     }, [searchString])
 
-    console.log(444, usersList)
-
     return (
         <div className={"users-list-container"}>
-            <NavBack callback={() => dispatch(setViewChatList())}>
+            <NavBack callback={() => dispatch(setViewFriendsList())}>
                 <UsersSearch/>
             </NavBack>
             <div className={"users-list"}>

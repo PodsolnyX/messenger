@@ -5,7 +5,8 @@ import {useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {getPreviewChats} from "../../../../store/reducers/chatReducer";
 import Loader from "../../../other/loader/loader";
-import {setViewUsersList} from "../../../../store/reducers/generalReducer";
+import {setViewFriendsList} from "../../../../store/reducers/generalReducer";
+import FloatButton from "../../../other/floatButton/floatButton";
 
 const ChatList = (props) => {
 
@@ -29,9 +30,11 @@ const ChatList = (props) => {
                             previewChats.map((person, i) => <ChatItem {...person} key={i}/>)
 
                 }
-                <div className={"write-message"} onClick={() => dispatch(setViewUsersList())}>
-                    <img src={pencil} alt=""/>
-                </div>
+                <FloatButton
+                    icon={pencil}
+                    iconHeight={"20px"}
+                    callback={() => dispatch(setViewFriendsList())}
+                />
             </div>
         </div>
     );

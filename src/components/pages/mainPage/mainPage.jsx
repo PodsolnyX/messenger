@@ -8,6 +8,7 @@ import ChangePassword from "./changePassword/changePassword";
 import EditProfile from "./editProfile/editProfile";
 import {VIEWS} from "../../../helpers/constants";
 import UsersList from "./usersList/usersList";
+import FriendsList from "./friendsList/friendsList";
 
 const MainPage = (props) => {
 
@@ -20,6 +21,7 @@ const MainPage = (props) => {
                 <div className={"side-bar"}>
                     { currentView === VIEWS.CHATS_LIST && <ChatList/> }
                     { currentView === VIEWS.USERS_LIST && <UsersList/> }
+                    { currentView === VIEWS.FRIENDS_LIST && <FriendsList/> }
                     { currentView === VIEWS.PROFILE && <UserProfile/> }
                     { currentView === VIEWS.CHANGE_PASSWORD && <ChangePassword/> }
                     { currentView === VIEWS.EDIT_PROFILE && <EditProfile/> }
