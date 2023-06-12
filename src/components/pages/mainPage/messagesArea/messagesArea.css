@@ -6,9 +6,16 @@
     position: relative;
 }
 
+@media (max-width: 800px) {
+    .messages-area {
+        display: none;
+    }
+}
+
 .input-container {
-    width: 60%;
+    width: 90%;
     margin: 0 auto;
+    transition: 0.2s;
 }
 
 .messages-list-container {
@@ -19,8 +26,18 @@
 
 .messages-list {
     margin: 0 auto;
-    width: 60%;
+    width: 90%;
     height: 100%;
+    transition: 0.2s;
+}
+
+@media (min-width: 1280px) {
+    .messages-list {
+        width: 60%;
+    }
+    .input-container {
+        width: 60%;
+    }
 }
 
 

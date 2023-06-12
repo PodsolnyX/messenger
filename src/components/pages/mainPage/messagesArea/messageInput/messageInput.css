@@ -3,8 +3,14 @@
     display: flex;
     justify-content: space-between;
     align-items: end;
-    width: 60%;
+    width: 90%;
     bottom: 20px;
+}
+
+@media (min-width: 1280px) {
+    .message-input-container {
+        width: 60%;
+    }
 }
 
 .button-send-message {
