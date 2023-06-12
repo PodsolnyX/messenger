@@ -120,18 +120,6 @@ export const registerUser = (userData, callback) => (dispatch) => {
 
 }
 
-export const logoutUser = (callback) => (dispatch) => {
-    userAPI.logoutUser().then(response => {
-        if (response.status === 200) {
-            localStorage.removeItem('accessToken');
-            localStorage.removeItem('refreshToken');
-            dispatch(setIsAuth(false));
-            dispatch(clearUserData());
-            callback();
-        }
-    })
-}
-
 export const changePassword = (data) => (dispatch) => {
     dispatch(setLoadingUser(true));
     userAPI.changePassword(data).then(response => {

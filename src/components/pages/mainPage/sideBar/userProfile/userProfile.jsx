@@ -19,13 +19,11 @@ const UserProfile = (props) => {
     const dispatch = useDispatch();
     const user = useAuth();
 
-    const avatarLink = getUserAvatar(userData.photoId);
-
     return (
         <div className={"side-bar-component-container profile-container"}>
             <NavBack callback={() => dispatch(setViewChatList())} title={"Профиль"}/>
             <div className={"side-bar-content"}>
-                <div className={"profile-avatar"} style={{backgroundImage: `url(${avatarLink})`}}></div>
+                <div className={"profile-avatar"} style={{backgroundImage: `url(${getUserAvatar(userData?.photoId)})`}}></div>
                 <div className={"profile-main-info"}>
                     <div>
                         <div className={"profile-data-primary"}>
