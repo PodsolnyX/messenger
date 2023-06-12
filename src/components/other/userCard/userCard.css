@@ -6,7 +6,6 @@
     padding: 0 12px;
     height: 72px;
     transition: 0.2s;
-    cursor: pointer;
     border-radius: 8px;
 }
 
@@ -27,4 +26,5 @@
 
 .user-card-content {
     margin-left: 20px;
+    width: 100%;
 }

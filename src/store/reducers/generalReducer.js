@@ -11,6 +11,7 @@ const
 
 let initialState = {
     currentView: VIEWS.CHATS_LIST
+    // currentView: VIEWS.USERS_LIST
 };
 
 const generalReducer = (state = initialState, action) => {

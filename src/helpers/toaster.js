@@ -6,7 +6,7 @@ export const toastSuccess = (text) => {
 }
 
 export const toastInfo = (text) => {
-    toast.info(text, {autoClose: false, closeButton: true});
+    toast.info(text, {autoClose: 2000, closeButton: false});
 }
 
 export const toastError = (text) => {

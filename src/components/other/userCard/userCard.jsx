@@ -2,7 +2,6 @@ import "./userCard.css"
 
 const UserCard = (props) => {
 
-
     return (
         <div className={"user-card-container"}>
             <div className={"user-card-avatar"}>

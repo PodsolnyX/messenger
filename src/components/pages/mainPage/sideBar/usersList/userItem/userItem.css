@@ -1,0 +1,14 @@
+.user-item-add-contact-btn > img {
+    height: 30px;
+    transition: 0.2s;
+    cursor: pointer;
+}
+
+.user-item-add-contact-btn > img:hover {
+    filter: brightness(80%);
+}
+
+.user-item-content {
+    display: flex;
+    justify-content: space-between;
+}

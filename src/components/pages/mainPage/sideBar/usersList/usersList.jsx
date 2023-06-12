@@ -7,6 +7,7 @@ import {useEffect} from "react";
 import {getUserList, setUserSearchString} from "../../../../../store/reducers/userReducer";
 import Loader from "../../../../other/loader/loader";
 import SearchInput from "../../../../other/searchInput/searchInput";
+import {sendFriendshipRequest} from "../../../../../store/reducers/friendReducer";
 
 
 const UsersList = (props) => {
@@ -20,6 +21,10 @@ const UsersList = (props) => {
         dispatch(getUserList(searchString))
     }, [searchString])
 
+    const onSendRequest = (userId) => {
+        dispatch(sendFriendshipRequest(userId));
+    }
+
     return (
         <div className={"side-bar-component-container"}>
             <NavBack callback={() => dispatch(setViewFriendsList())}>
@@ -32,7 +37,9 @@ const UsersList = (props) => {
                             <div className={"side-bar-empty-content"}>
                                 Пользователи с таким именем не найдены
                             </div> :
-                            usersList.map((user) => <UserItem {...user} key={user.id}/>)
+                            usersList.map((user) =>
+                                <UserItem {...user} key={user.id} onSendRequest={onSendRequest}/>
+                            )
                 }
             </div>
         </div>

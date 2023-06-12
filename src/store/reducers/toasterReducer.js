@@ -1,12 +1,14 @@
 const
     SET_SUCCESS = "SET_SUCCESS",
     SET_ERROR = "SET_ERROR",
+    SET_INFO = "SET_INFO",
     SET_WAS_SHOW = "SET_WAS_SHOW"
 ;
 
 const
     TOAST_SUCCESS = "TOAST_SUCCESS",
-    TOAST_ERROR = "TOAST_ERROR"
+    TOAST_ERROR = "TOAST_ERROR",
+    TOAST_INFO = "TOAST_INFO"
 ;
 
 let initialState = {
@@ -31,6 +33,13 @@ const toasterReducer = (state = initialState, action) => {
                 toastType: TOAST_ERROR,
                 isWasShow: false
             };
+        case SET_INFO:
+            return {
+                ...state,
+                message: action.message,
+                toastType: TOAST_INFO,
+                isWasShow: false
+            };
         case SET_WAS_SHOW:
             return {
                 ...state,
@@ -44,6 +53,7 @@ const toasterReducer = (state = initialState, action) => {
 
 export const setSuccessToast = (message) => ({type: SET_SUCCESS, message});
 export const setErrorToast = (message) => ({type: SET_ERROR, message});
+export const setInformationToast = (message) => ({type: SET_INFO, message});
 export const setWasShow = () => ({type: SET_WAS_SHOW})
 
 
