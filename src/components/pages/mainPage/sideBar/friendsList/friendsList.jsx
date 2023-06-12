@@ -8,22 +8,26 @@ import FriendItem from "./friendItem/friendItem";
 import addContactIcon from "../../../../../assets/icons/add_contact.svg";
 import FloatButton from "../../../../other/floatButton/floatButton";
 import {getFriendsList} from "../../../../../store/reducers/friendReducer";
+import Icon from "../../../../other/icon/icon";
+import notificationIcon from "./../../../../../assets/icons/notification.svg"
 
 const FriendsList = (props) => {
 
     const dispatch = useDispatch();
-    const friendsList = useSelector(state => state.friends.friendsList?.items);
+    const friendsList = useSelector(state => state.friends.friendsList);
     const isLoading = useSelector(state => state.friends.isLoading);
 
     useEffect(() => {
         dispatch(getFriendsList())
     }, [])
 
-    console.log(555, friendsList)
-
     return (
         <div className={"side-bar-component-container"}>
-            <NavBack callback={() => dispatch(setViewChatList())} title={"Друзья"}/>
+            <NavBack callback={() => dispatch(setViewChatList())} title={"Друзья"}>
+                <div className={"friends-note-container"}>
+                    <Icon icon={notificationIcon} size={25}/>
+                </div>
+            </NavBack>
             <div className={"side-bar-content overflowY"}>
                     {
                         isLoading ? <Loader/> :

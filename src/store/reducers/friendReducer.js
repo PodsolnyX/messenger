@@ -1,5 +1,6 @@
 import {friendAPI} from "../../api/friendAPI";
 import {setErrorToast, setInformationToast, setSuccessToast} from "./toasterReducer";
+import {userAPI} from "../../api/userAPI";
 
 const SET_FRIENDS_LIST = "SET_FRIENDS_LIST",
     SET_LOADING_FRIENDS = "SET_LOADING_FRIEND";
@@ -33,8 +34,12 @@ export const getFriendsList = () => (dispatch) => {
     setLoadingFriends(true);
     friendAPI.getFriends()
         .then(response => {
-            if (response.status === 200)
-                dispatch(setFriendsList(response.data))
+            if (response.status === 200) {
+                userAPI.getUsersListDetails(response.data.items)
+                    .then(response => {
+                        dispatch(setFriendsList(response.data))
+                    })
+            }
             else if (response.status === 404)
                 dispatch(setFriendsList([]))
             setLoadingFriends(false);

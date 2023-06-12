@@ -1,6 +1,7 @@
 import "./searchInput.css";
 import searchIcon from "./../../../assets/icons/search.svg"
 import {useDispatch} from "react-redux";
+import Icon from "../icon/icon";
 
 const SearchInput = (props) => {
 
@@ -12,7 +13,7 @@ const SearchInput = (props) => {
 
     return (
         <div className={"search-input"}>
-            <img alt={""} src={searchIcon}/>
+            <Icon icon={searchIcon} size={18}/>
             <input placeholder={"Search"} value={props.searchString} onChange={onChange}/>
         </div>
     );

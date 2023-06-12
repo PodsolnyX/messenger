@@ -8,7 +8,7 @@
 
 .profile-main-info {
     padding: 10px 25px;
-    border-bottom: 3px solid var(--color-border-primary);
+    border-bottom: 2px solid var(--color-border-primary);
 }
 
 .profile-data-primary {
@@ -19,16 +19,6 @@
     justify-content: space-between;
 }
 
-.profile-data-primary > img {
-    height: 25px;
-    cursor: pointer;
-    transition: 0.2s;
-}
-
-.profile-data-primary > img:hover{
-    filter: brightness(70%);
-}
-
 .profile-data-secondary {
     font-size: 16px;
     display: flex;
@@ -36,8 +26,7 @@
     margin: 9px 0;
 }
 
-.profile-data-secondary > img {
-    height: 25px;
+.profile-data-secondary > div {
     margin-right: 7px;
 }
 
@@ -60,8 +49,7 @@
     background-color: var(--color-bg-secondary-hover);
 }
 
-.profile-btn-secondary > img {
-    height: 25px;
+.profile-btn-secondary > div {
     margin-right: 7px;
 }
 

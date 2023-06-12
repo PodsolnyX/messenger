@@ -18,8 +18,7 @@
     color: var(--color-text-secondary);
 }
 
-.search-input > img{
-    height: 18px;
+.search-input > div{
     margin: 0 5px;
 }
 

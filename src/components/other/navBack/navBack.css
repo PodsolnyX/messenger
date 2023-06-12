@@ -8,23 +8,13 @@
     border-bottom: 2px solid var(--color-border-primary);
 }
 
+.nav-back-container > div:first-child {
+    margin: 0 15px;
+}
+
 .title-nav-back {
     color: var(--color-text-primary);
     font-size: 18px;
     margin: 0 15px;
 }
 
-.btn-nav-back {
-    margin: 15px;
-    display: flex;
-    cursor: pointer;
-    transition: 0.2s;
-}
-
-.btn-nav-back:hover {
-    filter: brightness(80%);
-}
-
-.btn-nav-back > img {
-    height: 25px;
-}

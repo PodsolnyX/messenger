@@ -1,0 +1,14 @@
+.icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.icon-clickable {
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.icon-clickable:hover {
+    filter: brightness(80%);
+}

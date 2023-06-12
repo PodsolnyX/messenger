@@ -29,9 +29,7 @@
     background-color: var(--color-bg-block-3-hover);
 }
 
-.button-send-message > img {
-    height: 30px;
-    width: 30px;
+.button-send-message > div {
     margin-left: 4px;
 }
 
@@ -69,13 +67,6 @@
 }
 
 .button-attach-file {
-    height: 20px;
-    width: 20px;
     margin-bottom: 6px;
-    cursor: pointer;
     margin-left: 6px;
-}
-.button-attach-file > img {
-    height: 20px;
-    width: 20px;
 }

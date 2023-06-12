@@ -1,5 +1,6 @@
 import backIcon from "./../../../assets/icons/back.svg"
 import "./navBack.css"
+import Icon from "../icon/icon";
 
 const NavBack = (props) => {
 
@@ -9,14 +10,12 @@ const NavBack = (props) => {
         <div className={"nav-back-container"}>
             {
                 isBack &&
-                <div className={"btn-nav-back"} onClick={props.callback}>
-                    <img src={props.icon ? props.icon : backIcon} alt=""/>
+                <div>
+                    <Icon icon={props.icon ? props.icon : backIcon} size={25} callback={props.callback}/>
                 </div>
             }
-            {
-                props.children ? props.children :
-                    <div className={"title-nav-back"}>{props.title}</div>
-            }
+            <div className={"title-nav-back"}>{props.title}</div>
+            { props.children }
         </div>
     );
 }

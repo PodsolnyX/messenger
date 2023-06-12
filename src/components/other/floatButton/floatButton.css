@@ -16,7 +16,3 @@
 .float-btn:hover {
     background-color: var(--color-bg-block-3-hover);
 }
-
-.float-btn > img {
-    width: auto;
-}

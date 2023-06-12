@@ -10,7 +10,7 @@ import {useAuth} from "../../../../../hooks/useAuth";
 import {setViewChangePassword, setViewChatList, setViewEditProfile} from "../../../../../store/reducers/generalReducer";
 import {getUserAvatar} from "../../../../../helpers/helpers";
 import NavBack from "../../../../other/navBack/navBack";
-
+import Icon from "../../../../other/icon/icon";
 
 
 const UserProfile = (props) => {
@@ -28,29 +28,29 @@ const UserProfile = (props) => {
                     <div>
                         <div className={"profile-data-primary"}>
                             {userData?.fullName}
-                            <img src={editIcon} alt="" onClick={() => {dispatch(setViewEditProfile())}}/>
+                            <Icon icon={editIcon} size={25} callback={() => {dispatch(setViewEditProfile())}} />
                         </div>
                     </div>
                     <div className={"profile-data-secondary"}>
-                        <img src={emailIcon} alt=""/>
+                        <Icon clickable={false} icon={emailIcon} size={25}/>
                         {userData?.email}
                     </div>
                     <div className={"profile-data-secondary"}>
-                        <img src={phoneIcon} alt=""/>
+                        <Icon clickable={false} icon={phoneIcon} size={25}/>
                         {userData?.phoneNumber}
                     </div>
                     <div className={"profile-data-secondary"}>
-                        <img src={dateIcon} alt=""/>
+                        <Icon clickable={false} icon={dateIcon} size={25}/>
                         {userData?.birthDate.slice(0, 10)}
                     </div>
                 </div>
                 <div className={"profile-actions"}>
                     <div className={"profile-btn-secondary"} onClick={() => dispatch(setViewChangePassword())}>
-                        <img src={passwordIcon} alt=""/>
+                        <Icon clickable={false} icon={passwordIcon} size={25}/>
                         Изменить пароль
                     </div>
                     <div className={"profile-btn-secondary"} onClick={user.signOut}>
-                        <img src={exitIcon} alt=""/>
+                        <Icon clickable={false} icon={exitIcon} size={25}/>
                         Выйти
                     </div>
                 </div>

@@ -1,4 +1,5 @@
 import {instance} from "./instance";
+import {getQueryFromIdList} from "../helpers/helpers";
 
 const registerUser = (userData) => {
     return instance.post("auth/register", {
@@ -47,6 +48,18 @@ const getProfile = () => {
         .catch(error => error.response);
 }
 
+const getUserDetails = (id) => {
+    return instance.get(`account/${id}`)
+        .then(response => response)
+        .catch(error => error.response);
+}
+
+const getUsersListDetails = (listId) => {
+    return instance.get(`account/userList?${getQueryFromIdList(listId)}`)
+        .then(response => response)
+        .catch(error => error.response);
+}
+
 const getUsersList = (searchString) => {
     return instance.get(`account/users?fullname=${searchString}`)
         .then(response => response)
@@ -89,6 +102,8 @@ export const userAPI = {
     getUsersList,
     logoutUser,
     changePassword,
-    editProfile
+    editProfile,
+    getUserDetails,
+    getUsersListDetails
 };
 

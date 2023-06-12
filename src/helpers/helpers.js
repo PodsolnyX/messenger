@@ -11,3 +11,11 @@ export function getUserAvatar(photoId) {
         return `https://acrohappiness.ru/assets/img/comment.jpg`
     return `http://chat.markridge.space/api/files/${photoId}?attachment=false&access_token=${localStorage.getItem("accessToken")}`;
 }
+
+export function getQueryFromIdList(idList) {
+    let query = "";
+    idList.forEach((id) => {
+        query += `userIds=${id}`
+    })
+    return query;
+}
