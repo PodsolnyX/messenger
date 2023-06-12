@@ -1,8 +1,8 @@
-import "./friendItem.css"
-import {getUserAvatar} from "../../../../../helpers/helpers";
-import UserCard from "../../../../other/userCard/userCard";
+import "./userItem.css"
+import {getUserAvatar} from "../../../../../../helpers/helpers";
+import UserCard from "../../../../../other/userCard/userCard";
 
-const FriendItem = (props) => {
+const UserItem = (props) => {
 
     const avatarLink = getUserAvatar(props.photoId);
 
@@ -13,4 +13,4 @@ const FriendItem = (props) => {
     );
 }
 
-export default FriendItem;
+export default UserItem;

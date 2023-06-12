@@ -18,7 +18,7 @@ function App() {
     useSignalR();
 
     return (
-        <div className="App">
+        <div>
             <ToasterContainer/>
             <Routes>
                 <Route path="/" element={

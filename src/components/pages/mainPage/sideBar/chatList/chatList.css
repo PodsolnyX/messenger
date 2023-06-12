@@ -1,0 +1,15 @@
+
+.nav-avatar {
+    width: 100%;
+    display: flex;
+    justify-content: end;
+    margin: 0 15px;
+}
+
+.nav-avatar > img {
+    height: 45px;
+    width: 45px;
+    border-radius: 25px;
+    object-fit: cover;
+    cursor: pointer;
+}

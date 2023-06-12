@@ -5,12 +5,13 @@
     display: flex;
     align-items: center;
     justify-content: start;
-    border-bottom: 3px solid var(--color-border-primary);
+    border-bottom: 2px solid var(--color-border-primary);
 }
 
 .title-nav-back {
     color: var(--color-text-primary);
     font-size: 18px;
+    margin: 0 15px;
 }
 
 .btn-nav-back {

@@ -1,11 +1,11 @@
 import "./changePassword.css"
-import NavBack from "../../../other/navBack/navBack";
+import NavBack from "../../../../other/navBack/navBack";
 import {useDispatch, useSelector} from "react-redux";
-import {setViewProfile} from "../../../../store/reducers/generalReducer";
-import {changePassword} from "../../../../store/reducers/userReducer";
-import {Input} from "../../../other/input/input";
+import {setViewProfile} from "../../../../../store/reducers/generalReducer";
+import {changePassword} from "../../../../../store/reducers/userReducer";
+import {Input} from "../../../../other/input/input";
 import {useForm} from "react-hook-form";
-import {validators} from "../../../../helpers/validators";
+import {validators} from "../../../../../helpers/validators";
 
 const ChangePasswordForm = (props) => {
 
@@ -17,7 +17,7 @@ const ChangePasswordForm = (props) => {
     }
 
     return (
-        <form className={"change-password-form"} onSubmit={handleSubmit(onSubmit)}>
+        <form className={"side-bar-form"} onSubmit={handleSubmit(onSubmit)}>
             <div>
                 <label htmlFor="oldPassword">Старый пароль</label>
                 <Input name={"oldPassword"} register={register} errors={errors} type={"password"}
@@ -50,9 +50,11 @@ const ChangePassword = () => {
     }
 
     return (
-        <div className={"change-password-container"}>
+        <div className={"side-bar-component-container"}>
             <NavBack title={"Изменение пароля"} callback={() => dispatch(setViewProfile())}/>
-            <ChangePasswordForm onSubmit={onSubmit} isLoading={isLoading}/>
+            <div className={"side-bar-content"}>
+                <ChangePasswordForm onSubmit={onSubmit} isLoading={isLoading}/>
+            </div>
         </div>
     );
 }

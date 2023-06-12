@@ -1,6 +1,6 @@
 import "./chatItem.css"
 import UserItem from "../../usersList/userItem/userItem";
-import {getUserAvatar} from "../../../../../helpers/helpers";
+import {getUserAvatar} from "../../../../../../helpers/helpers";
 
 const ChatItem = (props) => {
 

@@ -9,7 +9,7 @@ const SET_USER_DATA = "SET_USER_DATA",
     SET_IS_AUTH = "SET_IS_AUTH",
     SET_LOADING_USER = "SET_LOADING_USER",
     SET_USERS_LIST = "SET_USERS_LIST",
-    SET_SEARCH_STRING = "SET_SEARCH_STRING"
+    SET_USER_SEARCH_STRING = "SET_USER_SEARCH_STRING"
 ;
 
 let initialState = {
@@ -48,7 +48,7 @@ const userReducer = (state = initialState, action) => {
                 ...state,
                 usersList: action.usersList
             };
-        case SET_SEARCH_STRING:
+        case SET_USER_SEARCH_STRING:
             return {
                 ...state,
                 searchString: action.searchString
@@ -63,7 +63,7 @@ export const setIsAuth = (value) => ({type: SET_IS_AUTH, value});
 export const clearUserData = () => ({type: CLEAR_USER_DATA});
 export const setLoadingUser = (isLoading) => ({type: SET_LOADING_USER, isLoading});
 export const setUsersList = (usersList) => ({type: SET_USERS_LIST, usersList});
-export const setSearchString = (searchString) => ({type: SET_SEARCH_STRING, searchString});
+export const setUserSearchString = (searchString) => ({type: SET_USER_SEARCH_STRING, searchString});
 
 export const getUserProfile = () => (dispatch) => {
     userAPI.getProfile()

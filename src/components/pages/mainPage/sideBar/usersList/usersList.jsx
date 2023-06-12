@@ -1,12 +1,12 @@
 import "./usersList.css"
-import NavBack from "../../../other/navBack/navBack";
-import UsersSearch from "./usersSearch/usersSearch";
+import NavBack from "../../../../other/navBack/navBack";
 import {useDispatch, useSelector} from "react-redux";
-import { setViewFriendsList} from "../../../../store/reducers/generalReducer";
+import { setViewFriendsList} from "../../../../../store/reducers/generalReducer";
 import UserItem from "./userItem/userItem";
 import {useEffect} from "react";
-import {getUserList} from "../../../../store/reducers/userReducer";
-import Loader from "../../../other/loader/loader";
+import {getUserList, setUserSearchString} from "../../../../../store/reducers/userReducer";
+import Loader from "../../../../other/loader/loader";
+import SearchInput from "../../../../other/searchInput/searchInput";
 
 
 const UsersList = (props) => {
@@ -21,15 +21,15 @@ const UsersList = (props) => {
     }, [searchString])
 
     return (
-        <div className={"users-list-container"}>
+        <div className={"side-bar-component-container"}>
             <NavBack callback={() => dispatch(setViewFriendsList())}>
-                <UsersSearch/>
+                <SearchInput searchString={searchString} setSearchString={setUserSearchString}/>
             </NavBack>
-            <div className={"users-list"}>
+            <div className={"side-bar-content overflowY"}>
                 {
                     isLoading ? <Loader/> :
                         !usersList ?
-                            <div className={"empty-user-list"}>
+                            <div className={"side-bar-empty-content"}>
                                 Пользователи с таким именем не найдены
                             </div> :
                             usersList.map((user) => <UserItem {...user} key={user.id}/>)

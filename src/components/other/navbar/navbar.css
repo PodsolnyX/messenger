@@ -23,10 +23,3 @@
     padding: 0 5px 0 5px;
 }
 
-.nav-user > img {
-    height: 45px;
-    width: 45px;
-    border-radius: 25px;
-    object-fit: cover;
-    cursor: pointer;
-}

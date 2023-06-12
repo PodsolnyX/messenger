@@ -1,0 +1,68 @@
+.side-bar {
+    min-width: 300px;
+    height: 100%;
+    background-color: var(--color-bg-secondary);
+    transition: 0.2s;
+    box-shadow: 0 2px 10px 0 var(--color-bg-primary) inset;
+}
+
+@media (min-width: 1050px) {
+    .side-bar {
+        min-width: 500px;
+    }
+}
+
+.side-bar-content {
+    height: calc(100% - 65px);
+    position: relative;
+}
+
+.overflowY {
+    overflow-y: auto;
+}
+
+.side-bar-empty-content {
+    color: var(--color-text-tertiary);
+    text-align: center;
+    height: 90%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.side-bar-component-container {
+    height: 100%;
+}
+
+.side-bar-form {
+    padding: 10px 50px;
+}
+
+.side-bar-form > div {
+    margin-top: 10px;
+}
+
+.side-bar-form > div > label {
+    color: var(--color-text-secondary);
+    font-size: 14px;
+}
+
+.side-bar-form > button{
+    margin-top: 18px;
+    font-size: 14px;
+    border-radius: 8px;
+    border: 0;
+    height: 35px;
+    background-color: var(--color-bg-block-3);
+    cursor: pointer;
+    transition: 0.2s;
+    width: calc(100% - 5px);
+}
+
+.side-bar-form > button:hover {
+    background-color: var(--color-bg-block-3-hover);
+}
+
+.side-bar-form > button:disabled {
+    box-shadow: 0 0 0;
+}

@@ -1,12 +1,12 @@
 import "./editProfile.css"
-import NavBack from "../../../other/navBack/navBack";
+import NavBack from "../../../../other/navBack/navBack";
 import {useDispatch, useSelector} from "react-redux";
-import {setViewProfile} from "../../../../store/reducers/generalReducer";
+import {setViewProfile} from "../../../../../store/reducers/generalReducer";
 import {useForm} from "react-hook-form";
-import {Input} from "../../../other/input/input";
-import {validators} from "../../../../helpers/validators";
-import {editAvatarProfile, editInfoProfile} from "../../../../store/reducers/userReducer";
-import {getUserAvatar} from "../../../../helpers/helpers";
+import {Input} from "../../../../other/input/input";
+import {validators} from "../../../../../helpers/validators";
+import {editAvatarProfile, editInfoProfile} from "../../../../../store/reducers/userReducer";
+import {getUserAvatar} from "../../../../../helpers/helpers";
 
 const EditProfileForm = (props) => {
 
@@ -16,8 +16,7 @@ const EditProfileForm = (props) => {
     });
 
     return (
-        <form className={"change-password-form"} onSubmit={handleSubmit(props.onSubmit)}>
-
+        <form className={"side-bar-form"} onSubmit={handleSubmit(props.onSubmit)}>
             <div>
                 <label htmlFor="fullName">Имя</label>
                 <Input name={"fullName"} register={register} errors={errors}
@@ -56,26 +55,25 @@ const EditProfile = (props) => {
         dispatch(editAvatarProfile(event.target.files[0]))
     }
 
-    const avatarLink = getUserAvatar(userData.photoId);
-
     return (
-        <div>
+        <div className={"side-bar-component-container"}>
             <NavBack title={"Редактирование профиля"} callback={() => dispatch(setViewProfile())}/>
+            <div className={"side-bar-content"}>
+                <div className={"edit-profile-avatar"}>
+                    <input type={"file"} id="avatar-input" onChange={onChangeAvatar}
+                           accept="image/png, image/gif, image/jpeg"/>
+                    <label htmlFor="avatar-input">
+                        <img src={getUserAvatar(userData.photoId)} alt=""/>
+                    </label>
+                </div>
 
-            <div className={"edit-profile-avatar"}>
-                <input type={"file"} id="avatar-input" onChange={onChangeAvatar}
-                       accept="image/png, image/gif, image/jpeg"/>
-                <label htmlFor="avatar-input">
-                    <img src={avatarLink} alt=""/>
-                </label>
+                <EditProfileForm onSubmit={onSubmit} isLoading={isLoading}
+                                 defaultValues={{
+                                     fullName: userData.fullName,
+                                     birthDate: userData.birthDate.slice(0, 10)
+                                 }}
+                />
             </div>
-
-            <EditProfileForm onSubmit={onSubmit} isLoading={isLoading}
-                             defaultValues={{
-                                 fullName: userData.fullName,
-                                 birthDate: userData.birthDate.slice(0, 10)
-                             }}
-            />
         </div>
     );
 }
