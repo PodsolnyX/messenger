@@ -14,7 +14,9 @@ const NavBack = (props) => {
                     <Icon icon={props.icon ? props.icon : backIcon} size={25} callback={props.callback}/>
                 </div>
             }
-            <div className={"title-nav-back"}>{props.title}</div>
+            {
+                props.title && <div className={"title-nav-back"}>{props.title}</div>
+            }
             { props.children }
         </div>
     );

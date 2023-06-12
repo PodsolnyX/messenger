@@ -14,7 +14,7 @@ const SearchInput = (props) => {
     return (
         <div className={"search-input"}>
             <Icon icon={searchIcon} size={18}/>
-            <input placeholder={"Search"} value={props.searchString} onChange={onChange}/>
+            <input placeholder={"Search"} value={props.searchString} onChange={onChange} maxLength={80}/>
         </div>
     );
 }

@@ -15,8 +15,7 @@ export const VIEWS = {
     EDIT_PROFILE: "EDIT_PROFILE",
     USERS_LIST: "USERS_LIST",
     FRIENDS_LIST: "FRIENDS_LIST",
+    FRIENDSHIP_REQUESTS_LIST: "FRIENDSHIP_REQUESTS_LIST"
 };
 
 export const NULL_PHOTO = "00000000-0000-0000-0000-000000000000";
-
-export const EMPTY_CHAT_LIST = "У Вас ещё нет чатов.<br/>Начните общаться прямо сейчас!"

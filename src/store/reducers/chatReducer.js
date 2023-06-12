@@ -18,7 +18,7 @@ const chatReducer = (state = initialState, action) => {
         case SET_LOADING_CHAT:
             return {
                 ...state,
-                isLoading: action.value
+                isLoading: action.isLoading
             }
         default:
             return state;
@@ -29,7 +29,7 @@ export const setLastUploadFileId = (previewChats) => ({type: SET_PREVIEW_CHATS, 
 export const setLoadingUser = (isLoading) => ({type: SET_LOADING_CHAT, isLoading});
 
 export const getPreviewChats = () => (dispatch) => {
-    setLoadingUser(true);
+    dispatch(setLoadingUser(true));
     chatAPI.getPreviewChats()
         .then(response => {
             if (response.status === 200) {
@@ -38,7 +38,7 @@ export const getPreviewChats = () => (dispatch) => {
             else if (response.status === 404) {
                 dispatch(setLastUploadFileId([]))
             }
-            setLoadingUser(false);
+            dispatch(setLoadingUser(false));
         })
 }
 

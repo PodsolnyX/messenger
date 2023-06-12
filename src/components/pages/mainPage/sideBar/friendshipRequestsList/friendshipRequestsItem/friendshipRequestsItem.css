@@ -1,0 +1,15 @@
+.friendship-requests-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.friendship-requests-item > div {
+    display: flex;
+    align-items: center;
+}
+
+
+
+
+

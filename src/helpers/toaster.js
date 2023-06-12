@@ -6,6 +6,7 @@ export const toastSuccess = (text) => {
 }
 
 export const toastInfo = (text) => {
+    toast.dismiss();
     toast.info(text, {autoClose: 2000, closeButton: false});
 }
 

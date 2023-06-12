@@ -1,15 +1,19 @@
 import "./friendsList.css"
 import NavBack from "../../../../other/navBack/navBack";
 import {useDispatch, useSelector} from "react-redux";
-import {setViewChatList, setViewUsersList} from "../../../../../store/reducers/generalReducer";
+import {
+    setViewChatList,
+    setViewFriendshipRequests,
+    setViewUsersList
+} from "../../../../../store/reducers/generalReducer";
 import {useEffect} from "react";
 import Loader from "../../../../other/loader/loader";
-import FriendItem from "./friendItem/friendItem";
 import addContactIcon from "../../../../../assets/icons/add_contact.svg";
 import FloatButton from "../../../../other/floatButton/floatButton";
-import {getFriendsList} from "../../../../../store/reducers/friendReducer";
+import {deleteFriend, getFriendsList} from "../../../../../store/reducers/friendReducer";
 import Icon from "../../../../other/icon/icon";
 import notificationIcon from "./../../../../../assets/icons/notification.svg"
+import FriendItem from "./friendItem/friendItem";
 
 const FriendsList = (props) => {
 
@@ -21,21 +25,29 @@ const FriendsList = (props) => {
         dispatch(getFriendsList())
     }, [])
 
+    const onDelete = (userId) => {
+        dispatch(deleteFriend(userId));
+    }
+
     return (
         <div className={"side-bar-component-container"}>
             <NavBack callback={() => dispatch(setViewChatList())} title={"Друзья"}>
                 <div className={"friends-note-container"}>
-                    <Icon icon={notificationIcon} size={25}/>
+                    <Icon icon={notificationIcon} size={25} callback={() => dispatch(setViewFriendshipRequests())}/>
                 </div>
             </NavBack>
             <div className={"side-bar-content overflowY"}>
                     {
                         isLoading ? <Loader/> :
-                            !friendsList ?
+                            friendsList.length === 0 ?
                                 <div className={"side-bar-empty-content"}>
                                     У вас пока нет друзей
                                 </div> :
-                                friendsList.map((user) => <FriendItem {...user} key={user.id}/>)
+                                friendsList.map((user) => <FriendItem
+                                        {...user} key={user.id}
+                                        onDelete={onDelete}
+                                />
+                                )
                     }
                 <FloatButton
                     icon={addContactIcon}

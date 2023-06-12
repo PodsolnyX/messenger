@@ -20,6 +20,7 @@ const EditProfileForm = (props) => {
             <div>
                 <label htmlFor="fullName">Имя</label>
                 <Input name={"fullName"} register={register} errors={errors}
+                       maxLength={validators.maxLengthFullname}
                        options={{
                            required: validators.required,
                            pattern: validators.fullNamePattern
@@ -29,7 +30,7 @@ const EditProfileForm = (props) => {
             <div>
                 <label htmlFor="birthDate">Дата рождения</label>
                 <Input name={"birthDate"} register={register} errors={errors} type={"date"}
-                       max={new Date().toISOString().slice(0, 10)}
+                       max={validators.maxBirthDate.value}
                        options={{
                            required: validators.required,
                            max: validators.maxBirthDate,

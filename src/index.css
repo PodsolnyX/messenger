@@ -16,6 +16,7 @@
   --color-border-primary-focus: #707d86;
 
   --color-shadow-primary: rgba(155, 143, 143, 0.2);
+  --color-shadow-light: rgba(238, 241, 244, 0.2);
   --color-shadow-error: rgba(254, 40, 54, 0.2);
 
   --color-error: #FE2836;

@@ -6,8 +6,8 @@ const getFriends = () => {
         .catch(error => error.response);
 }
 
-const getFriendshipRequests = () => {
-    return instance.get(`/backend/friendship/requests?myRequests=${false}`)
+const getFriendshipRequests = (isUserRequests) => {
+    return instance.get(`/backend/friendship/requests?myRequests=${isUserRequests}`)
         .then(response =>  response)
         .catch(error => error.response);
 }

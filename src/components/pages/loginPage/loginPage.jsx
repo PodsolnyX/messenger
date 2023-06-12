@@ -15,6 +15,7 @@ const LoginForm = (props) => {
             <div>
                 <label htmlFor="email">Логин</label>
                 <Input name={"email"} register={register} errors={errors} type={"email"}
+                       maxLength={validators.maxLengthFullname}
                        options={{
                            required: validators.required
                        }}/>
@@ -22,6 +23,7 @@ const LoginForm = (props) => {
             <div>
                 <label htmlFor="password">Пароль</label>
                 <Input name={"password"} register={register} errors={errors} type={"password"}
+                       maxLength={validators.maxLengthPassword}
                        options={{
                            required: validators.required
                        }}/>

@@ -7,6 +7,7 @@ import UserProfile from "./userProfile/userProfile";
 import ChangePassword from "./changePassword/changePassword";
 import EditProfile from "./editProfile/editProfile";
 import {useSelector} from "react-redux";
+import FriendshipRequestsList from "./friendshipRequestsList/friendshipRequestsList";
 
 const SideBar = () => {
 
@@ -20,6 +21,7 @@ const SideBar = () => {
           { currentView === VIEWS.PROFILE && <UserProfile/> }
           { currentView === VIEWS.CHANGE_PASSWORD && <ChangePassword/> }
           { currentView === VIEWS.EDIT_PROFILE && <EditProfile/> }
+          { currentView === VIEWS.FRIENDSHIP_REQUESTS_LIST && <FriendshipRequestsList/> }
       </div>
     );
 }

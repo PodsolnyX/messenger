@@ -1,6 +1,9 @@
 
 export const validators = {
     required: "Обязательное поле",
+    maxLengthFullname: 80,
+    maxLengthPassword: 32,
+    maxLengthPhoneNumber: 20,
     fullNamePattern: {
         value: /^([А-ЯA-Z][а-яa-zА-ЯA-Z\-]+\s?){2,}\s*$/,
         message: "Неправильный формат ФИО"
@@ -24,9 +27,5 @@ export const validators = {
     minPasswordLength: {
         value: 8,
         message: "Длина пароля должна быть более 8 символов"
-    },
-    maxPasswordLength: {
-        value: 32,
-        message: "Пароль слишком длинный, Вы перестарались"
-    },
+    }
 }

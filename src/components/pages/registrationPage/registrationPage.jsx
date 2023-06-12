@@ -16,6 +16,7 @@ const RegistrationForm = (props) => {
                 <div>
                     <label htmlFor="fullName">Имя</label>
                     <Input name={"fullName"} register={register} errors={errors}
+                           maxLength={validators.maxLengthFullname}
                            options={{
                                required: validators.required,
                                pattern: validators.fullNamePattern
@@ -24,6 +25,7 @@ const RegistrationForm = (props) => {
                 <div>
                     <label htmlFor="email">Почта</label>
                     <Input name={"email"} register={register} errors={errors} type={"email"}
+                           maxLength={validators.maxLengthFullname}
                            options={{
                                required: validators.required,
                                pattern: validators.emailPattern
@@ -34,7 +36,7 @@ const RegistrationForm = (props) => {
                 <div>
                     <label htmlFor="birthDate">Дата рождения</label>
                     <Input name={"birthDate"} register={register} errors={errors} type={"date"}
-                           max={new Date().toISOString().slice(0, 10)}
+                           max={validators.maxBirthDate.value}
                            options={{
                                required: validators.required,
                                max: validators.maxBirthDate,
@@ -44,6 +46,7 @@ const RegistrationForm = (props) => {
                 <div>
                     <label htmlFor="phoneNumber">Телефон</label>
                     <Input name={"phoneNumber"} register={register} errors={errors}
+                           maxLength={validators.maxLengthPhoneNumber}
                            options={{
                                required: validators.required
                            }}/>
@@ -53,6 +56,7 @@ const RegistrationForm = (props) => {
                 <div>
                     <label htmlFor="password">Пароль</label>
                     <Input name={"password"} register={register} errors={errors} type={"password"}
+                           maxLength={validators.maxLengthPassword}
                            options={{
                                required: validators.required,
                                minLength: validators.minPasswordLength,
@@ -63,6 +67,7 @@ const RegistrationForm = (props) => {
                 <div>
                     <label htmlFor="passwordConfirm">Подтверждение пароля</label>
                     <Input name={"passwordConfirm"} register={register} errors={errors} type={"password"}
+                           maxLength={validators.maxLengthPassword}
                            options={{
                                required: validators.required,
                                validate: (val) => watch("password") !== val ? "Пароли не совпадают" : undefined

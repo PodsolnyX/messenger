@@ -15,7 +15,8 @@ export function getUserAvatar(photoId) {
 export function getQueryFromIdList(idList) {
     let query = "";
     idList.forEach((id) => {
-        query += `userIds=${id}`
+        query += `userIds=${id}&`
     })
-    return query;
+
+    return query.substring(0, query.length - 1);;
 }

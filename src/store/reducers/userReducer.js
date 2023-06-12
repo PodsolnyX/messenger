@@ -92,6 +92,7 @@ export const getUsersListDetails = (idList) => (dispatch) => {
 }
 
 export const getUserList = (searchString) => (dispatch) => {
+    dispatch(setLoadingUser(true));
     userAPI.getUsersList(searchString)
         .then(response => {
             console.log(response.data)
@@ -99,6 +100,7 @@ export const getUserList = (searchString) => (dispatch) => {
                 dispatch(setUsersList(response.data))
             else if (response.status === 404)
                 dispatch(setUsersList({}))
+            dispatch(setLoadingUser(false));
         })
 }
 

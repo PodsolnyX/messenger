@@ -6,12 +6,12 @@ const
     SET_VIEW_CHANGE_PASSWORD = "SET_VIEW_CHANGE_PASSWORD",
     SET_VIEW_EDIT_PROFILE = "SET_VIEW_EDIT_PROFILE",
     SET_VIEW_USERS_LIST = "SET_VIEW_USERS_LIST",
-    SET_VIEW_FRIENDS_LIST = "SET_VIEW_FRIENDS_LIST"
+    SET_VIEW_FRIENDS_LIST = "SET_VIEW_FRIENDS_LIST",
+    SET_VIEW_FRIENDSHIP_REQUESTS_LIST = "SET_VIEW_FRIENDSHIP_REQUESTS_LIST"
 ;
 
 let initialState = {
     currentView: VIEWS.CHATS_LIST
-    // currentView: VIEWS.USERS_LIST
 };
 
 const generalReducer = (state = initialState, action) => {
@@ -46,6 +46,11 @@ const generalReducer = (state = initialState, action) => {
                 ...state,
                 currentView: VIEWS.FRIENDS_LIST
             };
+        case SET_VIEW_FRIENDSHIP_REQUESTS_LIST:
+            return {
+                ...state,
+                currentView: VIEWS.FRIENDSHIP_REQUESTS_LIST
+            };
         default:
             return state;
     }
@@ -57,5 +62,6 @@ export const setViewUsersList = () => ({type: SET_VIEW_USERS_LIST});
 export const setViewFriendsList = () => ({type: SET_VIEW_FRIENDS_LIST});
 export const setViewChangePassword = () => ({type: SET_VIEW_CHANGE_PASSWORD});
 export const setViewEditProfile = () => ({type: SET_VIEW_EDIT_PROFILE});
+export const setViewFriendshipRequests = () => ({type: SET_VIEW_FRIENDSHIP_REQUESTS_LIST});
 
 export default generalReducer;

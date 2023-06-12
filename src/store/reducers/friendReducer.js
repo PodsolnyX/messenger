@@ -1,12 +1,16 @@
 import {friendAPI} from "../../api/friendAPI";
 import {setErrorToast, setInformationToast, setSuccessToast} from "./toasterReducer";
 import {userAPI} from "../../api/userAPI";
+import {setLoadingUser} from "./userReducer";
 
-const SET_FRIENDS_LIST = "SET_FRIENDS_LIST",
-    SET_LOADING_FRIENDS = "SET_LOADING_FRIEND";
+const
+    SET_FRIENDS_LIST = "SET_FRIENDS_LIST",
+    SET_IS_USER_REQUESTS = "SET_IS_USER_REQUESTS",
+    SET_LOADING_FRIENDS = "SET_LOADING_FRIENDS";
 
 let initialState = {
     friendsList: [],
+    isUserRequests: "false",
     isLoading: false
 };
 
@@ -17,10 +21,15 @@ const friendsReducer = (state = initialState, action) => {
                 ...state,
                 friendsList: action.friendsList
             }
+        case SET_IS_USER_REQUESTS:
+            return {
+                ...state,
+                isUserRequests: action.isUserRequests
+            }
         case SET_LOADING_FRIENDS:
             return {
                 ...state,
-                isLoading: action.value
+                isLoading: action.isLoading
             }
         default:
             return state;
@@ -29,37 +38,41 @@ const friendsReducer = (state = initialState, action) => {
 
 export const setFriendsList = (friendsList) => ({type: SET_FRIENDS_LIST, friendsList});
 export const setLoadingFriends = (isLoading) => ({type: SET_LOADING_FRIENDS, isLoading});
+export const setIsUserRequests = (isUserRequests) => ({type: SET_IS_USER_REQUESTS, isUserRequests});
 
-export const getFriendsList = () => (dispatch) => {
-    setLoadingFriends(true);
-    friendAPI.getFriends()
-        .then(response => {
-            if (response.status === 200) {
-                userAPI.getUsersListDetails(response.data.items)
-                    .then(response => {
-                        dispatch(setFriendsList(response.data))
-                    })
-            }
-            else if (response.status === 404)
-                dispatch(setFriendsList([]))
-            setLoadingFriends(false);
-        })
+const getAndSetFriendUsersFromListId = (dispatch, response) => {
+    if (response.status === 200) {
+        userAPI.getUsersListDetails(response.data.items)
+            .then(response => {
+                dispatch(setFriendsList(response.data))
+                dispatch(setLoadingFriends(false));
+            })
+    }
+    else if (response.status === 404) {
+        dispatch(setFriendsList([]))
+        dispatch(setLoadingFriends(false));
+    }
+    else {
+        dispatch(setLoadingFriends(false));
+    }
 }
 
-export const getFriendshipRequests = () => (dispatch) => {
-    setLoadingFriends(true);
-    friendAPI.getFriendshipRequests()
-        .then(response => {
-            if (response.status === 200)
-                dispatch(setFriendsList(response.data))
-            else if (response.status === 404)
-                dispatch(setFriendsList([]))
-            setLoadingFriends(false);
-        })
+export const getFriendsList = () => (dispatch) => {
+    dispatch(setLoadingFriends(true));
+    dispatch(setFriendsList([]))
+    friendAPI.getFriends()
+        .then(response => getAndSetFriendUsersFromListId(dispatch, response))
+}
+
+export const getFriendshipRequests = (isUserRequests) => (dispatch) => {
+    dispatch(setLoadingFriends(true));
+    dispatch(setFriendsList([]))
+    friendAPI.getFriendshipRequests(isUserRequests)
+        .then(response => getAndSetFriendUsersFromListId(dispatch, response))
 }
 
 export const sendFriendshipRequest = (id) => (dispatch) => {
-    setLoadingFriends(true);
+    dispatch(setLoadingUser(true));
     friendAPI.sendFriendshipRequest(id)
         .then(response => {
             if (response.status === 200)
@@ -68,43 +81,46 @@ export const sendFriendshipRequest = (id) => (dispatch) => {
                 dispatch(setInformationToast("Вы уже отправили приглашение этому пользователю"))
             else
                 dispatch(setErrorToast("Беда"))
-            setLoadingFriends(false);
+            dispatch(setLoadingUser(false));
         })
 }
 
 export const deleteFriend = (id) => (dispatch) => {
-    setLoadingFriends(true);
+    dispatch(setLoadingFriends(true));
     friendAPI.deleteFriend(id)
         .then(response => {
-            if (response.status === 200)
+            if (response.status === 200) {
                 dispatch(setSuccessToast("Друг удалён"))
+                dispatch(getFriendsList())
+            }
             else
                 dispatch(setErrorToast("Беда"))
-            setLoadingFriends(false);
         })
 }
 
 export const acceptFriendshipRequest = (id) => (dispatch) => {
-    setLoadingFriends(true);
+    dispatch(setLoadingFriends(true));
     friendAPI.acceptFriendshipRequest(id)
         .then(response => {
-            if (response.status === 200)
-                dispatch(setSuccessToast("Приглашение принято"))
+            if (response.status === 200) {
+                dispatch(setSuccessToast("Приглашение принято"));
+                dispatch(getFriendshipRequests());
+            }
             else
                 dispatch(setErrorToast("Беда"))
-            setLoadingFriends(false);
         })
 }
 
 export const rejectFriendshipRequest = (id) => (dispatch) => {
-    setLoadingFriends(true);
+    dispatch(setLoadingFriends(true));
     friendAPI.rejectFriendshipRequest(id)
         .then(response => {
-            if (response.status === 200)
-                dispatch(setSuccessToast("Приглашение отклонено"))
+            if (response.status === 200) {
+                dispatch(setSuccessToast("Приглашение отклонено"));
+                dispatch(getFriendshipRequests());
+            }
             else
                 dispatch(setErrorToast("Беда"))
-            setLoadingFriends(false);
         })
 }
 

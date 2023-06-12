@@ -21,6 +21,7 @@ const ChangePasswordForm = (props) => {
             <div>
                 <label htmlFor="oldPassword">Старый пароль</label>
                 <Input name={"oldPassword"} register={register} errors={errors} type={"password"}
+                       maxLength={validators.maxLengthPassword}
                        options={{
                            required: validators.required
                        }}/>
@@ -28,6 +29,7 @@ const ChangePasswordForm = (props) => {
             <div>
                 <label htmlFor="newPassword">Новый пароль</label>
                 <Input name={"newPassword"} register={register} errors={errors} type={"password"}
+                       maxLength={validators.maxLengthPassword}
                        options={{
                            required: validators.required,
                            minLength: validators.minPasswordLength,

@@ -8,6 +8,7 @@ export const Input = (props) => {
                    placeholder = {props.placeholder && props.placeholder}
                    type = {props.type ? props.type : "text"}
                    max = {props.max && props.max}
+                   maxLength= {props.maxLength && props.maxLength}
                  />
             <span>{props.errors[props.name]?.message}</span>
         </div>
