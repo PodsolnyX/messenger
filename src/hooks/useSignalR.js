@@ -1,10 +1,16 @@
 import * as signalR from "@microsoft/signalr";
 import {useEffect, useState} from "react";
 import {useAuth} from "./useAuth";
+import {MESSAGE_TYPES, NUMBER_MESSAGE_TYPES_RATIO} from "../helpers/constants";
+import {useDispatch} from "react-redux";
+import {getChatMessages, getPreviewChats} from "../store/reducers/chatReducer";
+import {useParams} from "react-router-dom";
 
 export function useSignalR() {
 
     const user = useAuth();
+    const dispatch = useDispatch();
+    const params = useParams();
     const [connection, setConnection] = useState(null);
 
     useEffect(() => {
@@ -31,9 +37,23 @@ export function useSignalR() {
             connection.start().then(function () {
 
                 console.log("Connected to signalr")
+                console.log(444, params)
 
                 connection.on('ReceiveMessage', function (message) {
-                    console.log(JSON.parse(message));
+
+                    const newMessage = JSON.parse(message)
+                    console.log(newMessage);
+
+                    switch (NUMBER_MESSAGE_TYPES_RATIO[newMessage.Type]) {
+                        case MESSAGE_TYPES.NEW_MESSAGE:
+                            dispatch(getPreviewChats());
+                            // console.log(444, params)
+                            // if (params.chatId === newMessage.ChatId)
+                                dispatch(getChatMessages(newMessage.ChatId))
+                            break;
+                        default:
+                            break;
+                    }
                 });
 
 

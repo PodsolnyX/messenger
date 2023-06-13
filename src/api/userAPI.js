@@ -94,6 +94,20 @@ const editProfile = (data) => {
         .catch(error => error.response);
 }
 
+const getUserOnlinePreference = () => {
+    return instance.get(`/notification/online-preferences`)
+        .then(response =>  response)
+        .catch(error => error.response);
+}
+
+const setUserOnlinePreference = (type) => {
+    return instance.put(`/notification/online-preferences`, {
+        type: type
+    })
+        .then(response =>  response)
+        .catch(error => error.response);
+}
+
 export const userAPI = {
     registerUser,
     loginUser,
@@ -104,6 +118,8 @@ export const userAPI = {
     changePassword,
     editProfile,
     getUserDetails,
-    getUsersListDetails
+    getUsersListDetails,
+    getUserOnlinePreference,
+    setUserOnlinePreference
 };
 

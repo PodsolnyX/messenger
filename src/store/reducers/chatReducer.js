@@ -86,6 +86,7 @@ export const getChatMessages = (id, callback) => (dispatch) => {
     dispatch(setLoadingMessages(true));
     chatAPI.getMessages(id)
         .then(response => {
+            console.log(response)
             if (response.status === 200)
                 dispatch(setMessages(response.data.items))
             else if (response.status === 404)

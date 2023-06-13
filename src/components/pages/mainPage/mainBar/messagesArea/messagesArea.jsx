@@ -2,7 +2,7 @@ import "./messagesArea.css"
 import MessageItem from "../messageItem/messageItem";
 import MessageInput from "../messageInput/messageInput";
 import {useEffect} from "react";
-import {getChatMessages} from "../../../../../store/reducers/chatReducer";
+import {getChatMessages, sendMessage} from "../../../../../store/reducers/chatReducer";
 import {useDispatch, useSelector} from "react-redux";
 import Loader from "../../../../other/loader/loader";
 import {useNavigate, useParams} from "react-router-dom";
@@ -21,7 +21,6 @@ const MessagesArea = (props) => {
     useEffect(() => {
         dispatch(getChatMessages(params.chatId, () => navigate("/")));
     }, [params.chatId])
-
 
     return (
 
@@ -47,7 +46,7 @@ const MessagesArea = (props) => {
                     </div>
                 </div>
                 <div className={"input-container"}>
-                    <MessageInput/>
+                    <MessageInput callback={(textMessage) => dispatch(sendMessage(params.chatId, textMessage))}/>
                 </div>
             </div>
     );

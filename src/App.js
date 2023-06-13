@@ -7,15 +7,11 @@ import {RequireAuth} from "./hocs/requireAuth";
 import LoginPage from "./components/pages/loginPage/loginPage";
 import {UnrequireAuth} from "./hocs/unrequireAuth";
 import RegistrationPage from "./components/pages/registrationPage/registrationPage";
-import {useRefreshToken} from "./hooks/useRefreshToken";
 import {useUserInformation} from "./hooks/useUserInformation";
-import {useSignalR} from "./hooks/useSignalR";
 
 function App() {
 
     useUserInformation();
-    useRefreshToken();
-    useSignalR();
 
     return (
         <div>

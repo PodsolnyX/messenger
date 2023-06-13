@@ -11,6 +11,8 @@ import {setViewChangePassword, setViewChatList, setViewEditProfile} from "../../
 import {getUserAvatar} from "../../../../../helpers/helpers";
 import Navbar from "../../../../other/navbar/navbar";
 import Icon from "../../../../other/icon/icon";
+import {setUserOnlinePreference} from "../../../../../store/reducers/userReducer";
+import {ONLINE_PREFERENCE_TYPE} from "../../../../../helpers/constants";
 
 
 const UserProfile = (props) => {
@@ -48,6 +50,10 @@ const UserProfile = (props) => {
                     <div className={"profile-btn-secondary"} onClick={() => dispatch(setViewChangePassword())}>
                         <Icon clickable={false} icon={passwordIcon} size={25}/>
                         Изменить пароль
+                    </div>
+                    <div className={"profile-btn-secondary"}
+                         onClick={() => dispatch(setUserOnlinePreference(ONLINE_PREFERENCE_TYPE.EVERYONE))}>
+                        Изменить онлайн-преференс
                     </div>
                     <div className={"profile-btn-secondary"} onClick={user.signOut}>
                         <Icon clickable={false} icon={exitIcon} size={25}/>

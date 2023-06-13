@@ -3,15 +3,15 @@ import clipIcon from "../../../../../assets/icons/clip.svg";
 import sendIcon from "../../../../../assets/icons/send.svg";
 import Icon from "../../../../other/icon/icon";
 import {useState} from "react";
+import {convert} from "html-to-text";
 
 const MessageInput = (props) => {
 
     const [value, setValue] = useState("");
 
     const onInput = (event) => {
-        // console.log(event.target.innerHTML)
+        setValue(convert(event.target.innerHTML));
     }
-
 
     return (
         <div className={"message-input-container"}>
@@ -25,7 +25,7 @@ const MessageInput = (props) => {
                     <Icon icon={clipIcon} size={20}/>
                 </div>
             </div>
-            <div className={"button-send-message"}>
+            <div className={"button-send-message"} onClick={() => props.callback(value)}>
                 <Icon icon={sendIcon} size={30}/>
             </div>
         </div>

@@ -1,6 +1,6 @@
 import {useDispatch} from "react-redux";
 import {useEffect} from "react";
-import {getUserProfile} from "../store/reducers/userReducer";
+import {getUserOnlinePreference, getUserProfile} from "../store/reducers/userReducer";
 import {useAuth} from "./useAuth";
 
 export function useUserInformation () {
@@ -10,6 +10,7 @@ export function useUserInformation () {
     useEffect(() => {
         if (user.isAuth) {
             dispatch(getUserProfile());
+            dispatch(getUserOnlinePreference())
         }
     }, [user.isAuth])
 }

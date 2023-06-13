@@ -28,6 +28,7 @@
 .message-item > p {
     margin: 0;
     color: var(--color-text-primary);
+    white-space: pre-line;
 }
 .message-item > div {
     display: flex;

@@ -160,6 +160,18 @@ export const editInfoProfile = (data) => (dispatch, getState) => {
     editProfile(dispatch, data);
 }
 
+export const getUserOnlinePreference = () => (dispatch) => {
+    userAPI.getUserOnlinePreference().then(response => {
+        console.log(response.data);
+    })
+}
+
+export const setUserOnlinePreference = (type) => (dispatch) => {
+    userAPI.setUserOnlinePreference(type).then(response => {
+        console.log(response.data);
+    })
+}
+
 export const editAvatarProfile = (avatarFile) => (dispatch, getState) => {
     dispatch(setLoadingUser(true));
 
@@ -186,5 +198,7 @@ const editProfile = (dispatch, data) => {
         dispatch(setLoadingUser(false))
     })
 }
+
+
 
 export default userReducer;
