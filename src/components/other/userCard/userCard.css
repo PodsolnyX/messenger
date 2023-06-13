@@ -9,8 +9,20 @@
     border-radius: 8px;
 }
 
+.user-card-clickable {
+    cursor: pointer;
+}
+
 .user-card-container:hover{
     background-color: var(--color-bg-secondary-hover);
+}
+
+.user-card-selected {
+    background-color: var(--color-bg-block-4);
+}
+
+.user-card-selected:hover {
+    background-color: var(--color-bg-block-4-hover);
 }
 
 .user-card-avatar {

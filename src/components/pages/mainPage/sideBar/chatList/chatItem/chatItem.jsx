@@ -4,8 +4,13 @@ import UserCard from "../../../../../other/userCard/userCard";
 
 const ChatItem = (props) => {
 
+    console.log(props)
+
     return (
-        <UserCard avatarLink={getUserAvatar(props.chatAvatarId)}>
+        <UserCard avatarLink={getUserAvatar(props.chatAvatarId)}
+                  isSelected={props.isSelected}
+                  callback={() => props.navigate(`/${props.id}`)}
+        >
             <div className={"chat-item-info"}>
                 <div className={"text-primary"} style={{fontSize: "14px"}}>{props.chatName}</div>
                 <div className={"text-tertiary"}>{props.time}</div>
@@ -19,7 +24,7 @@ const ChatItem = (props) => {
                     }
                 </div>
                 {
-                    props.unviewedMessages > -1 &&
+                    props.unviewedMessages > 0 &&
                     <div className={"chat-item-messages-count"}>{props.unviewedMessages}</div>
                 }
             </div>

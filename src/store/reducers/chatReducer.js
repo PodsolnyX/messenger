@@ -2,11 +2,16 @@ import {chatAPI} from "../../api/chatAPI";
 import {setErrorToast, setSuccessToast} from "./toasterReducer";
 
 const SET_PREVIEW_CHATS = "SET_PREVIEW_CHATS",
-    SET_LOADING_CHAT = "SET_LOADING_CHAT";
+    SET_MESSAGES = "SET_MESSAGES",
+    SET_LOADING_CHAT = "SET_LOADING_CHAT",
+    SET_LOADING_MESSAGES = "SET_LOADING_MESSAGES"
+;
 
 let initialState = {
     previewChats: [],
-    isLoading: false
+    messages: [],
+    isLoading: false,
+    isLoadingMessages: false
 };
 
 const chatReducer = (state = initialState, action) => {
@@ -16,10 +21,20 @@ const chatReducer = (state = initialState, action) => {
                 ...state,
                 previewChats: action.previewChats
             }
+        case SET_MESSAGES:
+            return {
+                ...state,
+                messages: action.messages
+            }
         case SET_LOADING_CHAT:
             return {
                 ...state,
                 isLoading: action.isLoading
+            }
+        case SET_LOADING_MESSAGES:
+            return {
+                ...state,
+                isLoadingMessages: action.isLoading
             }
         default:
             return state;
@@ -27,7 +42,9 @@ const chatReducer = (state = initialState, action) => {
 }
 
 export const setPreviewChats = (previewChats) => ({type: SET_PREVIEW_CHATS, previewChats});
+export const setMessages = (messages) => ({type: SET_MESSAGES, messages});
 export const setLoadingChat = (isLoading) => ({type: SET_LOADING_CHAT, isLoading});
+export const setLoadingMessages = (isLoading) => ({type: SET_LOADING_MESSAGES, isLoading});
 
 export const getPreviewChats = () => (dispatch) => {
     dispatch(setLoadingChat(true));
@@ -38,6 +55,18 @@ export const getPreviewChats = () => (dispatch) => {
             else if (response.status === 404)
                 dispatch(setPreviewChats([]))
             dispatch(setLoadingChat(false));
+        })
+}
+
+export const getChatMessages = (id) => (dispatch) => {
+    dispatch(setLoadingMessages(true));
+    chatAPI.getMessages(id)
+        .then(response => {
+            if (response.status === 200)
+                dispatch(setMessages(response.data.items))
+            else if (response.status === 404)
+                dispatch(setMessages([]))
+            dispatch(setLoadingMessages(false));
         })
 }
 

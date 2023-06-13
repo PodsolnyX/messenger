@@ -11,7 +11,7 @@ import FriendshipRequestsList from "./friendshipRequestsList/friendshipRequestsL
 
 const SideBar = () => {
 
-    const currentView = useSelector((state) => state.general.currentView);
+    const currentView = useSelector((state) => state.general.currentSideBarView);
 
     return (
       <div className={"side-bar"}>

@@ -1,0 +1,20 @@
+
+.main-bar {
+    background-color: var(--color-bg-primary);
+    height: 100%;
+    width: 100%;
+    position: relative;
+}
+
+@media (max-width: 800px) {
+    .main-bar {
+        display: none;
+    }
+}
+
+.main-bar-content {
+    height: 100%;
+    width: 100%;
+}
+
+

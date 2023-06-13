@@ -1,5 +1,5 @@
 import "./mainPage.css"
-import MessagesArea from "./messagesArea/messagesArea";
+import MainBar from "./mainBar/mainBar";
 import SideBar from "./sideBar/sideBar";
 
 const MainPage = (props) => {
@@ -8,7 +8,7 @@ const MainPage = (props) => {
         <div>
             <div className={"main-container"}>
                 <SideBar/>
-                <MessagesArea/>
+                <MainBar/>
             </div>
         </div>
 

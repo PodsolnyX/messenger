@@ -21,7 +21,7 @@ function App() {
         <div>
             <ToasterContainer/>
             <Routes>
-                <Route path="/" element={
+                <Route path="/:chatId?" element={
                     <RequireAuth>
                         <MainPage/>
                     </RequireAuth>

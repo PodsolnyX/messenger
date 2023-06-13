@@ -7,49 +7,62 @@ const
     SET_VIEW_EDIT_PROFILE = "SET_VIEW_EDIT_PROFILE",
     SET_VIEW_USERS_LIST = "SET_VIEW_USERS_LIST",
     SET_VIEW_FRIENDS_LIST = "SET_VIEW_FRIENDS_LIST",
-    SET_VIEW_FRIENDSHIP_REQUESTS_LIST = "SET_VIEW_FRIENDSHIP_REQUESTS_LIST"
+    SET_VIEW_FRIENDSHIP_REQUESTS_LIST = "SET_VIEW_FRIENDSHIP_REQUESTS_LIST",
+    SET_VIEW_EMPTY_MAIN_BAR = "SET_VIEW_EMPTY_MAIN_BAR",
+    SET_VIEW_MESSAGES_AREA = "SET_VIEW_MESSAGES_AREA"
 ;
 
 let initialState = {
-    currentView: VIEWS.CHATS_LIST
+    currentSideBarView: VIEWS.CHATS_LIST,
+    currentMessagesArea: VIEWS.EMPTY_MAIN_BAR
 };
 
 const generalReducer = (state = initialState, action) => {
     switch (action.type) {
+        case SET_VIEW_EMPTY_MAIN_BAR:
+            return {
+                ...state,
+                currentMessagesArea: VIEWS.EMPTY_MAIN_BAR
+            };
+        case SET_VIEW_MESSAGES_AREA:
+            return {
+                ...state,
+                currentMessagesArea: VIEWS.MESSAGES_AREA
+            };
         case SET_VIEW_PROFILE:
             return {
                 ...state,
-                currentView: VIEWS.PROFILE
+                currentSideBarView: VIEWS.PROFILE
             };
         case SET_VIEW_CHAT_LIST:
             return {
                 ...state,
-                currentView: VIEWS.CHATS_LIST
+                currentSideBarView: VIEWS.CHATS_LIST
             };
         case SET_VIEW_CHANGE_PASSWORD:
             return {
                 ...state,
-                currentView: VIEWS.CHANGE_PASSWORD
+                currentSideBarView: VIEWS.CHANGE_PASSWORD
             };
         case SET_VIEW_EDIT_PROFILE:
             return {
                 ...state,
-                currentView: VIEWS.EDIT_PROFILE
+                currentSideBarView: VIEWS.EDIT_PROFILE
             };
         case SET_VIEW_USERS_LIST:
             return {
                 ...state,
-                currentView: VIEWS.USERS_LIST
+                currentSideBarView: VIEWS.USERS_LIST
             };
         case SET_VIEW_FRIENDS_LIST:
             return {
                 ...state,
-                currentView: VIEWS.FRIENDS_LIST
+                currentSideBarView: VIEWS.FRIENDS_LIST
             };
         case SET_VIEW_FRIENDSHIP_REQUESTS_LIST:
             return {
                 ...state,
-                currentView: VIEWS.FRIENDSHIP_REQUESTS_LIST
+                currentSideBarView: VIEWS.FRIENDSHIP_REQUESTS_LIST
             };
         default:
             return state;
@@ -57,6 +70,8 @@ const generalReducer = (state = initialState, action) => {
 }
 
 export const setViewProfile = () => ({type: SET_VIEW_PROFILE});
+export const setViewEmptyMainBar = () => ({type: SET_VIEW_EMPTY_MAIN_BAR});
+export const setViewMessagesArea = () => ({type: SET_VIEW_MESSAGES_AREA});
 export const setViewChatList = () => ({type: SET_VIEW_CHAT_LIST});
 export const setViewUsersList = () => ({type: SET_VIEW_USERS_LIST});
 export const setViewFriendsList = () => ({type: SET_VIEW_FRIENDS_LIST});
