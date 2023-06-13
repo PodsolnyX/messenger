@@ -26,3 +26,4 @@ export const USER_REQUESTS_OPTIONS = [
 ]
 
 export const NULL_PHOTO = "00000000-0000-0000-0000-000000000000";
+export const NULL_NAME = "NULL";

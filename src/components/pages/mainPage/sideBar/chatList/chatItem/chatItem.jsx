@@ -4,8 +4,6 @@ import UserCard from "../../../../../other/userCard/userCard";
 
 const ChatItem = (props) => {
 
-    console.log(props)
-
     return (
         <UserCard avatarLink={getUserAvatar(props.chatAvatarId)}
                   isSelected={props.isSelected}

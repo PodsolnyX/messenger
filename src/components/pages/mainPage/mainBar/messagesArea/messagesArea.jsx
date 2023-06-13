@@ -5,31 +5,33 @@ import {useEffect} from "react";
 import {getChatMessages} from "../../../../../store/reducers/chatReducer";
 import {useDispatch, useSelector} from "react-redux";
 import Loader from "../../../../other/loader/loader";
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 
 
 const MessagesArea = (props) => {
 
     const dispatch = useDispatch();
     const params = useParams();
+    const navigate = useNavigate();
 
     const isLoading = useSelector(state => state.chat.isLoadingMessages);
     const messages = useSelector(state => state.chat.messages);
     const userId = useSelector(state => state.user.userData?.id)
 
     useEffect(() => {
-        dispatch(getChatMessages(params.chatId));
+        dispatch(getChatMessages(params.chatId, () => navigate("/")));
     }, [params.chatId])
 
 
     return (
-        <div className={"main-bar-content"}>
-            <div className={"messages-list-container"}>
-                <div className={"messages-list"}>
-                    {
-                        isLoading ? <div className={"messages-list-empty"}>
-                                <Loader/>
-                            </div> :
+
+        isLoading ? <div className={"messages-list-empty"}>
+                <Loader/>
+            </div> :
+            <div className={"main-bar-content"}>
+                <div className={"messages-list-container"}>
+                    <div className={"messages-list"}>
+                        {
                             messages.length === 0 ?
                                 <div className={"messages-list-empty"}>
                                     В чате ещё нет сообщений. <br/> Напишите первым!
@@ -41,13 +43,13 @@ const MessagesArea = (props) => {
                                         key={message.id}
                                     />
                                 )
-                    }
+                        }
+                    </div>
+                </div>
+                <div className={"input-container"}>
+                    <MessageInput/>
                 </div>
             </div>
-            <div className={"input-container"}>
-                <MessageInput/>
-            </div>
-        </div>
     );
 }
 

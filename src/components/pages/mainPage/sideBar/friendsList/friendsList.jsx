@@ -15,10 +15,12 @@ import Icon from "../../../../other/icon/icon";
 import notificationIcon from "./../../../../../assets/icons/notification.svg"
 import FriendItem from "./friendItem/friendItem";
 import {createPrivateChat} from "../../../../../store/reducers/chatReducer";
+import {useNavigate} from "react-router-dom";
 
 const FriendsList = (props) => {
 
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const friendsList = useSelector(state => state.friends.friendsList);
     const isLoading = useSelector(state => state.friends.isLoading);
 
@@ -30,8 +32,8 @@ const FriendsList = (props) => {
         dispatch(deleteFriend(userId));
     }
 
-    const onChat = (data) => {
-        dispatch(createPrivateChat(data));
+    const onChat = (userId) => {
+        dispatch(createPrivateChat(userId, (chatId) => navigate(`/${chatId}`)));
     }
 
     return (

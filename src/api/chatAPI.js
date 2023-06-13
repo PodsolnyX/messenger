@@ -1,4 +1,5 @@
 import {instance} from "./instance";
+import {NULL_NAME, NULL_PHOTO} from "../helpers/constants";
 
 const getPreviewChats = () => {
     return instance.get(`/backend/chats/preview`)
@@ -18,12 +19,12 @@ const getChatDetails = (id) => {
         .catch(error => error.response);
 }
 
-const createPrivateChat = (data) => {
+const createPrivateChat = (userId) => {
     return instance.post(`/backend/chat/private/create`,
         {
-            userId: data.userId,
-            avatarId: data.avatarId,
-            chatName: data.chatName
+            userId: userId,
+            avatarId: NULL_PHOTO,
+            chatName: NULL_NAME
         })
         .then(response =>  response)
         .catch(error => error.response);

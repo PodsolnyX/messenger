@@ -1,5 +1,7 @@
 import {chatAPI} from "../../api/chatAPI";
 import {setErrorToast, setSuccessToast} from "./toasterReducer";
+import {setViewChatList} from "./generalReducer";
+import {userAPI} from "../../api/userAPI";
 
 const SET_PREVIEW_CHATS = "SET_PREVIEW_CHATS",
     SET_MESSAGES = "SET_MESSAGES",
@@ -46,19 +48,40 @@ export const setMessages = (messages) => ({type: SET_MESSAGES, messages});
 export const setLoadingChat = (isLoading) => ({type: SET_LOADING_CHAT, isLoading});
 export const setLoadingMessages = (isLoading) => ({type: SET_LOADING_MESSAGES, isLoading});
 
-export const getPreviewChats = () => (dispatch) => {
-    dispatch(setLoadingChat(true));
-    chatAPI.getPreviewChats()
-        .then(response => {
-            if (response.status === 200)
-                dispatch(setPreviewChats(response.data.userChats.items))
-            else if (response.status === 404)
-                dispatch(setPreviewChats([]))
-            dispatch(setLoadingChat(false));
-        })
+async function getChatsWithParsedPrivateChats (chat, userId) {
+    if (chat.isPrivate) {
+        const chatUserId = chat.users[0] !== userId ? chat.users[0] : chat.users[1];
+        const response = await userAPI.getUserDetails(chatUserId);
+        return {
+            ...chat,
+            chatAvatarId: response.data.photoId,
+            chatName: response.data.fullName
+        }
+    } else return chat
 }
 
-export const getChatMessages = (id) => (dispatch) => {
+export const getPreviewChats = () => async (dispatch, getState) => {
+    dispatch(setLoadingChat(true));
+
+    const response = await chatAPI.getPreviewChats();
+    if (response.status === 200) {
+        const userId = getState().user.userData?.id;
+        if (userId) {
+            const data = await Promise.all(response.data.userChats.items.map(async (chat) =>
+                await getChatsWithParsedPrivateChats(chat, userId)
+            ))
+            dispatch(setPreviewChats(data))
+            dispatch(setLoadingChat(false));
+        }
+    }
+    else if (response.status === 404) {
+        dispatch(setPreviewChats([]))
+        dispatch(setLoadingChat(false));
+    }
+    else dispatch(setLoadingChat(false));
+}
+
+export const getChatMessages = (id, callback) => (dispatch) => {
     dispatch(setLoadingMessages(true));
     chatAPI.getMessages(id)
         .then(response => {
@@ -66,17 +89,22 @@ export const getChatMessages = (id) => (dispatch) => {
                 dispatch(setMessages(response.data.items))
             else if (response.status === 404)
                 dispatch(setMessages([]))
+            else {
+                callback();
+                dispatch(setErrorToast("Чат не найден"))
+            }
             dispatch(setLoadingMessages(false));
         })
 }
 
-export const createPrivateChat = (data) => (dispatch) => {
+export const createPrivateChat = (userId, callback) => (dispatch) => {
     dispatch(setLoadingChat(true));
-    chatAPI.createPrivateChat(data)
+    chatAPI.createPrivateChat(userId)
         .then(response => {
-            if (response.status === 200)
-                dispatch(setSuccessToast("Чат создан"))
-            else
+            if (response.status === 200) {
+                callback(response.data);
+                dispatch(setViewChatList())
+            } else
                 dispatch(setErrorToast("Беда"))
             dispatch(setLoadingChat(false));
         })
