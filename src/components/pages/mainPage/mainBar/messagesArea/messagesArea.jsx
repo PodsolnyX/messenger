@@ -36,7 +36,7 @@ const MessagesArea = (props) => {
                                 <div className={"messages-list-empty"}>
                                     В чате ещё нет сообщений. <br/> Напишите первым!
                                 </div> :
-                                messages.map(message =>
+                                messages.slice(0).reverse().map(message =>
                                     <MessageItem
                                         {...message}
                                         isIncoming={message.senderId !== userId}

@@ -8,7 +8,7 @@ const getPreviewChats = () => {
 }
 
 const getMessages = (id) => {
-    return instance.get(`/backend/chat/${id}/messages`)
+    return instance.get(`/backend/chat/${id}/messages?pageSize=50`)
         .then(response =>  response)
         .catch(error => error.response);
 }

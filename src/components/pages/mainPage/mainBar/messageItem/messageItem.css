@@ -13,8 +13,7 @@
     padding: 8px 10px 8px 16px;
     border-radius: 16px;
     display: flex;
-    justify-content: space-between;
-    align-items: end;
+    flex-direction: column;
     margin: 6px 0;
 }
 
@@ -31,7 +30,9 @@
     color: var(--color-text-primary);
 }
 .message-item > div {
-    margin-left: 3px;
+    display: flex;
+    justify-content: end;
+    padding-left: 20px;
     font-size: 12px;
     color: var(--color-text-secondary);
 }

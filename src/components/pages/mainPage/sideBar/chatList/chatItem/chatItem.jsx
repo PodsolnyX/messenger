@@ -11,7 +11,7 @@ const ChatItem = (props) => {
         >
             <div className={"chat-item-info"}>
                 <div className={"text-primary"} style={{fontSize: "14px"}}>{props.chatName}</div>
-                <div className={"text-tertiary"}>{props.time}</div>
+                <div className={"text-tertiary"}>{props.lastMessage?.createdTime.slice(11, 16)}</div>
             </div>
             <div className={"chat-item-details"}>
                 <div className={"text-secondary text-message"} style={{fontSize: "14px"}}>

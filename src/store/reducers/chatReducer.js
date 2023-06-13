@@ -2,6 +2,7 @@ import {chatAPI} from "../../api/chatAPI";
 import {setErrorToast, setSuccessToast} from "./toasterReducer";
 import {setViewChatList} from "./generalReducer";
 import {userAPI} from "../../api/userAPI";
+import {messageAPI} from "../../api/messageAPI";
 
 const SET_PREVIEW_CHATS = "SET_PREVIEW_CHATS",
     SET_MESSAGES = "SET_MESSAGES",
@@ -107,6 +108,16 @@ export const createPrivateChat = (userId, callback) => (dispatch) => {
             } else
                 dispatch(setErrorToast("Беда"))
             dispatch(setLoadingChat(false));
+        })
+}
+
+export const sendMessage = (chatId, textMessage) => (dispatch) => {
+    messageAPI.sendMessage(chatId, textMessage)
+        .then(response => {
+            if (response.status === 200) {
+                dispatch(getChatMessages(chatId));
+            } else
+                dispatch(setErrorToast("Беда"))
         })
 }
 

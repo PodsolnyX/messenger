@@ -2,16 +2,25 @@ import "./messageInput.css"
 import clipIcon from "../../../../../assets/icons/clip.svg";
 import sendIcon from "../../../../../assets/icons/send.svg";
 import Icon from "../../../../other/icon/icon";
+import {useState} from "react";
 
 const MessageInput = (props) => {
+
+    const [value, setValue] = useState("");
+
+    const onInput = (event) => {
+        // console.log(event.target.innerHTML)
+    }
+
+
     return (
         <div className={"message-input-container"}>
             <div className={"message-input"}>
-                        <span
+                        <div
+                            onInput={onInput}
                             className="textarea"
                             contentEditable>
-
-                        </span>
+                        </div>
                 <div className={"button-attach-file"}>
                     <Icon icon={clipIcon} size={20}/>
                 </div>
