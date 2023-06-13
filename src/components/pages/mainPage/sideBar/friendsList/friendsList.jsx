@@ -1,5 +1,5 @@
 import "./friendsList.css"
-import NavBack from "../../../../other/navBack/navBack";
+import Navbar from "../../../../other/navbar/navbar";
 import {useDispatch, useSelector} from "react-redux";
 import {
     setViewChatList,
@@ -14,6 +14,7 @@ import {deleteFriend, getFriendsList} from "../../../../../store/reducers/friend
 import Icon from "../../../../other/icon/icon";
 import notificationIcon from "./../../../../../assets/icons/notification.svg"
 import FriendItem from "./friendItem/friendItem";
+import {createPrivateChat} from "../../../../../store/reducers/chatReducer";
 
 const FriendsList = (props) => {
 
@@ -29,13 +30,17 @@ const FriendsList = (props) => {
         dispatch(deleteFriend(userId));
     }
 
+    const onChat = (data) => {
+        dispatch(createPrivateChat(data));
+    }
+
     return (
         <div className={"side-bar-component-container"}>
-            <NavBack callback={() => dispatch(setViewChatList())} title={"Друзья"}>
+            <Navbar callback={() => dispatch(setViewChatList())} title={"Друзья"}>
                 <div className={"friends-note-container"}>
                     <Icon icon={notificationIcon} size={25} callback={() => dispatch(setViewFriendshipRequests())}/>
                 </div>
-            </NavBack>
+            </Navbar>
             <div className={"side-bar-content overflowY"}>
                     {
                         isLoading ? <Loader/> :
@@ -46,6 +51,7 @@ const FriendsList = (props) => {
                                 friendsList.map((user) => <FriendItem
                                         {...user} key={user.id}
                                         onDelete={onDelete}
+                                        onChat={onChat}
                                 />
                                 )
                     }

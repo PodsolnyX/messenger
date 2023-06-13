@@ -1,5 +1,5 @@
 import "./changePassword.css"
-import NavBack from "../../../../other/navBack/navBack";
+import Navbar from "../../../../other/navbar/navbar";
 import {useDispatch, useSelector} from "react-redux";
 import {setViewProfile} from "../../../../../store/reducers/generalReducer";
 import {changePassword} from "../../../../../store/reducers/userReducer";
@@ -53,7 +53,7 @@ const ChangePassword = () => {
 
     return (
         <div className={"side-bar-component-container"}>
-            <NavBack title={"Изменение пароля"} callback={() => dispatch(setViewProfile())}/>
+            <Navbar title={"Изменение пароля"} callback={() => dispatch(setViewProfile())}/>
             <div className={"side-bar-content"}>
                 <ChangePasswordForm onSubmit={onSubmit} isLoading={isLoading}/>
             </div>

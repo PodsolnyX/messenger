@@ -1,5 +1,5 @@
 import "./usersList.css"
-import NavBack from "../../../../other/navBack/navBack";
+import Navbar from "../../../../other/navbar/navbar";
 import {useDispatch, useSelector} from "react-redux";
 import { setViewFriendsList} from "../../../../../store/reducers/generalReducer";
 import UserItem from "./userItem/userItem";
@@ -27,9 +27,9 @@ const UsersList = (props) => {
 
     return (
         <div className={"side-bar-component-container"}>
-            <NavBack callback={() => dispatch(setViewFriendsList())}>
+            <Navbar callback={() => dispatch(setViewFriendsList())}>
                 <SearchInput searchString={searchString} setSearchString={setUserSearchString}/>
-            </NavBack>
+            </Navbar>
             <div className={"side-bar-content overflowY"}>
                 {
                     isLoading ? <Loader/> :

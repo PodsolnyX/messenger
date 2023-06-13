@@ -1,4 +1,4 @@
-import NavBack from "../../../../other/navBack/navBack";
+import Navbar from "../../../../other/navbar/navbar";
 import {useDispatch, useSelector} from "react-redux";
 import {setViewFriendsList} from "../../../../../store/reducers/generalReducer";
 import {useEffect} from "react";
@@ -33,7 +33,7 @@ const FriendshipRequestsList = (props) => {
 
     return (
         <div className={"side-bar-component-container"}>
-            <NavBack callback={() => dispatch(setViewFriendsList())} title={"Заявки в друзья"}>
+            <Navbar callback={() => dispatch(setViewFriendsList())} title={"Заявки в друзья"}>
                 <div className={"friends-note-container"}>
                     <SelectInput
                         callback={(value) => dispatch(setIsUserRequests(value))}
@@ -41,7 +41,7 @@ const FriendshipRequestsList = (props) => {
                         options={USER_REQUESTS_OPTIONS}
                     />
                 </div>
-            </NavBack>
+            </Navbar>
             <div className={"side-bar-content overflowY"}>
                     {
                         isLoading ? <Loader/> :

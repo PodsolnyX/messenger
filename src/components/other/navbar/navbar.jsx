@@ -1,33 +1,23 @@
+import backIcon from "./../../../assets/icons/back.svg"
 import "./navbar.css"
-import {useAuth} from "../../../hooks/useAuth";
-import {useDispatch, useSelector} from "react-redux";
-import {setViewChatList, setViewProfile} from "../../../store/reducers/generalReducer";
-import {getUserAvatar} from "../../../helpers/helpers";
+import Icon from "../icon/icon";
 
 const Navbar = (props) => {
 
-    const user = useAuth();
-    const dispatch = useDispatch();
-    const userData = useSelector((state) => state.user.userData);
-
-    const avatarLink = getUserAvatar(userData?.photoId);
-
-    const onProfile = () => {
-        dispatch(setViewProfile());
-    }
-
-    const onContacts = () => {
-        dispatch(setViewChatList());
-    }
+    const isBack = props.isBack === undefined || props.isBack === true;
 
     return (
-        <div className={"navbar-container"}>
-            <div className={"navbar-logo text-primary"} onClick={onContacts}>Messenger</div>
-            <div className={"navbar-settings"}>
-                <div className={"nav-user"}>
-                    <img src={avatarLink} alt="account" onClick={onProfile}/>
+        <div className={"nav-back-container"}>
+            {
+                isBack &&
+                <div>
+                    <Icon icon={props.icon ? props.icon : backIcon} size={25} callback={props.callback}/>
                 </div>
-            </div>
+            }
+            {
+                props.title && <div className={"title-nav-back"}>{props.title}</div>
+            }
+            { props.children }
         </div>
     );
 }

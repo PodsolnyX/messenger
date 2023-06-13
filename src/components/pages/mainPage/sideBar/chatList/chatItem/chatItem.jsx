@@ -1,27 +1,29 @@
 import "./chatItem.css"
-import UserItem from "../../usersList/userItem/userItem";
 import {getUserAvatar} from "../../../../../../helpers/helpers";
+import UserCard from "../../../../../other/userCard/userCard";
 
 const ChatItem = (props) => {
 
-    const chatAvatarLink = getUserAvatar(props.chatAvatarId);
-
     return (
-        <UserItem>
+        <UserCard avatarLink={getUserAvatar(props.chatAvatarId)}>
             <div className={"chat-item-info"}>
                 <div className={"text-primary"} style={{fontSize: "14px"}}>{props.chatName}</div>
                 <div className={"text-tertiary"}>{props.time}</div>
             </div>
             <div className={"chat-item-details"}>
                 <div className={"text-secondary text-message"} style={{fontSize: "14px"}}>
-                    {props.lastMessage.textMessage}
+                    {
+                        props.lastMessage?.textMessage ?
+                        props.lastMessage.textMessage :
+                            "Новый чат"
+                    }
                 </div>
                 {
-                    props.unviewedMessages > 0 &&
+                    props.unviewedMessages > -1 &&
                     <div className={"chat-item-messages-count"}>{props.unviewedMessages}</div>
                 }
             </div>
-        </UserItem>
+        </UserCard>
     );
 }
 

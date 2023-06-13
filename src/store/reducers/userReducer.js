@@ -68,7 +68,6 @@ export const setUserSearchString = (searchString) => ({type: SET_USER_SEARCH_STR
 export const getUserProfile = () => (dispatch) => {
     userAPI.getProfile()
         .then(response => {
-            console.log(response.data)
             if (response.status === 200)
                 dispatch(setUserProfile(response.data));
             else dispatch(clearUserData())
@@ -95,7 +94,6 @@ export const getUserList = (searchString) => (dispatch) => {
     dispatch(setLoadingUser(true));
     userAPI.getUsersList(searchString)
         .then(response => {
-            console.log(response.data)
             if (response.status === 200)
                 dispatch(setUsersList(response.data))
             else if (response.status === 404)

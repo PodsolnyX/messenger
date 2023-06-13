@@ -7,7 +7,7 @@ import {getPreviewChats} from "../../../../../store/reducers/chatReducer";
 import Loader from "../../../../other/loader/loader";
 import {setViewFriendsList, setViewProfile} from "../../../../../store/reducers/generalReducer";
 import FloatButton from "../../../../other/floatButton/floatButton";
-import NavBack from "../../../../other/navBack/navBack";
+import Navbar from "../../../../other/navbar/navbar";
 import burgerMenuIcon from "../../../../../assets/icons/burger_menu.svg"
 
 const ChatList = (props) => {
@@ -20,9 +20,11 @@ const ChatList = (props) => {
         dispatch(getPreviewChats());
     }, [])
 
+    console.log(previewChats)
+
     return (
         <div className={"side-bar-component-container"}>
-            <NavBack icon={burgerMenuIcon} callback={() => dispatch(setViewProfile())}/>
+            <Navbar icon={burgerMenuIcon} callback={() => dispatch(setViewProfile())}/>
             <div className={"side-bar-content overflowY"}>
                 {
                     isLoading ? <Loader/> :
@@ -30,7 +32,7 @@ const ChatList = (props) => {
                             <div className={"side-bar-empty-content"}>
                                 У Вас ещё нет чатов.<br/>Начните общаться прямо сейчас!
                             </div> :
-                            previewChats.map((person, i) => <ChatItem {...person} key={i}/>)
+                            previewChats.map(chat => <ChatItem {...chat} key={chat.id}/>)
 
                 }
                 <FloatButton

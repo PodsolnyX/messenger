@@ -1,5 +1,5 @@
 import "./editProfile.css"
-import NavBack from "../../../../other/navBack/navBack";
+import Navbar from "../../../../other/navbar/navbar";
 import {useDispatch, useSelector} from "react-redux";
 import {setViewProfile} from "../../../../../store/reducers/generalReducer";
 import {useForm} from "react-hook-form";
@@ -58,7 +58,7 @@ const EditProfile = (props) => {
 
     return (
         <div className={"side-bar-component-container"}>
-            <NavBack title={"Редактирование профиля"} callback={() => dispatch(setViewProfile())}/>
+            <Navbar title={"Редактирование профиля"} callback={() => dispatch(setViewProfile())}/>
             <div className={"side-bar-content"}>
                 <div className={"edit-profile-avatar"}>
                     <input type={"file"} id="avatar-input" onChange={onChangeAvatar}

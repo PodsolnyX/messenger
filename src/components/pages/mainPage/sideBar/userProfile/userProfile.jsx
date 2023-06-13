@@ -9,7 +9,7 @@ import passwordIcon from "../../../../../assets/icons/password.svg"
 import {useAuth} from "../../../../../hooks/useAuth";
 import {setViewChangePassword, setViewChatList, setViewEditProfile} from "../../../../../store/reducers/generalReducer";
 import {getUserAvatar} from "../../../../../helpers/helpers";
-import NavBack from "../../../../other/navBack/navBack";
+import Navbar from "../../../../other/navbar/navbar";
 import Icon from "../../../../other/icon/icon";
 
 
@@ -21,7 +21,7 @@ const UserProfile = (props) => {
 
     return (
         <div className={"side-bar-component-container profile-container"}>
-            <NavBack callback={() => dispatch(setViewChatList())} title={"Профиль"}/>
+            <Navbar callback={() => dispatch(setViewChatList())} title={"Профиль"}/>
             <div className={"side-bar-content"}>
                 <div className={"profile-avatar"} style={{backgroundImage: `url(${getUserAvatar(userData?.photoId)})`}}></div>
                 <div className={"profile-main-info"}>
