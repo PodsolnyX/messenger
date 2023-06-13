@@ -14,13 +14,11 @@ const FriendshipRequestsItem = (props) => {
                     <div>
                         {
                             props.isUserRequests === "false" &&
-                            <div className={"btn-outline"} onClick={() => props.onAccept(props.id)}>
-                                <Icon icon={addIcon} size={28}/>
+                            <div className={"btn-accept-request"} >
+                                <Icon icon={addIcon} size={28} callback={() => props.onAccept(props.id)}/>
                             </div>
                         }
-                        <div className={"btn-outline btn-danger"} onClick={() => props.onReject(props.id)}>
-                            <Icon icon={deleteIcon} size={28}/>
-                        </div>
+                        <Icon icon={deleteIcon} size={28} callback={() => props.onReject(props.id)}/>
                     </div>
             </div>
         </UserCard>

@@ -18,4 +18,9 @@ export const VIEWS = {
     FRIENDSHIP_REQUESTS_LIST: "FRIENDSHIP_REQUESTS_LIST"
 };
 
+export const USER_REQUESTS_OPTIONS = [
+    { value: "false", title: "Входящие" },
+    { value: "true", title: "Исходящие" }
+]
+
 export const NULL_PHOTO = "00000000-0000-0000-0000-000000000000";

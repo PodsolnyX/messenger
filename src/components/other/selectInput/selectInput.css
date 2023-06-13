@@ -1,0 +1,15 @@
+.select-input {
+    color: var(--color-text-secondary);
+    border: 0;
+    background-color: rgba(0, 0, 0, 0);
+    padding: 5px;
+    font-size: 14px;
+}
+
+.select-input:focus {
+    outline: none;
+}
+
+.select-input > option {
+    background-color: var(--color-bg-secondary);
+}

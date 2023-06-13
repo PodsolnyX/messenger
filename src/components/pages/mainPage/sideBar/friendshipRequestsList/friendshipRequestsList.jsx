@@ -9,6 +9,8 @@ import {
     getFriendshipRequests,
     rejectFriendshipRequest, setIsUserRequests
 } from "../../../../../store/reducers/friendReducer";
+import SelectInput from "../../../../other/selectInput/selectInput";
+import {USER_REQUESTS_OPTIONS} from "../../../../../helpers/constants";
 
 const FriendshipRequestsList = (props) => {
 
@@ -29,17 +31,16 @@ const FriendshipRequestsList = (props) => {
         dispatch(rejectFriendshipRequest(userId));
     }
 
-    const onChange = (event) => {
-        dispatch(setIsUserRequests(event.target.value));
-    }
-
     return (
         <div className={"side-bar-component-container"}>
             <NavBack callback={() => dispatch(setViewFriendsList())} title={"Заявки в друзья"}>
-                <select onChange={onChange} defaultValue={isUserRequests}>
-                    <option value={"false"}>Входящие</option>
-                    <option value={"true"} >Исходящие</option>
-                </select>
+                <div className={"friends-note-container"}>
+                    <SelectInput
+                        callback={(value) => dispatch(setIsUserRequests(value))}
+                        value={isUserRequests}
+                        options={USER_REQUESTS_OPTIONS}
+                    />
+                </div>
             </NavBack>
             <div className={"side-bar-content overflowY"}>
                     {
