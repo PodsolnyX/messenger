@@ -29,6 +29,11 @@
     background-color: var(--color-bg-block-3-hover);
 }
 
+.button-send-message > span {
+    margin-left: -9px;
+    margin-top: -9px;
+}
+
 .button-send-message > div {
     margin-left: 4px;
 }
@@ -63,6 +68,7 @@
 
 .textarea[contenteditable]:empty::before {
     content: "Сообщение";
+    cursor: text;
     color: var(--color-text-tertiary);
 }
 

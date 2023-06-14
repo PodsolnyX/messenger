@@ -6,8 +6,6 @@ import Icon from "../../../../../other/icon/icon";
 
 const UserItem = (props) => {
 
-    console.log(props)
-
     return (
         <UserCard avatarLink={getUserAvatar(props.photoId)}>
             <div className={"user-item-content"}>

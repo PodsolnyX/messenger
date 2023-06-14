@@ -4,13 +4,11 @@ import {useAuth} from "./useAuth";
 import {MESSAGE_TYPES, NUMBER_MESSAGE_TYPES_RATIO} from "../helpers/constants";
 import {useDispatch} from "react-redux";
 import {getChatMessages, getPreviewChats} from "../store/reducers/chatReducer";
-import {useParams} from "react-router-dom";
 
 export function useSignalR() {
 
     const user = useAuth();
     const dispatch = useDispatch();
-    const params = useParams();
     const [connection, setConnection] = useState(null);
 
     useEffect(() => {
@@ -33,12 +31,9 @@ export function useSignalR() {
     }, [user.isAuth])
 
     useEffect(() => {
+
         if (connection) {
             connection.start().then(function () {
-
-                console.log("Connected to signalr")
-                console.log(444, params)
-
                 connection.on('ReceiveMessage', function (message) {
 
                     const newMessage = JSON.parse(message)
@@ -46,10 +41,8 @@ export function useSignalR() {
 
                     switch (NUMBER_MESSAGE_TYPES_RATIO[newMessage.Type]) {
                         case MESSAGE_TYPES.NEW_MESSAGE:
-                            dispatch(getPreviewChats());
-                            // console.log(444, params)
-                            // if (params.chatId === newMessage.ChatId)
-                                dispatch(getChatMessages(newMessage.ChatId))
+                            dispatch(getPreviewChats(false));
+                            dispatch(getChatMessages(newMessage.ChatId, false))
                             break;
                         default:
                             break;
@@ -62,4 +55,5 @@ export function useSignalR() {
             });
         }
     }, [connection])
+
 }

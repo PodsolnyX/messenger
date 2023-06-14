@@ -106,7 +106,6 @@ export const loginUser = (userData, callback) => (dispatch) => {
     dispatch(setLoadingUser(true));
     userAPI.loginUser(userData).then(response => {
         if (response.status === 200) {
-            console.log(response)
             localStorage.setItem('accessToken', response.data.accessToken);
             localStorage.setItem('refreshToken', response.data.refreshToken);
             dispatch(setIsAuth(true));
@@ -121,7 +120,6 @@ export const loginUser = (userData, callback) => (dispatch) => {
 export const registerUser = (userData, callback) => (dispatch) => {
     dispatch(setLoadingUser(true));
     userAPI.registerUser(userData).then(response => {
-        console.log(response)
         if (response.status === 200) {
             localStorage.setItem('accessToken', response.data.accessToken);
             localStorage.setItem('refreshToken', response.data.refreshToken);

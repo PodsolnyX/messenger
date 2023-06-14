@@ -6,8 +6,8 @@ import {useSignalR} from "../../../hooks/useSignalR";
 
 const MainPage = (props) => {
 
-    useRefreshToken();
     useSignalR();
+    useRefreshToken();
 
     return (
         <div>

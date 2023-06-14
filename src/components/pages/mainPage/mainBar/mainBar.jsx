@@ -4,11 +4,11 @@ import {useParams} from "react-router-dom";
 
 const MainBar = (props) => {
 
-    const params = useParams();
+    const { chatId } = useParams();
 
     return (
         <div className={"main-bar"}>
-            { params.chatId && <MessagesArea/> }
+            { chatId && <MessagesArea/> }
         </div>
     );
 }

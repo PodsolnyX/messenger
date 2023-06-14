@@ -85,7 +85,6 @@ const RegistrationPage = (props) => {
     const isLoading = useSelector((state) => state.user.isLoading)
 
     const onSubmit = (formData) => {
-        console.log(formData)
         user.signUp(formData);
     }
 
