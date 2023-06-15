@@ -11,17 +11,13 @@ const MainPage = (props) => {
     useSignalR();
     useRefreshToken();
     useMobile();
-
-    const isMobile = useSelector(state => state.general.isMobile)
     const mobileRef = useSelector(state => state.general.mobileRef)
 
     return (
         <div>
             <div ref={mobileRef} className={"main-container"}>
                 <SideBar/>
-                {
-                    !isMobile && <MainBar/>
-                }
+                <MainBar/>
             </div>
         </div>
 

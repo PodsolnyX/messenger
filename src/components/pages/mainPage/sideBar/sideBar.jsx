@@ -9,13 +9,17 @@ import EditProfile from "./editProfile/editProfile";
 import {useSelector} from "react-redux";
 import FriendshipRequestsList from "./friendshipRequestsList/friendshipRequestsList";
 import MessagesArea from "../mainBar/messagesArea/messagesArea";
+import {useParams} from "react-router-dom";
 
 const SideBar = () => {
 
     const currentView = useSelector((state) => state.general.currentSideBarView);
+    const isMobile = useSelector(state => state.general.isMobile)
+    const { chatId } = useParams()
+    const isView = !!((!chatId && isMobile) || !isMobile);
 
     return (
-      <div className={"side-bar"}>
+      <div className={"side-bar"} style={!isView ? {display: "none"} : {}}>
           { currentView === VIEWS.MESSAGES_AREA && <MessagesArea/> }
           { currentView === VIEWS.CHATS_LIST && <ChatList/> }
           { currentView === VIEWS.USERS_LIST && <UsersList/> }

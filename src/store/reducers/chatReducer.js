@@ -34,11 +34,6 @@ const chatReducer = (state = initialState, action) => {
                 previewChats: action.previewChats
             }
         case SET_MESSAGES:
-            //Заглушечная проверка для мобильной версии
-            if (state.messages.length === SIZE_MESSAGE_PAGE &&
-                JSON.stringify(state.messages) === JSON.stringify(action.messages))
-                return state;
-
             return {
                 ...state,
                 messagesPageCount: action.messagesPageCount,
