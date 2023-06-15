@@ -8,7 +8,16 @@ export const FILE_TYPE = {
     ARCHIVE: "Archive"
 }
 
-export const VIEWS = {
+export const FILE_TYPE_RATIO = {
+    "image": FILE_TYPE.IMAGE,
+    "text": FILE_TYPE.TEXT,
+    "application": FILE_TYPE.APPLICATION,
+    "audio": FILE_TYPE.AUDIO,
+    "video": FILE_TYPE.VIDEO,
+    "archive": FILE_TYPE.ARCHIVE
+}
+
+    export const VIEWS = {
     PROFILE: "VIEW_PROFILE",
     CHATS_LIST: "CHATS_LIST",
     CHANGE_PASSWORD: "CHANGE_PASSWORD",

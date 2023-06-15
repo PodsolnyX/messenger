@@ -33,7 +33,32 @@
 .message-item > div {
     display: flex;
     justify-content: end;
-    padding-left: 20px;
     font-size: 12px;
     color: var(--color-text-secondary);
+}
+.message-item-files {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+}
+
+.message-item-images > img {
+    max-width: 350px;
+    height: auto;
+    border-radius: 4px;
+    margin-top: 10px;
+}
+
+.message-item-images {
+    display: flex;
+    flex-direction: column;
+}
+
+.message-item-files > a {
+    color: var(--color-text-secondary);
+    white-space: nowrap;
+    max-width: 200px;
+    overflow: auto;
+    overflow-x: hidden;
+    text-overflow: ellipsis;
 }

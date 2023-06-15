@@ -3,7 +3,9 @@ import {setErrorToast, setInformationToast} from "./toasterReducer";
 import {setViewChatList} from "./generalReducer";
 import {userAPI} from "../../api/userAPI";
 import {messageAPI} from "../../api/messageAPI";
-import {SIZE_MESSAGE_PAGE} from "../../helpers/constants";
+import {FILE_TYPE, FILE_TYPE_RATIO, SIZE_MESSAGE_PAGE} from "../../helpers/constants";
+import {filesAPI} from "../../api/filesAPI";
+import {convertFileToFormData} from "../../helpers/helpers";
 
 const SET_PREVIEW_CHATS = "SET_PREVIEW_CHATS",
     SET_MESSAGES = "SET_MESSAGES",
@@ -126,19 +128,35 @@ export const getPreviewChats = (withLoading = true) => async (dispatch, getState
     } else dispatch(setLoadingChat(false));
 }
 
-export const getChatMessages = (chatId, withLoading = true, callback) => (dispatch, getState) => {
+async function getMessageWithFiles(message) {
+    if (message.fileIds.length !== 0) {
+        message.files = await Promise.all(message.fileIds.map(async id => {
+            const response = await filesAPI.getFileInfo(id)
+            if (response.status === 200) return response.data
+            else return {}
+        }));
+    }
+    return message;
+}
+
+export const getChatMessages = (chatId, withLoading = true, callback) => async (dispatch, getState) => {
     dispatch(setLoadingMessages(true));
 
-    chatAPI.getMessages(chatId, Math.floor(getState().chat.messages.length / SIZE_MESSAGE_PAGE + 1), SIZE_MESSAGE_PAGE)
-        .then(response => {
-            if (response.status === 200)
-                dispatch(setMessages(response.data.items, response.data.pages_amount))
-            else if (response.status !== 404) {
-                callback();
-                dispatch(setErrorToast("Чат не найден"))
-            }
-            dispatch(setLoadingMessages(false));
-        })
+    const response = await chatAPI.getMessages(chatId, Math.floor(getState().chat.messages.length / SIZE_MESSAGE_PAGE + 1), SIZE_MESSAGE_PAGE)
+
+    if (response.status === 200) {
+        const messages = await Promise.all(response.data.items.map(async (message) =>
+            await getMessageWithFiles(message)
+        ))
+        dispatch(setMessages(messages, response.data.pages_amount))
+    }
+
+    else if (response.status !== 404) {
+        callback();
+        dispatch(setErrorToast("Чат не найден"))
+    }
+    dispatch(setLoadingMessages(false));
+
 }
 
 export const getNewMessage = (chatId) => (dispatch, getState) => {
@@ -161,8 +179,7 @@ export const getChatDetails = (chatId) => (dispatch, getState) => {
                 const userId = getState().user.userData?.id;
                 getChatWithParsedPrivateChats(response.data, userId)
                     .then(chat => dispatch(setChatDetails(chat)));
-            }
-            else dispatch(setErrorToast("Беда"))
+            } else dispatch(setErrorToast("Беда"))
         })
 }
 
@@ -179,17 +196,37 @@ export const createPrivateChat = (userId, callback) => (dispatch) => {
         })
 }
 
-export const sendMessage = (chatId, textMessage, withLoadingMessages = true) => (dispatch) => {
+async function uploadFile(file, fileViewers, isPublic = false) {
+
+    const fileType = FILE_TYPE_RATIO[file.type.split("/")[0]] || FILE_TYPE.UNKNOWN;
+    const formData = convertFileToFormData(file);
+
+    const response = await filesAPI.uploadFile(formData, fileType, isPublic)
+
+    if (response.status === 201) return response.data
+    else return ""
+}
+
+export const sendMessage = (chatId, textMessage, files) => async (dispatch, getState) => {
     dispatch(setLoadingSendMessage(true));
-    messageAPI.sendMessage(chatId, textMessage)
-        .then(response => {
-            if (response.status === 200) {
-                dispatch(getNewMessage(chatId));
-                dispatch(getPreviewChats(false))
-            } else
-                dispatch(setErrorToast("Беда"))
-            dispatch(setLoadingSendMessage(false));
-        })
+
+    const fileViewers = getState().chat.chatDetails.users;
+
+    const filesIdList = await Promise.all(files.map(async (file) =>
+        await uploadFile(file, fileViewers)
+    ))
+
+    const clearFilesList = filesIdList.filter(id => id !== '');
+
+    const response = await messageAPI.sendMessage(chatId, textMessage, clearFilesList)
+
+    if (response.status === 200) {
+        dispatch(getNewMessage(chatId));
+        dispatch(getPreviewChats(false))
+    } else
+        dispatch(setErrorToast("Беда"))
+
+    dispatch(setLoadingSendMessage(false));
 }
 
 export const viewMessage = (messageId) => (dispatch) => {

@@ -49,6 +49,8 @@ const MessagesArea = (props) => {
             dispatch(viewMessage(messages[0].id))
     }, [messages])
 
+    console.log(messages)
+
 
     return (
         isLoading && messages.length === 0 ? <div className={"messages-list-empty"}>
@@ -89,8 +91,8 @@ const MessagesArea = (props) => {
                     <div className={"input-container"}>
                         <MessageInput
                             isLoading={isLoadingSendMessage}
-                            callback={(textMessage) =>
-                                dispatch(sendMessage(chatId, textMessage, false))}
+                            callback={(textMessage, files) =>
+                                dispatch(sendMessage(chatId, textMessage, files))}
                         />
                     </div>
                 </div>

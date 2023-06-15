@@ -41,13 +41,33 @@
 .message-input {
     padding: 8px 15px;
     display: flex;
-    align-items: end;
+    flex-direction: column;
+    justify-content: center;
     height: auto;
     min-height: 34px;
     width: calc(100% - 90px);
     background-color: var(--color-bg-primary);
     border: 1px solid var(--color-border-primary);
     border-radius: 12px;
+}
+
+.message-input-top {
+    display: flex;
+    align-items: end;
+}
+
+.message-input-bottom {
+    max-height: 50px;
+    overflow-y: auto;
+}
+
+.message-input-bottom > input {
+    display: none;
+}
+
+.message-input-file {
+    font-size: 12px;
+    color: var(--color-text-tertiary)
 }
 
 .textarea {

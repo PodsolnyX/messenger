@@ -12,6 +12,13 @@ const uploadFile = (formData, fileType, isPublic) => {
         .catch(error => error.response);
 }
 
+const getFileInfo = (fileId) => {
+    return instance.get(`/files/${fileId}/info`)
+        .then(response =>  response)
+        .catch(error => error.response);
+}
+
 export const filesAPI = {
-    uploadFile
+    uploadFile,
+    getFileInfo
 };

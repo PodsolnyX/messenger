@@ -12,6 +12,10 @@ export function getUserAvatar(photoId) {
     return `http://chat.markridge.space/api/files/${photoId}?attachment=false&access_token=${localStorage.getItem("accessToken")}`;
 }
 
+export function getFileLinkToDownload(fileId) {
+    return `http://chat.markridge.space/api/files/${fileId}?attachment=true&access_token=${localStorage.getItem("accessToken")}`;
+}
+
 export function getQueryFromIdList(idList) {
     let query = "";
     idList.forEach((id) => {

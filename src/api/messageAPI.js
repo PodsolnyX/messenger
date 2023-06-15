@@ -1,10 +1,10 @@
 import {instance} from "./instance";
 
-const sendMessage = (chatId, textMessage) => {
+const sendMessage = (chatId, textMessage, filesIdList) => {
     return instance.post(`/backend/message/chat/${chatId}`,
         {
             textMessage: textMessage,
-            fileIds: []
+            fileIds: filesIdList
         })
         .then(response =>  response)
         .catch(error => error.response);
