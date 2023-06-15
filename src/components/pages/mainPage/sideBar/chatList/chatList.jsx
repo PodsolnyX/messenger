@@ -16,6 +16,7 @@ const ChatList = (props) => {
     const dispatch = useDispatch();
     const previewChats = useSelector(state => state.chat.previewChats);
     const isLoading = useSelector(state => state.chat.isLoading);
+    const userId = useSelector(state => state.user.userData?.id);
     const navigate = useNavigate();
     const params = useParams();
 
@@ -33,10 +34,9 @@ const ChatList = (props) => {
                             <div className={"side-bar-empty-content"}>
                                 У Вас ещё нет чатов.<br/>Начните общаться прямо сейчас!
                             </div> :
-                            previewChats.map(chat => <ChatItem {...chat} key={chat.id}
+                            previewChats.slice(0).reverse().map(chat => <ChatItem {...chat} key={chat.id}
                                                                isSelected={params.chatId === chat.id}
-                                                               navigate={navigate}
-                            />)
+                                                               navigate={navigate} userId={userId}/>)
 
                 }
                 <FloatButton

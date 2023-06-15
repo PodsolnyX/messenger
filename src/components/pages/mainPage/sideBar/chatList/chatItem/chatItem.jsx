@@ -17,7 +17,7 @@ const ChatItem = (props) => {
                 <div className={"text-secondary text-message"} style={{fontSize: "14px"}}>
                     {
                         props.lastMessage?.textMessage ?
-                        props.lastMessage.textMessage :
+                        `${props.lastMessage.senderId === props.userId ? "Вы: " : ""}${props.lastMessage.textMessage}` :
                             "Новый чат"
                     }
                 </div>

@@ -1,15 +1,31 @@
-import {useEffect, useRef} from "react";
+import {useEffect, useRef, useState} from "react";
 
-export function useScroll(dependencies) {
+export function useScroll(dependencies, depPageSize, depPageCount, callback) {
 
-    const ref = useRef()
+    const anchor = useRef()
+    const [callbackWasCall, setCallbackWasCall] = useState(false);
 
     useEffect(() => {
-        if (ref.current) {
-            ref.current.scrollTop = ref.current.scrollHeight;
+        if (anchor.current && dependencies.length <= depPageSize) {
+            anchor.current.scrollTop = anchor.current.scrollHeight;
         }
+        else setCallbackWasCall(false)
     }, [dependencies])
 
-    return ref;
+    const isEndOfDependenciesList = (dep) => {
+        return Math.ceil(dep.length / depPageSize) >= depPageCount;
+    }
+    const isTopOfScrollContainer = (container) => {
+        return Math.round(container.scrollHeight - (container.scrollHeight - container.scrollTop)) < 200;
+    }
+
+    const onScroll = (event) => {
+        if (!isEndOfDependenciesList(dependencies) && isTopOfScrollContainer(event.target) && !callbackWasCall) {
+            callback();
+            setCallbackWasCall(true);
+        }
+    }
+
+    return { anchor, onScroll};
 
 }

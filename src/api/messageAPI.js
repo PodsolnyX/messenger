@@ -26,8 +26,8 @@ const deleteMessage = (chatId) => {
         .catch(error => error.response);
 }
 
-const viewMessage = (messages) => {
-    return instance.post(`/backend/message/messages/view`, messages)
+const viewMessage = (messageId) => {
+    return instance.post(`/backend/message/${messageId}/view`)
         .then(response =>  response)
         .catch(error => error.response);
 }

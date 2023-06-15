@@ -1,5 +1,5 @@
 import {instance} from "./instance";
-import {NULL_NAME, NULL_PHOTO} from "../helpers/constants";
+import {NULL_NAME, NULL_PHOTO, SIZE_MESSAGE_PAGE} from "../helpers/constants";
 
 const getPreviewChats = () => {
     return instance.get(`/backend/chats/preview`)
@@ -7,8 +7,8 @@ const getPreviewChats = () => {
         .catch(error => error.response);
 }
 
-const getMessages = (id) => {
-    return instance.get(`/backend/chat/${id}/messages?pageSize=50`)
+const getMessages = (id, page, pageSize) => {
+    return instance.get(`/backend/chat/${id}/messages?pageSize=${pageSize}&page=${page}`)
         .then(response =>  response)
         .catch(error => error.response);
 }

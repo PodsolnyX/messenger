@@ -3,7 +3,7 @@ import {useEffect, useState} from "react";
 import {useAuth} from "./useAuth";
 import {MESSAGE_TYPES, NUMBER_MESSAGE_TYPES_RATIO} from "../helpers/constants";
 import {useDispatch} from "react-redux";
-import {getChatMessages, getPreviewChats} from "../store/reducers/chatReducer";
+import {getChatMessages, getNewMessage, getPreviewChats} from "../store/reducers/chatReducer";
 
 export function useSignalR() {
 
@@ -42,7 +42,7 @@ export function useSignalR() {
                     switch (NUMBER_MESSAGE_TYPES_RATIO[newMessage.Type]) {
                         case MESSAGE_TYPES.NEW_MESSAGE:
                             dispatch(getPreviewChats(false));
-                            dispatch(getChatMessages(newMessage.ChatId, false))
+                            dispatch(getNewMessage(newMessage.ChatId))
                             break;
                         default:
                             break;
