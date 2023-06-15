@@ -19,8 +19,11 @@
   --color-shadow-primary: rgba(155, 143, 143, 0.2);
   --color-shadow-light: rgba(238, 241, 244, 0.2);
   --color-shadow-error: rgba(254, 40, 54, 0.2);
-
   --color-error: #FE2836;
+
+  --width-md: 800px;
+  --width-lg: 1050px;
+  --width-xl: 1280px;
 }
 
 .text-primary {

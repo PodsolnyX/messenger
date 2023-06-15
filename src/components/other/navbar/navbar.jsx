@@ -7,7 +7,7 @@ const Navbar = (props) => {
     const isBack = props.isBack === undefined || props.isBack === true;
 
     return (
-        <div className={"nav-back-container"}>
+        <div className={`nav-back-container ${props.withBG && "nav-back-bg"}`}>
             {
                 isBack &&
                 <div>

@@ -16,7 +16,7 @@ export function useScroll(dependencies, depPageSize, depPageCount, callback) {
         return Math.ceil(dep.length / depPageSize) >= depPageCount;
     }
     const isTopOfScrollContainer = (container) => {
-        return Math.round(container.scrollHeight - (container.scrollHeight - container.scrollTop)) < 200;
+        return Math.round(container.scrollHeight - (container.scrollHeight - container.scrollTop)) < 300;
     }
 
     const onScroll = (event) => {

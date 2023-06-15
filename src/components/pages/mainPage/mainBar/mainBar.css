@@ -13,7 +13,7 @@
 }
 
 .main-bar-content {
-    height: 100%;
+    height: calc(100% - 65px);
     width: 100%;
 }
 

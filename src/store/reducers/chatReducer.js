@@ -11,7 +11,8 @@ const SET_PREVIEW_CHATS = "SET_PREVIEW_CHATS",
     SET_LOADING_CHAT = "SET_LOADING_CHAT",
     SET_LOADING_MESSAGES = "SET_LOADING_MESSAGES",
     SET_LOADING_SEND_MESSAGE = "SET_LOADING_SEND_MESSAGE",
-    SET_CHAT_ID = "SET_CHAT_ID"
+    SET_CHAT_ID = "SET_CHAT_ID",
+    SET_CHAT_DETAILS = "SET_CHAT_DETAILS"
 ;
 
 let initialState = {
@@ -19,6 +20,7 @@ let initialState = {
     messages: [],
     messagesPageCount: 1,
     chatId: "",
+    chatDetails: {},
     isLoading: false,
     isLoadingMessages: false,
     isLoadingSendMessage: false
@@ -36,7 +38,7 @@ const chatReducer = (state = initialState, action) => {
                 ...state,
                 messagesPageCount: action.messagesPageCount,
                 messages: [
-                    ...state.messages.slice(0, Math.floor(state.messages.length/SIZE_MESSAGE_PAGE)*SIZE_MESSAGE_PAGE),
+                    ...state.messages.slice(0, Math.floor(state.messages.length / SIZE_MESSAGE_PAGE) * SIZE_MESSAGE_PAGE),
                     ...action.messages
                 ]
             }
@@ -53,8 +55,14 @@ const chatReducer = (state = initialState, action) => {
             return {
                 ...state,
                 chatId: action.chatId,
+                chatDetails: {},
                 messages: [],
                 messagesPageCount: 1
+            }
+        case SET_CHAT_DETAILS:
+            return {
+                ...state,
+                chatDetails: action.chatDetails
             }
         case SET_LOADING_CHAT:
             return {
@@ -80,12 +88,13 @@ export const setPreviewChats = (previewChats) => ({type: SET_PREVIEW_CHATS, prev
 export const setMessages = (messages, messagesPageCount) => ({type: SET_MESSAGES, messages, messagesPageCount});
 export const setNewMessage = (message, messagesPageCount) => ({type: SET_NEW_MESSAGE, message, messagesPageCount});
 export const setChatId = (chatId) => ({type: SET_CHAT_ID, chatId});
+export const setChatDetails = (chatDetails) => ({type: SET_CHAT_DETAILS, chatDetails});
 export const setLoadingChat = (isLoading) => ({type: SET_LOADING_CHAT, isLoading});
 export const setLoadingMessages = (isLoading) => ({type: SET_LOADING_MESSAGES, isLoading});
 export const setLoadingSendMessage = (isLoading) => ({type: SET_LOADING_SEND_MESSAGE, isLoading});
 
-async function getChatsWithParsedPrivateChats(chat, userId) {
-    if (chat.isPrivate) {
+async function getChatWithParsedPrivateChats(chat, userId) {
+    if (chat.isPrivate || chat.administrators.length === 0) {
         const chatUserId = chat.users[0] !== userId ? chat.users[0] : chat.users[1];
 
         const response = await userAPI.getUserDetails(chatUserId);
@@ -99,14 +108,12 @@ async function getChatsWithParsedPrivateChats(chat, userId) {
 
 export const getPreviewChats = (withLoading = true) => async (dispatch, getState) => {
     dispatch(setLoadingChat(withLoading));
-
     const response = await chatAPI.getPreviewChats();
     if (response.status === 200) {
         const userId = getState().user.userData?.id;
         if (userId) {
-
             const data = await Promise.all(response.data.userChats.items.map(async (chat) =>
-                await getChatsWithParsedPrivateChats(chat, userId)
+                await getChatWithParsedPrivateChats(chat, userId)
             ))
 
             dispatch(setPreviewChats(data))
@@ -143,6 +150,19 @@ export const getNewMessage = (chatId) => (dispatch, getState) => {
     } else if (getState().chat.chatId || chatId) {
         dispatch(setInformationToast("Вам пришло сообщение"))
     }
+}
+
+export const getChatDetails = (chatId) => (dispatch, getState) => {
+    dispatch(setLoadingMessages(true))
+    chatAPI.getChatDetails(chatId)
+        .then(response => {
+            if (response.status === 200) {
+                const userId = getState().user.userData?.id;
+                getChatWithParsedPrivateChats(response.data, userId)
+                    .then(chat => dispatch(setChatDetails(chat)));
+            }
+            else dispatch(setErrorToast("Беда"))
+        })
 }
 
 export const createPrivateChat = (userId, callback) => (dispatch) => {

@@ -22,7 +22,7 @@ const ChatList = (props) => {
 
     useEffect(() => {
         dispatch(getPreviewChats());
-    }, [])
+    }, [userId])
 
     return (
         <div className={"side-bar-component-container"}>
