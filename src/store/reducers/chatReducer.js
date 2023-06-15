@@ -34,6 +34,11 @@ const chatReducer = (state = initialState, action) => {
                 previewChats: action.previewChats
             }
         case SET_MESSAGES:
+            //Заглушечная проверка для мобильной версии
+            if (state.messages.length === SIZE_MESSAGE_PAGE &&
+                JSON.stringify(state.messages) === JSON.stringify(action.messages))
+                return state;
+
             return {
                 ...state,
                 messagesPageCount: action.messagesPageCount,
@@ -94,7 +99,7 @@ export const setLoadingMessages = (isLoading) => ({type: SET_LOADING_MESSAGES, i
 export const setLoadingSendMessage = (isLoading) => ({type: SET_LOADING_SEND_MESSAGE, isLoading});
 
 async function getChatWithParsedPrivateChats(chat, userId) {
-    if (chat.isPrivate || chat.administrators.length === 0) {
+    if (chat.isPrivate || chat.administrators?.length === 0) {
         const chatUserId = chat.users[0] !== userId ? chat.users[0] : chat.users[1];
 
         const response = await userAPI.getUserDetails(chatUserId);
@@ -109,6 +114,7 @@ async function getChatWithParsedPrivateChats(chat, userId) {
 export const getPreviewChats = (withLoading = true) => async (dispatch, getState) => {
     dispatch(setLoadingChat(withLoading));
     const response = await chatAPI.getPreviewChats();
+    console.log(response)
     if (response.status === 200) {
         const userId = getState().user.userData?.id;
         if (userId) {

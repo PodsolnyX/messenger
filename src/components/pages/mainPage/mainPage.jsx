@@ -3,17 +3,25 @@ import MainBar from "./mainBar/mainBar";
 import SideBar from "./sideBar/sideBar";
 import {useRefreshToken} from "../../../hooks/useRefreshToken";
 import {useSignalR} from "../../../hooks/useSignalR";
+import {useSelector} from "react-redux";
+import {useMobile} from "../../../hooks/useMobile";
 
 const MainPage = (props) => {
 
     useSignalR();
     useRefreshToken();
+    useMobile();
+
+    const isMobile = useSelector(state => state.general.isMobile)
+    const mobileRef = useSelector(state => state.general.mobileRef)
 
     return (
         <div>
-            <div className={"main-container"}>
+            <div ref={mobileRef} className={"main-container"}>
                 <SideBar/>
-                <MainBar/>
+                {
+                    !isMobile && <MainBar/>
+                }
             </div>
         </div>
 

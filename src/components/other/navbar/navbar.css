@@ -10,7 +10,7 @@
 .nav-back-bg {
     background-color: var(--color-bg-secondary);
     box-shadow: 0 0 10px 0px var(--color-bg-primary) inset;
-    border-left: 2px solid var(--color-bg-primary);
+    border-left: 1px solid var(--color-bg-primary);
 }
 
 .nav-back-container > div:first-child {

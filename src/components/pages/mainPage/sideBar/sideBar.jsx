@@ -8,6 +8,7 @@ import ChangePassword from "./changePassword/changePassword";
 import EditProfile from "./editProfile/editProfile";
 import {useSelector} from "react-redux";
 import FriendshipRequestsList from "./friendshipRequestsList/friendshipRequestsList";
+import MessagesArea from "../mainBar/messagesArea/messagesArea";
 
 const SideBar = () => {
 
@@ -15,6 +16,7 @@ const SideBar = () => {
 
     return (
       <div className={"side-bar"}>
+          { currentView === VIEWS.MESSAGES_AREA && <MessagesArea/> }
           { currentView === VIEWS.CHATS_LIST && <ChatList/> }
           { currentView === VIEWS.USERS_LIST && <UsersList/> }
           { currentView === VIEWS.FRIENDS_LIST && <FriendsList/> }

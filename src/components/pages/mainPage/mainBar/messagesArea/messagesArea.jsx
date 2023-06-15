@@ -16,6 +16,7 @@ import {useScroll} from "../../../../../hooks/useScroll";
 import {SIZE_MESSAGE_PAGE} from "../../../../../helpers/constants";
 import Navbar from "../../../../other/navbar/navbar";
 import {getUserAvatar} from "../../../../../helpers/helpers";
+import {setViewChatList} from "../../../../../store/reducers/generalReducer";
 
 const MessagesArea = (props) => {
 
@@ -48,12 +49,17 @@ const MessagesArea = (props) => {
             dispatch(viewMessage(messages[0].id))
     }, [messages])
 
+
     return (
         isLoading && messages.length === 0 ? <div className={"messages-list-empty"}>
                 <Loader/>
             </div> :
-            <div className={"main-bar"}>
-                <Navbar isBack={false} withBG={true}>
+            <div className={"messages-area-container"}>
+                <Navbar isBack={true} withBG={true}
+                        callback={() => {
+                            dispatch(setViewChatList());
+                            navigate("/");
+                        }}>
                     <div className={"messages-area-nav"}>
                         <div className={"messages-area-nav-avatar"}>
                             <img src={getUserAvatar(chatDetails?.chatAvatarId)} alt={""}/>
@@ -83,7 +89,8 @@ const MessagesArea = (props) => {
                     <div className={"input-container"}>
                         <MessageInput
                             isLoading={isLoadingSendMessage}
-                            callback={(textMessage) => dispatch(sendMessage(chatId, textMessage, false))}
+                            callback={(textMessage) =>
+                                dispatch(sendMessage(chatId, textMessage, false))}
                         />
                     </div>
                 </div>

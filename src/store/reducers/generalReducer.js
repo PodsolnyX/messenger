@@ -9,25 +9,38 @@ const
     SET_VIEW_FRIENDS_LIST = "SET_VIEW_FRIENDS_LIST",
     SET_VIEW_FRIENDSHIP_REQUESTS_LIST = "SET_VIEW_FRIENDSHIP_REQUESTS_LIST",
     SET_VIEW_EMPTY_MAIN_BAR = "SET_VIEW_EMPTY_MAIN_BAR",
-    SET_VIEW_MESSAGES_AREA = "SET_VIEW_MESSAGES_AREA"
+    SET_VIEW_MESSAGES_AREA = "SET_VIEW_MESSAGES_AREA",
+    SET_IS_MOBILE = "SET_IS_MOBILE",
+    SET_MOBILE_REF = "SET_MOBILE_REF"
 ;
 
 let initialState = {
     currentSideBarView: VIEWS.CHATS_LIST,
-    currentMessagesArea: VIEWS.EMPTY_MAIN_BAR
+    isMobile: false,
+    mobileRef: null
 };
 
 const generalReducer = (state = initialState, action) => {
     switch (action.type) {
+        case SET_IS_MOBILE:
+            return {
+                ...state,
+                isMobile: action.isMobile
+            }
+        case SET_MOBILE_REF:
+            return {
+                ...state,
+                mobileRef: action.mobileRef
+            }
         case SET_VIEW_EMPTY_MAIN_BAR:
             return {
                 ...state,
-                currentMessagesArea: VIEWS.EMPTY_MAIN_BAR
+                currentSideBarView: VIEWS.EMPTY_MAIN_BAR
             };
         case SET_VIEW_MESSAGES_AREA:
             return {
                 ...state,
-                currentMessagesArea: VIEWS.MESSAGES_AREA
+                currentSideBarView: VIEWS.MESSAGES_AREA
             };
         case SET_VIEW_PROFILE:
             return {
@@ -69,6 +82,8 @@ const generalReducer = (state = initialState, action) => {
     }
 }
 
+export const setIsMobile = (isMobile) => ({type: SET_IS_MOBILE, isMobile})
+export const setMobileRef = (mobileRef) => ({type: SET_MOBILE_REF, mobileRef})
 export const setViewProfile = () => ({type: SET_VIEW_PROFILE});
 export const setViewEmptyMainBar = () => ({type: SET_VIEW_EMPTY_MAIN_BAR});
 export const setViewMessagesArea = () => ({type: SET_VIEW_MESSAGES_AREA});
