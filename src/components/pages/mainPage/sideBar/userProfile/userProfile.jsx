@@ -6,18 +6,26 @@ import phoneIcon from "../../../../../assets/icons/phone.svg"
 import editIcon from "../../../../../assets/icons/edit.svg"
 import exitIcon from "../../../../../assets/icons/exit.svg"
 import passwordIcon from "../../../../../assets/icons/password.svg"
+import onlineIcon from "../../../../../assets/icons/online.svg"
 import {useAuth} from "../../../../../hooks/useAuth";
 import {setViewChangePassword, setViewChatList, setViewEditProfile} from "../../../../../store/reducers/generalReducer";
-import {getUserAvatar} from "../../../../../helpers/helpers";
+import {getFileLinkToView} from "../../../../../helpers/helpers";
 import Navbar from "../../../../other/navbar/navbar";
 import Icon from "../../../../other/icon/icon";
 import {setUserOnlinePreference} from "../../../../../store/reducers/userReducer";
-import {ONLINE_PREFERENCE_TYPE} from "../../../../../helpers/constants";
+import {
+    ONLINE_PREFERENCE_OPTIONS,
+    ONLINE_PREFERENCE_TYPE,
+    USER_REQUESTS_OPTIONS
+} from "../../../../../helpers/constants";
+import {setIsUserRequests} from "../../../../../store/reducers/friendReducer";
+import SelectInput from "../../../../other/selectInput/selectInput";
 
 
 const UserProfile = (props) => {
 
     const userData = useSelector((state) => state.user.userData);
+    const onlinePreference = useSelector(state => state.user.onlinePreference)
     const dispatch = useDispatch();
     const user = useAuth();
 
@@ -25,7 +33,7 @@ const UserProfile = (props) => {
         <div className={"side-bar-component-container profile-container"}>
             <Navbar callback={() => dispatch(setViewChatList())} title={"Профиль"}/>
             <div className={"side-bar-content"}>
-                <div className={"profile-avatar"} style={{backgroundImage: `url(${getUserAvatar(userData?.photoId)})`}}></div>
+                <div className={"profile-avatar"} style={{backgroundImage: `url(${getFileLinkToView(userData?.photoId)})`}}></div>
                 <div className={"profile-main-info"}>
                     <div>
                         <div className={"profile-data-primary"}>
@@ -47,13 +55,18 @@ const UserProfile = (props) => {
                     </div>
                 </div>
                 <div className={"profile-actions"}>
+                    <div className={"profile-btn-secondary"}>
+                        <Icon clickable={false} icon={onlineIcon} size={25}/>
+                        Мой онлайн виден:
+                        <SelectInput
+                            callback={(value) => dispatch(setUserOnlinePreference(value))}
+                            value={onlinePreference}
+                            options={ONLINE_PREFERENCE_OPTIONS}
+                        />
+                    </div>
                     <div className={"profile-btn-secondary"} onClick={() => dispatch(setViewChangePassword())}>
                         <Icon clickable={false} icon={passwordIcon} size={25}/>
                         Изменить пароль
-                    </div>
-                    <div className={"profile-btn-secondary"}
-                         onClick={() => dispatch(setUserOnlinePreference(ONLINE_PREFERENCE_TYPE.EVERYONE))}>
-                        Изменить онлайн-преференс
                     </div>
                     <div className={"profile-btn-secondary"} onClick={user.signOut}>
                         <Icon clickable={false} icon={exitIcon} size={25}/>

@@ -1,5 +1,5 @@
 import "./friendshipRequestsItem.css"
-import {getUserAvatar} from "../../../../../../helpers/helpers";
+import {getFileLinkToView} from "../../../../../../helpers/helpers";
 import UserCard from "../../../../../other/userCard/userCard";
 import Icon from "../../../../../other/icon/icon";
 import deleteIcon from "./../../../../../../assets/icons/delete_contact.svg"
@@ -8,7 +8,7 @@ import addIcon from "./../../../../../../assets/icons/add_contact_light.svg"
 const FriendshipRequestsItem = (props) => {
 
     return (
-        <UserCard avatarLink={getUserAvatar(props.photoId)}>
+        <UserCard avatarLink={getFileLinkToView(props.photoId)}>
             <div className={"friendship-requests-item"}>
                 <div className={"text-primary"} style={{fontSize: "16px"}}>{props.fullName}</div>
                     <div>

@@ -21,6 +21,7 @@
 .side-bar-content {
     height: calc(100% - 65px);
     position: relative;
+    overflow-y: auto;
 }
 
 .overflowY {

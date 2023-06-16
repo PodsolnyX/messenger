@@ -1,11 +1,11 @@
 import "./chatItem.css"
-import {getUserAvatar} from "../../../../../../helpers/helpers";
+import {getFileLinkToView} from "../../../../../../helpers/helpers";
 import UserCard from "../../../../../other/userCard/userCard";
 
 const ChatItem = (props) => {
 
     return (
-        <UserCard avatarLink={getUserAvatar(props.chatAvatarId)}
+        <UserCard avatarLink={getFileLinkToView(props.chatAvatarId)}
                   isSelected={props.isSelected}
                   callback={() => props.navigate(`/${props.id}`)}
         >

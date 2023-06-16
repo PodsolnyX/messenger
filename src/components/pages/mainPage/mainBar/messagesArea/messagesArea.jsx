@@ -15,7 +15,7 @@ import {useNavigate, useParams} from "react-router-dom";
 import {useScroll} from "../../../../../hooks/useScroll";
 import {SIZE_MESSAGE_PAGE} from "../../../../../helpers/constants";
 import Navbar from "../../../../other/navbar/navbar";
-import {getUserAvatar} from "../../../../../helpers/helpers";
+import {getFileLinkToView} from "../../../../../helpers/helpers";
 import {setViewChatList} from "../../../../../store/reducers/generalReducer";
 
 const MessagesArea = (props) => {
@@ -49,9 +49,6 @@ const MessagesArea = (props) => {
             dispatch(viewMessage(messages[0].id))
     }, [messages])
 
-    console.log(messages)
-
-
     return (
         isLoading && messages.length === 0 ? <div className={"messages-list-empty"}>
                 <Loader/>
@@ -64,7 +61,7 @@ const MessagesArea = (props) => {
                         }}>
                     <div className={"messages-area-nav"}>
                         <div className={"messages-area-nav-avatar"}>
-                            <img src={getUserAvatar(chatDetails?.chatAvatarId)} alt={""}/>
+                            <img src={getFileLinkToView(chatDetails?.chatAvatarId)} alt={""}/>
                         </div>
                         <div className={"messages-area-nav-name"}>{chatDetails?.chatName}</div>
                     </div>

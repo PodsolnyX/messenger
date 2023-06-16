@@ -6,7 +6,7 @@ import {useForm} from "react-hook-form";
 import {Input} from "../../../../other/input/input";
 import {validators} from "../../../../../helpers/validators";
 import {editAvatarProfile, editInfoProfile} from "../../../../../store/reducers/userReducer";
-import {getUserAvatar} from "../../../../../helpers/helpers";
+import {getFileLinkToView} from "../../../../../helpers/helpers";
 
 const EditProfileForm = (props) => {
 
@@ -64,7 +64,7 @@ const EditProfile = (props) => {
                     <input type={"file"} id="avatar-input" onChange={onChangeAvatar}
                            accept="image/png, image/gif, image/jpeg"/>
                     <label htmlFor="avatar-input">
-                        <img src={getUserAvatar(userData.photoId)} alt=""/>
+                        <img src={getFileLinkToView(userData.photoId)} alt=""/>
                     </label>
                 </div>
 

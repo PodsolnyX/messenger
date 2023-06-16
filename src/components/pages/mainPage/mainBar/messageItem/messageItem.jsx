@@ -1,6 +1,6 @@
 import "./messageItem.css"
 import {FILE_TYPE} from "../../../../../helpers/constants";
-import {getFileLinkToDownload, getUserAvatar} from "../../../../../helpers/helpers";
+import {getFileLinkToDownload, getFileLinkToView} from "../../../../../helpers/helpers";
 
 const MessageItem = (props) => {
 
@@ -13,7 +13,7 @@ const MessageItem = (props) => {
                     {
                         props.files && props.files.map(file =>
                             file.type === FILE_TYPE.IMAGE ?
-                                <img src={getUserAvatar(file.id)} alt=""/> : undefined)
+                                <img src={getFileLinkToView(file.id)} key={file.id} alt=""/> : undefined)
                     }
                 </div>
                 <div className={"message-item-content"}>
@@ -21,7 +21,7 @@ const MessageItem = (props) => {
                         props.files && props.files.map(file =>
                             file.type === FILE_TYPE.VIDEO ?
                                 <video key={file.id} controls >
-                                    <source src={getUserAvatar(file.id)}/>
+                                    <source src={getFileLinkToView(file.id)}/>
                                 </video> : undefined)
                     }
                 </div>
@@ -31,7 +31,7 @@ const MessageItem = (props) => {
                             file.type === FILE_TYPE.AUDIO ?
                                 <div key={file.id}>
                                     <div className={"message-item-file-name"}>{file.name}</div>
-                                    <audio controls src={getUserAvatar(file.id)}></audio>
+                                    <audio controls src={getFileLinkToView(file.id)}></audio>
                                 </div> : undefined)
                     }
                 </div>

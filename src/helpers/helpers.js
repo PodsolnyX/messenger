@@ -6,7 +6,7 @@ export function convertFileToFormData(file) {
     return formData;
 }
 
-export function getUserAvatar(photoId) {
+export function getFileLinkToView(photoId) {
     if (photoId === NULL_PHOTO || photoId === undefined)
         return `https://acrohappiness.ru/assets/img/comment.jpg`
     return `http://chat.markridge.space/api/files/${photoId}?attachment=false&access_token=${localStorage.getItem("accessToken")}`;

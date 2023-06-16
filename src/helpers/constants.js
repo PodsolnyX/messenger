@@ -17,7 +17,7 @@ export const FILE_TYPE_RATIO = {
     "archive": FILE_TYPE.ARCHIVE
 }
 
-    export const VIEWS = {
+export const VIEWS = {
     PROFILE: "VIEW_PROFILE",
     CHATS_LIST: "CHATS_LIST",
     CHANGE_PASSWORD: "CHANGE_PASSWORD",
@@ -34,6 +34,12 @@ export const ONLINE_PREFERENCE_TYPE = {
     FRIENDS: "Friends",
     EVERYONE: "Everyone"
 }
+
+export const ONLINE_PREFERENCE_OPTIONS = [
+    {value: "Nobody", title: "Никому"},
+    {value: "Friends", title: "Друзьям"},
+    {value: "Everyone", title: "Всем"}
+]
 
 export const MESSAGE_TYPES = {
     NEW_MESSAGE: "NewMessage",
@@ -66,8 +72,8 @@ export const NUMBER_MESSAGE_TYPES_RATIO = {
 }
 
 export const USER_REQUESTS_OPTIONS = [
-    { value: "false", title: "Входящие" },
-    { value: "true", title: "Исходящие" }
+    {value: "false", title: "Входящие"},
+    {value: "true", title: "Исходящие"}
 ]
 
 export const SIZE_MESSAGE_PAGE = 50;

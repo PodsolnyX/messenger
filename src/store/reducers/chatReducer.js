@@ -111,7 +111,6 @@ async function getChatWithParsedPrivateChats(chat, userId) {
 export const getPreviewChats = (withLoading = true) => async (dispatch, getState) => {
     dispatch(setLoadingChat(withLoading));
     const response = await chatAPI.getPreviewChats();
-    console.log(response)
     if (response.status === 200) {
         const userId = getState().user.userData?.id;
         if (userId) {
@@ -132,7 +131,6 @@ async function getMessageWithFiles(message) {
     if (message.fileIds.length !== 0) {
         message.files = await Promise.all(message.fileIds.map(async id => {
             const response = await filesAPI.getFileInfo(id)
-            console.log(response)
             if (response.status === 200) return response.data
             else return {}
         }));

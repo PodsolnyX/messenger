@@ -1,6 +1,6 @@
 import {userAPI} from "../../api/userAPI";
-import {setErrorToast, setSuccessToast} from "./toasterReducer";
-import {FILE_TYPE} from "../../helpers/constants";
+import {setErrorToast, setInformationToast, setSuccessToast} from "./toasterReducer";
+import {FILE_TYPE, ONLINE_PREFERENCE_TYPE} from "../../helpers/constants";
 import {filesAPI} from "../../api/filesAPI";
 import {convertFileToFormData} from "../../helpers/helpers";
 
@@ -9,13 +9,15 @@ const SET_USER_DATA = "SET_USER_DATA",
     SET_IS_AUTH = "SET_IS_AUTH",
     SET_LOADING_USER = "SET_LOADING_USER",
     SET_USERS_LIST = "SET_USERS_LIST",
-    SET_USER_SEARCH_STRING = "SET_USER_SEARCH_STRING"
+    SET_USER_SEARCH_STRING = "SET_USER_SEARCH_STRING",
+    SET_ONLINE_PREFERENCE = "SET_ONLINE_PREFERENCE"
 ;
 
 let initialState = {
     userData: null,
     isLoading: false,
     usersList: {},
+    onlinePreference: null,
     searchString: "",
     isAuth: !!localStorage.getItem("accessToken")
 };
@@ -53,6 +55,11 @@ const userReducer = (state = initialState, action) => {
                 ...state,
                 searchString: action.searchString
             };
+        case SET_ONLINE_PREFERENCE:
+            return {
+                ...state,
+                onlinePreference: action.onlinePreference
+            };
         default:
             return state;
     }
@@ -64,6 +71,7 @@ export const clearUserData = () => ({type: CLEAR_USER_DATA});
 export const setLoadingUser = (isLoading) => ({type: SET_LOADING_USER, isLoading});
 export const setUsersList = (usersList) => ({type: SET_USERS_LIST, usersList});
 export const setUserSearchString = (searchString) => ({type: SET_USER_SEARCH_STRING, searchString});
+export const setOnlinePreference = (onlinePreference) => ({type: SET_ONLINE_PREFERENCE, onlinePreference});
 
 export const getUserProfile = () => (dispatch) => {
     userAPI.getProfile()
@@ -160,13 +168,18 @@ export const editInfoProfile = (data) => (dispatch, getState) => {
 
 export const getUserOnlinePreference = () => (dispatch) => {
     userAPI.getUserOnlinePreference().then(response => {
-        console.log(response.data);
+        if (response.status === 200)
+            dispatch(setOnlinePreference(response.data.type))
     })
 }
 
 export const setUserOnlinePreference = (type) => (dispatch) => {
     userAPI.setUserOnlinePreference(type).then(response => {
-        console.log(response.data);
+        if (response.status === 200) {
+            dispatch(setSuccessToast("Успешно"))
+            dispatch(setOnlinePreference(type))
+        }
+        else dispatch(setSuccessToast("Беда"))
     })
 }
 
