@@ -29,7 +29,15 @@ const MessagesArea = (props) => {
     const messages = useSelector(state => state.chat.messages);
     const chatDetails = useSelector(state => state.chat.chatDetails);
     const messagesPageCount = useSelector(state => state.chat.messagesPageCount);
-    const userId = useSelector(state => state.user.userData?.id)
+    const userId = useSelector(state => state.user.userData?.id);
+    const usersOnline = useSelector(state => state.user.usersOnline)
+
+    let isOnline = false;
+
+    if (chatDetails.users) {
+        isOnline = usersOnline.includes(
+            chatDetails.administrators.length === 0 && chatDetails.users[0] !== userId ? chatDetails.users[0] : chatDetails.users[1])
+    }
 
     const {anchor, onScroll} = useScroll(
         messages,
@@ -49,6 +57,8 @@ const MessagesArea = (props) => {
             dispatch(viewMessage(messages[0].id))
     }, [messages])
 
+    console.log(messages)
+
     return (
         isLoading && messages.length === 0 ? <div className={"messages-list-empty"}>
                 <Loader/>
@@ -63,7 +73,11 @@ const MessagesArea = (props) => {
                         <div className={"messages-area-nav-avatar"}>
                             <img src={getFileLinkToView(chatDetails?.chatAvatarId)} alt={""}/>
                         </div>
-                        <div className={"messages-area-nav-name"}>{chatDetails?.chatName}</div>
+                        <div className={"messages-area-nav-name"}>
+                            <div>{chatDetails?.chatName}</div>
+                            <div>{isOnline ? "online" : "offline"}</div>
+                        </div>
+
                     </div>
                 </Navbar>
                 <div className={"main-bar-content"}>

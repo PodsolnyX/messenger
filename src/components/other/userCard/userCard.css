@@ -27,6 +27,7 @@
 
 .user-card-avatar {
     display: flex;
+    position: relative;
 }
 
 .user-card-avatar > img {
@@ -34,6 +35,17 @@
     height: 50px;
     border-radius: 25px;
     object-fit: cover;
+}
+.user-card-avatar > span {
+    height: 10px;
+    width: 10px;
+    border-radius: 50%;
+    border: 2px solid var(--color-bg-secondary);
+    background-color: green;
+    box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.2) inset;
+    position: absolute;
+    right: 0;
+    bottom: 0;
 }
 
 .user-card-content {

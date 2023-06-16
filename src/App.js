@@ -8,10 +8,12 @@ import LoginPage from "./components/pages/loginPage/loginPage";
 import {UnrequireAuth} from "./hocs/unrequireAuth";
 import RegistrationPage from "./components/pages/registrationPage/registrationPage";
 import {useUserInformation} from "./hooks/useUserInformation";
+import {useSignalR} from "./hooks/useSignalR";
 
 function App() {
 
     useUserInformation();
+    useSignalR();
 
     return (
         <div>

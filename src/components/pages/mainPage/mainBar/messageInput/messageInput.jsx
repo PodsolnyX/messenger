@@ -17,9 +17,10 @@ const MessageInput = (props) => {
     }
 
     const onSend = () => {
-        if (textMessage.length === 0) return
+        if (textMessage.length === 0 && files.length === 0) return
         props.callback(textMessage, files);
         inputRef.current.replaceChildren();
+        setTextMessage("")
         setFiles([]);
     }
 

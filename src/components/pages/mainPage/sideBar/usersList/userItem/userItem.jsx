@@ -7,7 +7,7 @@ import Icon from "../../../../../other/icon/icon";
 const UserItem = (props) => {
 
     return (
-        <UserCard avatarLink={getFileLinkToView(props.photoId)}>
+        <UserCard avatarLink={getFileLinkToView(props.photoId)} userId={props.id}>
             <div className={"user-item-content"}>
                 <div className={"text-primary"} style={{fontSize: "16px"}}>{props.fullName}</div>
                 <div className={"user-item-add-contact-btn"}>

@@ -8,7 +8,7 @@ import {useMobile} from "../../../hooks/useMobile";
 
 const MainPage = (props) => {
 
-    useSignalR();
+
     useRefreshToken();
     useMobile();
     const mobileRef = useSelector(state => state.general.mobileRef)

@@ -1,4 +1,5 @@
 import "./userCard.css"
+import {connect} from "react-redux";
 
 const UserCard = (props) => {
 
@@ -8,6 +9,9 @@ const UserCard = (props) => {
         >
             <div className={"user-card-avatar"}>
                 <img alt={""} src={props.avatarLink}/>
+                {
+                    props.isOnline && <span></span>
+                }
             </div>
             <div className={"user-card-content"}>
                 {
@@ -18,4 +22,11 @@ const UserCard = (props) => {
     );
 }
 
-export default UserCard;
+const mapStateToProps = (state, props) => {
+    return {
+        ...props,
+        isOnline: props.userId && state.user.usersOnline.includes(props.userId)
+    }
+}
+
+export default connect(mapStateToProps, {})(UserCard);

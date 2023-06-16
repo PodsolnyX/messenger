@@ -1,6 +1,6 @@
 import {userAPI} from "../../api/userAPI";
-import {setErrorToast, setInformationToast, setSuccessToast} from "./toasterReducer";
-import {FILE_TYPE, ONLINE_PREFERENCE_TYPE} from "../../helpers/constants";
+import {setErrorToast, setSuccessToast} from "./toasterReducer";
+import {FILE_TYPE} from "../../helpers/constants";
 import {filesAPI} from "../../api/filesAPI";
 import {convertFileToFormData} from "../../helpers/helpers";
 
@@ -10,13 +10,16 @@ const SET_USER_DATA = "SET_USER_DATA",
     SET_LOADING_USER = "SET_LOADING_USER",
     SET_USERS_LIST = "SET_USERS_LIST",
     SET_USER_SEARCH_STRING = "SET_USER_SEARCH_STRING",
-    SET_ONLINE_PREFERENCE = "SET_ONLINE_PREFERENCE"
+    SET_ONLINE_PREFERENCE = "SET_ONLINE_PREFERENCE",
+    ADD_USER_TO_ONLINE = "ADD_USER_TO_ONLINE",
+    REMOVE_USER_FROM_ONLINE = "REMOVE_USER_FROM_ONLINE"
 ;
 
 let initialState = {
     userData: null,
     isLoading: false,
     usersList: {},
+    usersOnline: [],
     onlinePreference: null,
     searchString: "",
     isAuth: !!localStorage.getItem("accessToken")
@@ -60,6 +63,20 @@ const userReducer = (state = initialState, action) => {
                 ...state,
                 onlinePreference: action.onlinePreference
             };
+        case ADD_USER_TO_ONLINE:
+            return {
+                ...state,
+                usersOnline: [
+                    ...state.usersOnline,
+                    action.userId
+                ]
+            }
+        case REMOVE_USER_FROM_ONLINE:
+            const usersOnline = state.usersOnline.filter(id => id !== action.userId )
+            return {
+                ...state,
+                usersOnline: usersOnline
+            }
         default:
             return state;
     }
@@ -72,6 +89,8 @@ export const setLoadingUser = (isLoading) => ({type: SET_LOADING_USER, isLoading
 export const setUsersList = (usersList) => ({type: SET_USERS_LIST, usersList});
 export const setUserSearchString = (searchString) => ({type: SET_USER_SEARCH_STRING, searchString});
 export const setOnlinePreference = (onlinePreference) => ({type: SET_ONLINE_PREFERENCE, onlinePreference});
+export const removeUserFromOnline = (userId) => ({type: REMOVE_USER_FROM_ONLINE, userId});
+export const addUserToOnline = (userId) => ({type: ADD_USER_TO_ONLINE, userId})
 
 export const getUserProfile = () => (dispatch) => {
     userAPI.getProfile()

@@ -3,7 +3,8 @@ import {useEffect, useState} from "react";
 import {useAuth} from "./useAuth";
 import {MESSAGE_TYPES, NUMBER_MESSAGE_TYPES_RATIO} from "../helpers/constants";
 import {useDispatch} from "react-redux";
-import {getChatMessages, getNewMessage, getPreviewChats} from "../store/reducers/chatReducer";
+import { getNewMessage, getPreviewChats} from "../store/reducers/chatReducer";
+import {addUserToOnline, removeUserFromOnline} from "../store/reducers/userReducer";
 
 export function useSignalR() {
 
@@ -12,6 +13,7 @@ export function useSignalR() {
     const [connection, setConnection] = useState(null);
 
     useEffect(() => {
+        console.log(user.isAuth, 9999)
         if (user.isAuth) {
             const newConnection = new signalR.HubConnectionBuilder()
                 .withUrl("http://chat.markridge.space/api/notification/hub", {
@@ -24,8 +26,10 @@ export function useSignalR() {
 
             setConnection(newConnection);
         }
-        else {
-            setConnection(null);
+        else if (!user.isAuth && connection) {
+            connection.stop().then(() => {
+                setConnection(null);
+            })
         }
 
     }, [user.isAuth])
@@ -44,6 +48,12 @@ export function useSignalR() {
                             dispatch(getPreviewChats(false));
                             dispatch(getNewMessage(newMessage.ChatId))
                             break;
+                        case MESSAGE_TYPES.USER_ONLINE:
+                            dispatch(addUserToOnline(newMessage.SenderId));
+                            break
+                        case MESSAGE_TYPES.USER_OFFLINE:
+                            dispatch(removeUserFromOnline(newMessage.SenderId));
+                            break
                         default:
                             break;
                     }

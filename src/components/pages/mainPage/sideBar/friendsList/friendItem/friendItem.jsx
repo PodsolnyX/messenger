@@ -7,7 +7,7 @@ import deleteContact from "./../../../../../../assets/icons/delete_contact.svg"
 const FriendItem = (props) => {
 
     return (
-        <UserCard avatarLink={getFileLinkToView(props.photoId)}>
+        <UserCard avatarLink={getFileLinkToView(props.photoId)} userId={props.id}>
             <div className={"friend-item"}>
                 <div className={"text-primary"} style={{fontSize: "16px", cursor: "pointer"}}
                      onClick={() => props.onChat(props.id)} >

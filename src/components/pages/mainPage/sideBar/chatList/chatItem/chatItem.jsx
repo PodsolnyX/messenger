@@ -7,6 +7,7 @@ const ChatItem = (props) => {
     return (
         <UserCard avatarLink={getFileLinkToView(props.chatAvatarId)}
                   isSelected={props.isSelected}
+                  userId={props.isPrivate && props.users[0] !== props.userId ? props.users[0] : props.users[1]}
                   callback={() => props.navigate(`/${props.id}`)}
         >
             <div className={"chat-item-info"}>
@@ -18,7 +19,7 @@ const ChatItem = (props) => {
                     {
                         props.lastMessage?.textMessage ?
                         `${props.lastMessage.senderId === props.userId ? "Вы: " : ""}${props.lastMessage.textMessage}` :
-                            "Новый чат"
+                            props.lastMessage?.id ? "Файл" : "Новый чат"
                     }
                 </div>
                 {

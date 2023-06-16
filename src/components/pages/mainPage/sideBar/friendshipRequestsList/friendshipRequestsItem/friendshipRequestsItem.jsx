@@ -8,7 +8,7 @@ import addIcon from "./../../../../../../assets/icons/add_contact_light.svg"
 const FriendshipRequestsItem = (props) => {
 
     return (
-        <UserCard avatarLink={getFileLinkToView(props.photoId)}>
+        <UserCard avatarLink={getFileLinkToView(props.photoId)} userId={props.id}>
             <div className={"friendship-requests-item"}>
                 <div className={"text-primary"} style={{fontSize: "16px"}}>{props.fullName}</div>
                     <div>
