@@ -132,6 +132,7 @@ async function getMessageWithFiles(message) {
     if (message.fileIds.length !== 0) {
         message.files = await Promise.all(message.fileIds.map(async id => {
             const response = await filesAPI.getFileInfo(id)
+            console.log(response)
             if (response.status === 200) return response.data
             else return {}
         }));
@@ -159,13 +160,12 @@ export const getChatMessages = (chatId, withLoading = true, callback) => async (
 
 }
 
-export const getNewMessage = (chatId) => (dispatch, getState) => {
+export const getNewMessage = (chatId) => async (dispatch, getState) => {
     if (getState().chat.chatId === chatId) {
-        chatAPI.getMessages(getState().chat.chatId, 1, SIZE_MESSAGE_PAGE)
-            .then(response => {
-                if (response.status === 200)
-                    dispatch(setNewMessage(response.data.items[0], response.data.pages_amount))
-            })
+        const response = await chatAPI.getMessages(getState().chat.chatId, 1, SIZE_MESSAGE_PAGE)
+        const message = await getMessageWithFiles(response.data.items[0]);
+        if (response.status === 200)
+            dispatch(setNewMessage(message, response.data.pages_amount))
     } else if (getState().chat.chatId || chatId) {
         dispatch(setInformationToast("Вам пришло сообщение"))
     }
@@ -196,7 +196,7 @@ export const createPrivateChat = (userId, callback) => (dispatch) => {
         })
 }
 
-async function uploadFile(file, fileViewers, isPublic = false) {
+async function uploadFile(file, isPublic = false) {
 
     const fileType = FILE_TYPE_RATIO[file.type.split("/")[0]] || FILE_TYPE.UNKNOWN;
     const formData = convertFileToFormData(file);
@@ -210,10 +210,8 @@ async function uploadFile(file, fileViewers, isPublic = false) {
 export const sendMessage = (chatId, textMessage, files) => async (dispatch, getState) => {
     dispatch(setLoadingSendMessage(true));
 
-    const fileViewers = getState().chat.chatDetails.users;
-
     const filesIdList = await Promise.all(files.map(async (file) =>
-        await uploadFile(file, fileViewers)
+        await uploadFile(file)
     ))
 
     const clearFilesList = filesIdList.filter(id => id !== '');

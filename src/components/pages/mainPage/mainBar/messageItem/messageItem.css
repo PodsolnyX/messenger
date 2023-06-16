@@ -9,8 +9,8 @@
 }
 
 .message-item {
-    max-width: 70%;
-    padding: 8px 10px 8px 16px;
+    max-width: 75%;
+    padding: 8px 16px 8px 16px;
     border-radius: 16px;
     display: flex;
     flex-direction: column;
@@ -54,11 +54,24 @@
     flex-direction: column;
 }
 
-.message-item-files > a {
+.message-item-content > *{
+    border-radius: 4px;
+    margin-top: 10px;
+}
+
+.message-item-file-name {
     color: var(--color-text-secondary);
     white-space: nowrap;
-    max-width: 200px;
+    max-width: 300px;
     overflow: auto;
     overflow-x: hidden;
     text-overflow: ellipsis;
+}
+
+video {
+    max-width: 290px;
+}
+
+audio::-webkit-media-controls-panel {
+    background-color: var(--color-bg-block-3);
 }

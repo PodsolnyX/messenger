@@ -9,19 +9,38 @@ const MessageItem = (props) => {
         >
             <div className={`message-item message-item-${props.isIncoming ? "incoming" : "exiting"}`}>
                 <p>{props.textMessage}</p>
-                <div className={"message-item-images"}> 
+                <div className={"message-item-images"}>
                     {
-                        props.files && props.files.map(file => 
-                        file.type === FILE_TYPE.IMAGE ?
-                            <img src={getUserAvatar(file.id)} alt=""/> : undefined)
+                        props.files && props.files.map(file =>
+                            file.type === FILE_TYPE.IMAGE ?
+                                <img src={getUserAvatar(file.id)} alt=""/> : undefined)
+                    }
+                </div>
+                <div className={"message-item-content"}>
+                    {
+                        props.files && props.files.map(file =>
+                            file.type === FILE_TYPE.VIDEO ?
+                                <video key={file.id} controls >
+                                    <source src={getUserAvatar(file.id)}/>
+                                </video> : undefined)
+                    }
+                </div>
+                <div className={"message-item-content"}>
+                    {
+                        props.files && props.files.map(file =>
+                            file.type === FILE_TYPE.AUDIO ?
+                                <div key={file.id}>
+                                    <div className={"message-item-file-name"}>{file.name}</div>
+                                    <audio controls src={getUserAvatar(file.id)}></audio>
+                                </div> : undefined)
                     }
                 </div>
                 <div className={"message-item-files"}>
                     {
                         props.files && props.files.map(file =>
-                            file.type !== FILE_TYPE.IMAGE ?
-                        <a className={"message-item-file-item"}
-                           href={getFileLinkToDownload(file.id)} key={file.id}>{file.name}</a> : undefined)
+                            file.type !== FILE_TYPE.IMAGE && file.type !== FILE_TYPE.VIDEO && file.type !== FILE_TYPE.AUDIO ?
+                                <a className={"message-item-file-name"}
+                                   href={getFileLinkToDownload(file.id)} key={file.id}>{file.name}</a> : undefined)
                     }
                 </div>
                 <div style={props.editedTime && {fontStyle: "italic"}}>
