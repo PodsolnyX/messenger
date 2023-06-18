@@ -1,13 +1,16 @@
 import "./messageItem.css"
-import {FILE_TYPE} from "../../../../../helpers/constants";
-import {getFileLinkToDownload, getFileLinkToView} from "../../../../../helpers/helpers";
+import {FILE_TYPE} from "../../../../../../helpers/constants";
+import {getFileLinkToDownload, getFileLinkToView} from "../../../../../../helpers/helpers";
 
 const MessageItem = (props) => {
+
+    console.log(props)
 
     return (
         <div className={`message-item-container-${props.isIncoming ? "incoming" : "exiting"}`}
         >
             <div className={`message-item message-item-${props.isIncoming ? "incoming" : "exiting"}`}>
+                <p className={"message-item-fullName"}>{props.withUserInfo && props.userInfo.fullName}</p>
                 <p>{props.textMessage}</p>
                 <div className={"message-item-images"}>
                     {

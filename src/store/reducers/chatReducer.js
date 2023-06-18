@@ -1,11 +1,12 @@
 import {chatAPI} from "../../api/chatAPI";
 import {setErrorToast, setInformationToast} from "./toasterReducer";
-import {setViewChatList} from "./generalReducer";
+import {setViewChatList, setViewMessagesArea} from "./generalReducer";
 import {userAPI} from "../../api/userAPI";
 import {messageAPI} from "../../api/messageAPI";
 import {FILE_TYPE, FILE_TYPE_RATIO, NULL_PHOTO, SIZE_MESSAGE_PAGE} from "../../helpers/constants";
 import {filesAPI} from "../../api/filesAPI";
 import {convertFileToFormData} from "../../helpers/helpers";
+import {setFriendsList, setLoadingFriends} from "./friendReducer";
 
 const SET_PREVIEW_CHATS = "SET_PREVIEW_CHATS",
     SET_MESSAGES = "SET_MESSAGES",
@@ -13,7 +14,7 @@ const SET_PREVIEW_CHATS = "SET_PREVIEW_CHATS",
     SET_LOADING_CHAT = "SET_LOADING_CHAT",
     SET_LOADING_MESSAGES = "SET_LOADING_MESSAGES",
     SET_LOADING_SEND_MESSAGE = "SET_LOADING_SEND_MESSAGE",
-    SET_CHAT_ID = "SET_CHAT_ID",
+    RESET_CHAT = "RESET_CHAT",
     SET_CHAT_DETAILS = "SET_CHAT_DETAILS"
 ;
 
@@ -53,7 +54,7 @@ const chatReducer = (state = initialState, action) => {
                     ...state.messages
                 ]
             }
-        case SET_CHAT_ID:
+        case RESET_CHAT:
             return {
                 ...state,
                 chatId: action.chatId,
@@ -89,11 +90,17 @@ const chatReducer = (state = initialState, action) => {
 export const setPreviewChats = (previewChats) => ({type: SET_PREVIEW_CHATS, previewChats});
 export const setMessages = (messages, messagesPageCount) => ({type: SET_MESSAGES, messages, messagesPageCount});
 export const setNewMessage = (message, messagesPageCount) => ({type: SET_NEW_MESSAGE, message, messagesPageCount});
-export const setChatId = (chatId) => ({type: SET_CHAT_ID, chatId});
+export const resetChat = (chatId) => ({type: RESET_CHAT, chatId});
 export const setChatDetails = (chatDetails) => ({type: SET_CHAT_DETAILS, chatDetails});
 export const setLoadingChat = (isLoading) => ({type: SET_LOADING_CHAT, isLoading});
 export const setLoadingMessages = (isLoading) => ({type: SET_LOADING_MESSAGES, isLoading});
 export const setLoadingSendMessage = (isLoading) => ({type: SET_LOADING_SEND_MESSAGE, isLoading});
+
+
+export const setChatId = (chatId) => (dispatch) => {
+    dispatch(setViewMessagesArea());
+    dispatch(resetChat(chatId));
+}
 
 async function getChatWithParsedPrivateChats(chat, userId) {
     if (chat.isPrivate || chat.administrators?.length === 0) {
@@ -167,16 +174,19 @@ export const getNewMessage = (chatId) => async (dispatch, getState) => {
     }
 }
 
-export const getChatDetails = (chatId) => (dispatch, getState) => {
+export const getChatDetails = (chatId) => async (dispatch, getState) => {
     dispatch(setLoadingMessages(true))
-    chatAPI.getChatDetails(chatId)
-        .then(response => {
-            if (response.status === 200) {
-                const userId = getState().user.userData?.id;
-                getChatWithParsedPrivateChats(response.data, userId)
-                    .then(chat => dispatch(setChatDetails(chat)));
-            } else dispatch(setErrorToast("Беда"))
-        })
+    const response = await chatAPI.getChatDetails(chatId)
+    if (response.status === 200) {
+        const userId = getState().user.userData?.id;
+        const chat = await getChatWithParsedPrivateChats(response.data, userId)
+        const userResponse = await userAPI.getUsersListDetails(chat.users)
+        chat.usersDetails = userResponse.data;
+
+        dispatch(setChatDetails(chat))
+
+    } else dispatch(setErrorToast("Беда"))
+
 }
 
 export const createPrivateChat = (userId, callback) => (dispatch) => {

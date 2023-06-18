@@ -1,7 +1,7 @@
 import "./messageInput.css"
-import clipIcon from "../../../../../assets/icons/clip.svg";
-import sendIcon from "../../../../../assets/icons/send.svg";
-import Icon from "../../../../other/icon/icon";
+import clipIcon from "../../../../../../assets/icons/clip.svg";
+import sendIcon from "../../../../../../assets/icons/send.svg";
+import Icon from "../../../../../other/icon/icon";
 import {useRef, useState} from "react";
 import {convert} from "html-to-text";
 import {PuffLoader} from "react-spinners";

@@ -1,0 +1,16 @@
+.chat-settings-user-list {
+    min-width: 80%;
+    color: var(--color-text-primary);
+}
+
+.chat-settings-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.chat-settings-user-list > h4 {
+    margin: 0 0 0 25px;
+    font-weight: normal;
+    font-size: 18px;
+}

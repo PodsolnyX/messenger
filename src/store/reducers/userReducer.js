@@ -20,7 +20,7 @@ let initialState = {
     isLoading: false,
     usersList: {},
     usersOnline: [],
-    onlinePreference: null,
+    onlinePreference: "Nobody",
     searchString: "",
     isAuth: !!localStorage.getItem("accessToken")
 };

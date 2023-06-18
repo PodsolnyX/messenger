@@ -1,12 +1,11 @@
 import "./messagesArea.css"
-import MessageItem from "../messageItem/messageItem";
-import MessageInput from "../messageInput/messageInput";
+import MessageItem from "./messageItem/messageItem";
+import MessageInput from "./messageInput/messageInput";
 import {useEffect} from "react";
 import {
     getChatDetails,
     getChatMessages,
-    sendMessage,
-    setChatId,
+    sendMessage, setChatId,
     viewMessage
 } from "../../../../../store/reducers/chatReducer";
 import {useDispatch, useSelector} from "react-redux";
@@ -16,7 +15,9 @@ import {useScroll} from "../../../../../hooks/useScroll";
 import {SIZE_MESSAGE_PAGE} from "../../../../../helpers/constants";
 import Navbar from "../../../../other/navbar/navbar";
 import {getFileLinkToView} from "../../../../../helpers/helpers";
-import {setViewChatList} from "../../../../../store/reducers/generalReducer";
+import {setViewChatList, setViewChatSettings} from "../../../../../store/reducers/generalReducer";
+import Icon from "../../../../other/icon/icon";
+import other from "./../../../../../assets/icons/other.svg";
 
 const MessagesArea = (props) => {
 
@@ -61,6 +62,8 @@ const MessagesArea = (props) => {
             dispatch(viewMessage(messages[0].id))
     }, [messages])
 
+    console.log(chatDetails)
+
     return (
         isLoading && messages.length === 0 ? <div className={"messages-list-empty"}>
                 <Loader/>
@@ -72,17 +75,22 @@ const MessagesArea = (props) => {
                             navigate("/");
                         }}>
                     <div className={"messages-area-nav"}>
-                        <div className={"messages-area-nav-avatar"}>
-                            <img src={getFileLinkToView(chatDetails?.chatAvatarId)} alt={""}/>
+                        <div>
+                            <div className={"messages-area-nav-avatar"}>
+                                <img src={getFileLinkToView(chatDetails?.chatAvatarId)} alt={""}/>
+                            </div>
+                            <div className={"messages-area-nav-name"}>
+                                <div>{chatDetails?.chatName}</div>
+                                {
+                                    chatDetails?.administrators?.length === 0 ?
+                                        <div>{isOnline ? "online" : "offline"}</div> : undefined
+                                }
+                            </div>
                         </div>
-                        <div className={"messages-area-nav-name"}>
-                            <div>{chatDetails?.chatName}</div>
-                            {
-                                chatDetails?.administrators?.length === 0 ?
-                                    <div>{isOnline ? "online" : "offline"}</div> : undefined
-                            }
-                        </div>
-
+                        {
+                            chatDetails?.administrators?.length !== 0 &&
+                            <Icon icon={other} size={35} callback={() => dispatch(setViewChatSettings())}/>
+                        }
                     </div>
                 </Navbar>
                 <div className={"main-bar-content"}>
@@ -97,6 +105,11 @@ const MessagesArea = (props) => {
                                         messages.slice(0).reverse().map(message =>
                                             <MessageItem
                                                 {...message}
+                                                userInfo={chatDetails?.administrators?.length !== 0 ?
+                                                    {...chatDetails?.usersDetails?.filter(user => user.id === message.senderId)[0]}
+                                                    : undefined
+                                            }
+                                                withUserInfo={chatDetails?.administrators?.length !== 0}
                                                 isIncoming={message.senderId !== userId}
                                                 key={message.id}
                                             />)
