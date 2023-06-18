@@ -34,9 +34,13 @@ const MessagesArea = (props) => {
 
     let isOnline = false;
 
+    console.log(chatDetails)
+
     if (chatDetails.users) {
         isOnline = usersOnline.includes(
-            chatDetails.administrators.length === 0 && chatDetails.users[0] !== userId ? chatDetails.users[0] : chatDetails.users[1])
+            chatDetails.administrators.length === 0 ?
+                chatDetails.users[0] !== userId ? chatDetails.users[0] : chatDetails.users[1]
+                : undefined)
     }
 
     const {anchor, onScroll} = useScroll(
@@ -57,8 +61,6 @@ const MessagesArea = (props) => {
             dispatch(viewMessage(messages[0].id))
     }, [messages])
 
-    console.log(messages)
-
     return (
         isLoading && messages.length === 0 ? <div className={"messages-list-empty"}>
                 <Loader/>
@@ -75,7 +77,10 @@ const MessagesArea = (props) => {
                         </div>
                         <div className={"messages-area-nav-name"}>
                             <div>{chatDetails?.chatName}</div>
-                            <div>{isOnline ? "online" : "offline"}</div>
+                            {
+                                chatDetails?.administrators?.length === 0 ?
+                                    <div>{isOnline ? "online" : "offline"}</div> : undefined
+                            }
                         </div>
 
                     </div>

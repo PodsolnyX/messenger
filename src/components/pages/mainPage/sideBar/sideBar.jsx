@@ -10,6 +10,7 @@ import {useSelector} from "react-redux";
 import FriendshipRequestsList from "./friendshipRequestsList/friendshipRequestsList";
 import MessagesArea from "../mainBar/messagesArea/messagesArea";
 import {useParams} from "react-router-dom";
+import CreateGroupChat from "./createGroupChat/createGroupChat";
 
 const SideBar = () => {
 
@@ -24,6 +25,7 @@ const SideBar = () => {
           { currentView === VIEWS.CHATS_LIST && <ChatList/> }
           { currentView === VIEWS.USERS_LIST && <UsersList/> }
           { currentView === VIEWS.FRIENDS_LIST && <FriendsList/> }
+          { currentView === VIEWS.CREATE_GROUP_CHAT && <CreateGroupChat/> }
           { currentView === VIEWS.PROFILE && <UserProfile/> }
           { currentView === VIEWS.CHANGE_PASSWORD && <ChangePassword/> }
           { currentView === VIEWS.EDIT_PROFILE && <EditProfile/> }

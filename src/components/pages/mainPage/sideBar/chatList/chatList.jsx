@@ -22,8 +22,6 @@ const ChatList = (props) => {
 
     const usersOnline = useSelector(state => state.user.usersOnline)
 
-    console.log(usersOnline, previewChats)
-
     useEffect(() => {
         dispatch(getPreviewChats());
     }, [userId])

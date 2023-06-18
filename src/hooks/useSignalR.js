@@ -13,7 +13,6 @@ export function useSignalR() {
     const [connection, setConnection] = useState(null);
 
     useEffect(() => {
-        console.log(user.isAuth, 9999)
         if (user.isAuth) {
             const newConnection = new signalR.HubConnectionBuilder()
                 .withUrl("http://chat.markridge.space/api/notification/hub", {

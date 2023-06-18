@@ -11,7 +11,8 @@ const
     SET_VIEW_EMPTY_MAIN_BAR = "SET_VIEW_EMPTY_MAIN_BAR",
     SET_VIEW_MESSAGES_AREA = "SET_VIEW_MESSAGES_AREA",
     SET_IS_MOBILE = "SET_IS_MOBILE",
-    SET_MOBILE_REF = "SET_MOBILE_REF"
+    SET_MOBILE_REF = "SET_MOBILE_REF",
+    SET_VIEW_CREATE_GROUP_CHAT = "SET_VIEW_CREATE_GROUP_CHAT"
 ;
 
 let initialState = {
@@ -52,6 +53,11 @@ const generalReducer = (state = initialState, action) => {
                 ...state,
                 currentSideBarView: VIEWS.CHATS_LIST
             };
+        case SET_VIEW_CREATE_GROUP_CHAT:
+            return {
+                ...state,
+                currentSideBarView: VIEWS.CREATE_GROUP_CHAT
+            };
         case SET_VIEW_CHANGE_PASSWORD:
             return {
                 ...state,
@@ -89,6 +95,7 @@ export const setViewEmptyMainBar = () => ({type: SET_VIEW_EMPTY_MAIN_BAR});
 export const setViewMessagesArea = () => ({type: SET_VIEW_MESSAGES_AREA});
 export const setViewChatList = () => ({type: SET_VIEW_CHAT_LIST});
 export const setViewUsersList = () => ({type: SET_VIEW_USERS_LIST});
+export const setViewCreateGroupChat = () => ({type: SET_VIEW_CREATE_GROUP_CHAT});
 export const setViewFriendsList = () => ({type: SET_VIEW_FRIENDS_LIST});
 export const setViewChangePassword = () => ({type: SET_VIEW_CHANGE_PASSWORD});
 export const setViewEditProfile = () => ({type: SET_VIEW_EDIT_PROFILE});

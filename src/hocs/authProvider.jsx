@@ -22,8 +22,6 @@ export const AuthProvider = ({children}) => {
         dispatch(logoutUser(() => navigate("/login")));
     }
 
-    console.log(5555, isAuth)
-
     const value = {isAuth, signIn, signUp, signOut}
 
     return <AuthContext.Provider value={value}>

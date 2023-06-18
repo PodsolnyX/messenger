@@ -3,7 +3,7 @@ import {setErrorToast, setInformationToast} from "./toasterReducer";
 import {setViewChatList} from "./generalReducer";
 import {userAPI} from "../../api/userAPI";
 import {messageAPI} from "../../api/messageAPI";
-import {FILE_TYPE, FILE_TYPE_RATIO, SIZE_MESSAGE_PAGE} from "../../helpers/constants";
+import {FILE_TYPE, FILE_TYPE_RATIO, NULL_PHOTO, SIZE_MESSAGE_PAGE} from "../../helpers/constants";
 import {filesAPI} from "../../api/filesAPI";
 import {convertFileToFormData} from "../../helpers/helpers";
 
@@ -148,9 +148,7 @@ export const getChatMessages = (chatId, withLoading = true, callback) => async (
             await getMessageWithFiles(message)
         ))
         dispatch(setMessages(messages, response.data.pages_amount))
-    }
-
-    else if (response.status !== 404) {
+    } else if (response.status !== 404) {
         callback();
         dispatch(setErrorToast("Чат не найден"))
     }
@@ -192,6 +190,35 @@ export const createPrivateChat = (userId, callback) => (dispatch) => {
                 dispatch(setErrorToast("Беда"))
             dispatch(setLoadingChat(false));
         })
+}
+
+const uploadAvatar = async (avatarFile) => {
+    if (avatarFile) {
+        const formData = convertFileToFormData(avatarFile);
+        const response = await filesAPI.uploadFile(formData, FILE_TYPE.IMAGE, true);
+        if (response.status === 201)
+            return response.data
+        else return NULL_PHOTO
+    } else return NULL_PHOTO
+}
+
+export const createGroupChat = (users, avatarFile, chatName) => async (dispatch) => {
+    dispatch(setLoadingChat(true));
+
+    const avatarId = await uploadAvatar(avatarFile);
+    const response = await chatAPI.createGroupChat({
+        users: users,
+        avatarId: avatarId,
+        chatName: chatName
+    })
+
+    if (response.status === 200) {
+        dispatch(setViewChatList())
+    } else
+        dispatch(setErrorToast("Беда"))
+    dispatch(setLoadingChat(false));
+
+
 }
 
 async function uploadFile(file, isPublic = false) {

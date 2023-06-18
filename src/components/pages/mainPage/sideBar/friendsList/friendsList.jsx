@@ -2,13 +2,14 @@ import "./friendsList.css"
 import Navbar from "../../../../other/navbar/navbar";
 import {useDispatch, useSelector} from "react-redux";
 import {
-    setViewChatList,
+    setViewChatList, setViewCreateGroupChat,
     setViewFriendshipRequests,
     setViewUsersList
 } from "../../../../../store/reducers/generalReducer";
 import {useEffect} from "react";
 import Loader from "../../../../other/loader/loader";
 import addContactIcon from "../../../../../assets/icons/add_contact.svg";
+import groupIcon from "../../../../../assets/icons/group.svg";
 import FloatButton from "../../../../other/floatButton/floatButton";
 import {deleteFriend, getFriendsList} from "../../../../../store/reducers/friendReducer";
 import Icon from "../../../../other/icon/icon";
@@ -57,6 +58,12 @@ const FriendsList = (props) => {
                                 />
                                 )
                     }
+                <FloatButton
+                    icon={groupIcon}
+                    iconHeight={"30px"}
+                    marginEnd={80}
+                    callback={() => dispatch(setViewCreateGroupChat())}
+                />
                 <FloatButton
                     icon={addContactIcon}
                     iconHeight={"28px"}

@@ -1,0 +1,38 @@
+
+.create-group-chat-container {
+    padding: 0 30px;
+}
+
+.create-group-chat-container > div {
+    margin-top: 15px;
+}
+
+.create-group-chat-container > * > label {
+    color: var(--color-text-primary);
+}
+
+.create-group-chat-list-users {
+    overflow-y: auto;
+    height: 250px;
+}
+
+.create-group-chat-container > button {
+    margin-top: 5px;
+    font-size: 16px;
+    border-radius: 8px;
+    border: 0;
+    height: 30px;
+    background-color: var(--color-bg-block-3);
+    box-shadow: 0 3px 10px 0 rgba(155, 143, 143, 0.5);
+    cursor: pointer;
+    transition: 0.2s;
+    width: 100%;
+}
+
+.create-group-chat-container > button:hover {
+    background-color: var(--color-bg-block-3-hover);
+}
+
+.create-group-chat-container > button:disabled {
+    box-shadow: 0 0 0;
+}

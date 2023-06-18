@@ -7,7 +7,7 @@ const ChatItem = (props) => {
     return (
         <UserCard avatarLink={getFileLinkToView(props.chatAvatarId)}
                   isSelected={props.isSelected}
-                  userId={props.isPrivate && props.users[0] !== props.userId ? props.users[0] : props.users[1]}
+                  userId={props.isPrivate ? props.users[0] !== props.userId ? props.users[0] : props.users[1] : undefined}
                   callback={() => props.navigate(`/${props.id}`)}
         >
             <div className={"chat-item-info"}>

@@ -1,0 +1,11 @@
+
+.create-group-chat-item {
+    color: var(--color-text-secondary);
+    display: flex;
+    justify-content: space-between;
+}
+
+.create-group-chat-item > input[type=checkbox] {
+    transform: scale(1.2);
+    padding: 10px;
+}
