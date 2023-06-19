@@ -43,6 +43,11 @@ export const ONLINE_PREFERENCE_OPTIONS = [
     {value: "Everyone", title: "Всем"}
 ]
 
+export const NOTIFICATION_PREFERENCE_OPTIONS = [
+    {value: "Nothing", title: "Выключены"},
+    {value: "All", title: "Включены"}
+]
+
 export const MESSAGE_TYPES = {
     NEW_MESSAGE: "NewMessage",
     NEW_MESSAGE_MUTED: "NewMessageMuted",

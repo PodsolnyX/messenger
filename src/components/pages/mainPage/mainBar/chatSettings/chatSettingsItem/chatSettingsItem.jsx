@@ -11,11 +11,11 @@ const ChatSettingsItem = (props) => {
             <div className={"chat-settings-item"}>
                 <div>{props.fullName}<span>{props.isAdmin ? " - Админ" : ""}</span> </div>
                 {
-                    !props.isAdmin &&
+                    !props.isAdmin && props.userIsAdmin ?
                     <div>
                         <Icon icon={star} size={23}/>
                         <Icon icon={deleteUser} size={25}/>
-                    </div>
+                    </div> : undefined
                 }
             </div>
         </UserCard>
