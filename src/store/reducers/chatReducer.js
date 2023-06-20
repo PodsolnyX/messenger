@@ -6,6 +6,7 @@ import {messageAPI} from "../../api/messageAPI";
 import {FILE_TYPE, FILE_TYPE_RATIO, NULL_PHOTO, SIZE_MESSAGE_PAGE} from "../../helpers/constants";
 import {filesAPI} from "../../api/filesAPI";
 import {convertFileToFormData} from "../../helpers/helpers";
+import {getUserProfile, setLoadingUser} from "./userReducer";
 
 const SET_PREVIEW_CHATS = "SET_PREVIEW_CHATS",
     SET_MESSAGES = "SET_MESSAGES",
@@ -194,7 +195,45 @@ export const getChatDetails = (chatId) => async (dispatch, getState) => {
         dispatch(setChatDetails(chat))
 
     } else dispatch(setErrorToast("Беда"))
+}
 
+const editChat = (dispatch, chatId, data) => {
+    chatAPI.editChatDetails(chatId, data).then(response => {
+        if (response.status === 200) {
+            dispatch(getChatDetails(chatId));
+            dispatch(getPreviewChats())
+            dispatch(setSuccessToast("Успешно"));
+        } else if (response.status === 400)
+            dispatch(setErrorToast("Неверный формат данных"))
+
+        dispatch(setLoadingChat(false))
+    })
+}
+
+export const editChatDetails = (chatId, data) => (dispatch, getState) => {
+    dispatch(setLoadingChat(true));
+    data = {
+        chatName: data.chatName,
+        avatarId: getState().chat.chatDetails.chatAvatarId
+    }
+    editChat(dispatch, chatId, data);
+}
+
+export const editChatAvatar = (chatId, avatarFile) => (dispatch, getState) => {
+    dispatch(setLoadingChat(true));
+
+    const formData = convertFileToFormData(avatarFile);
+    filesAPI.uploadFile(formData, FILE_TYPE.IMAGE, true)
+        .then(response => {
+            if (response.status === 201) {
+                const data = {
+                    chatName: getState().chat.chatDetails.chatName,
+                    avatarId: response.data
+                };
+                editChat(dispatch, chatId, data);
+            }
+            else setErrorToast("Неверный формат данных")
+        })
 }
 
 export const getNotificationPreference = (chatId) => (dispatch) => {

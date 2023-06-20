@@ -101,22 +101,6 @@ export const getUserProfile = () => (dispatch) => {
         })
 }
 
-export const getUserDetails = (id) => (dispatch) => {
-    userAPI.getUserDetails(id)
-        .then(response => {
-            if (response.status === 200)
-                console.log(response.data)
-        })
-}
-
-export const getUsersListDetails = (idList) => (dispatch) => {
-    userAPI.getUsersListDetails(idList)
-        .then(response => {
-            if (response.status === 200)
-                console.log(response.data)
-        })
-}
-
 export const getUserList = (searchString) => (dispatch) => {
     dispatch(setLoadingUser(true));
     userAPI.getUsersList(searchString)

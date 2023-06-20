@@ -19,6 +19,16 @@ const getChatDetails = (id) => {
         .catch(error => error.response);
 }
 
+const editChatDetails = (id, data) => {
+    console.log(data)
+    return instance.put(`/backend/chat/${id}`, {
+        avatarId: data.avatarId,
+        chatName: data.chatName
+    })
+        .then(response =>  response)
+        .catch(error => error.response);
+}
+
 const getNotificationPreference = (chatId) => {
     return instance.get(`/backend/chat/${chatId}/notification-preference`)
         .then(response =>  response)
@@ -93,6 +103,7 @@ export const chatAPI = {
     getPreviewChats,
     getMessages,
     getChatDetails,
+    editChatDetails,
     getNotificationPreference,
     editNotificationPreference,
     createPrivateChat,
