@@ -104,7 +104,7 @@ export const acceptFriendshipRequest = (id) => (dispatch) => {
         .then(response => {
             if (response.status === 200) {
                 dispatch(setSuccessToast("Приглашение принято"));
-                dispatch(getFriendshipRequests());
+                dispatch(getFriendshipRequests(false));
             }
             else
                 dispatch(setErrorToast("Беда"))
@@ -117,7 +117,7 @@ export const rejectFriendshipRequest = (id) => (dispatch) => {
         .then(response => {
             if (response.status === 200) {
                 dispatch(setSuccessToast("Приглашение отклонено"));
-                dispatch(getFriendshipRequests());
+                dispatch(getFriendshipRequests(false));
             }
             else
                 dispatch(setErrorToast("Беда"))

@@ -5,6 +5,8 @@ import {MESSAGE_TYPES, NUMBER_MESSAGE_TYPES_RATIO} from "../helpers/constants";
 import {useDispatch} from "react-redux";
 import { getNewMessage, getPreviewChats} from "../store/reducers/chatReducer";
 import {addUserToOnline, removeUserFromOnline} from "../store/reducers/userReducer";
+import {setInformationToast} from "../store/reducers/toasterReducer";
+import {getFriendshipRequests, getFriendsList} from "../store/reducers/friendReducer";
 
 export function useSignalR() {
 
@@ -57,6 +59,22 @@ export function useSignalR() {
                         case MESSAGE_TYPES.USER_OFFLINE:
                             dispatch(removeUserFromOnline(newMessage.SenderId));
                             break
+                        case MESSAGE_TYPES.NEW_FRIENDSHIP_REQUEST:
+                            dispatch(getFriendshipRequests(false));
+                            dispatch(setInformationToast("Вам пришло приглашение в друзья"))
+                            break;
+                        case MESSAGE_TYPES.FRIENDSHIP_ACCEPTING:
+                            dispatch(getFriendsList());
+                            dispatch(getFriendshipRequests(true));
+                            dispatch(setInformationToast("Ваше приглашение в друзья принято"))
+                            break;
+                        case MESSAGE_TYPES.FRIENDSHIP_REJECTING:
+                            dispatch(getFriendshipRequests(true));
+                            dispatch(setInformationToast("Ваше приглашение в друзья отказано"))
+                            break;
+                        case MESSAGE_TYPES.CHAT_CREATED:
+                            dispatch(getPreviewChats(false));
+                            break;
                         default:
                             break;
                     }
