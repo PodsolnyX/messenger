@@ -47,6 +47,10 @@ export function useSignalR() {
                             dispatch(getPreviewChats(false));
                             dispatch(getNewMessage(newMessage.ChatId))
                             break;
+                        case MESSAGE_TYPES.NEW_MESSAGE_MUTED:
+                            dispatch(getPreviewChats(false));
+                            dispatch(getNewMessage(newMessage.ChatId, true))
+                            break;
                         case MESSAGE_TYPES.USER_ONLINE:
                             dispatch(addUserToOnline(newMessage.SenderId));
                             break

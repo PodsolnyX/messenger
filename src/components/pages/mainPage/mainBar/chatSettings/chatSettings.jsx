@@ -3,8 +3,15 @@ import Navbar from "../../../../other/navbar/navbar";
 import {useDispatch, useSelector} from "react-redux";
 import {setViewMessagesArea} from "../../../../../store/reducers/generalReducer";
 import {useEffect, useState} from "react";
-import {getChatDetails, setChatId} from "../../../../../store/reducers/chatReducer";
-import {useParams} from "react-router-dom";
+import {
+    addUserToChat,
+    deleteChat, deleteUserFromChat,
+    editNotificationPreference,
+    getChatDetails,
+    getNotificationPreference, leaveGroupChat, makeUserAdmin,
+    setChatId
+} from "../../../../../store/reducers/chatReducer";
+import {useNavigate, useParams} from "react-router-dom";
 import ChatSettingsItem from "./chatSettingsItem/chatSettingsItem";
 import {getFileLinkToView} from "../../../../../helpers/helpers";
 import Icon from "../../../../other/icon/icon";
@@ -20,9 +27,13 @@ const ChatSettings = (props) => {
 
     const dispatch = useDispatch();
     const {chatId} = useParams();
+    const navigate = useNavigate();
     const [isAddNewUsers, setIsAddNewUsers] = useState(false);
+    const [newChatUsers, setNewChatUsers] = useState([]);
+
     const currentChatId = useSelector(state => state.chat.chatId);
     const chatDetails = useSelector(state => state.chat.chatDetails);
+    const notePreference = useSelector(state => state.chat.notePreference);
     const friendsList = useSelector(state => state.friends.friendsList);
     const userId = useSelector(state => state.user.userData?.id);
 
@@ -35,8 +46,23 @@ const ChatSettings = (props) => {
 
     useEffect(() => {
         dispatch(getChatDetails(chatId));
-        dispatch(getFriendsList())
+        dispatch(getNotificationPreference(chatId));
+        dispatch(getFriendsList());
     }, [])
+
+    const onChangeNewUser = (event) => {
+        if (event.target.checked && !newChatUsers.includes(event.target.id)) {
+            setNewChatUsers([...newChatUsers, event.target.id])
+        }else {
+            setNewChatUsers([...newChatUsers.filter(id => id !== event.target.id)]);
+        }
+    }
+
+    const onSaveNewUsers = () => {
+        newChatUsers.forEach(id => dispatch(addUserToChat(chatId, id)))
+        setIsAddNewUsers(false)
+        setNewChatUsers([])
+    }
 
     return (
         <div>
@@ -60,19 +86,21 @@ const ChatSettings = (props) => {
                         <Icon clickable={false} icon={noteIcon} size={25}/>
                         Уведомления:
                         <SelectInput
-                            // callback={(value) => dispatch(setUserOnlinePreference(value))}
-                            value={"All"}
+                            callback={(value) => dispatch(editNotificationPreference(chatId, value))}
+                            value={notePreference}
                             options={NOTIFICATION_PREFERENCE_OPTIONS}
                         />
                     </div>
-                    <div className={"profile-btn-secondary"}>
+                    <div className={"profile-btn-secondary"}
+                         onClick={() => dispatch(leaveGroupChat(chatId, () => navigate("/")))}
+                    >
                         <Icon clickable={false} icon={exitIcon} size={25}/>
                         Выйти из чата
                     </div>
                     {
                         userIsAdmin &&
-                        <div className={"profile-btn-secondary"}>
-                            <Icon clickable={false} icon={trashIcon} size={25}/>
+                        <div className={"profile-btn-secondary"} onClick={() => dispatch(deleteChat(chatId))}>
+                            <Icon clickable={false} icon={trashIcon} size={25} />
                             Удалить чат
                         </div>
                     }
@@ -89,7 +117,7 @@ const ChatSettings = (props) => {
                                         </button>
                                     </div> :
                                     <div>
-                                        <button>Сохранить</button>
+                                        <button onClick={onSaveNewUsers}>Сохранить</button>
                                         <button onClick={() => setIsAddNewUsers(false)}>
                                             Отмена
                                         </button>
@@ -102,11 +130,13 @@ const ChatSettings = (props) => {
                             !isAddNewUsers ?
                                 chatDetails.usersDetails.map(user =>
                                     <ChatSettingsItem key={user.id}
+                                                      makeAdmin={(userId) => dispatch(makeUserAdmin(chatId, userId))}
+                                                      deleteFromChat={(userId) => dispatch(deleteUserFromChat(chatId, userId))}
                                                       userIsAdmin={userIsAdmin}
                                                       isAdmin={chatDetails.administrators.includes(user.id)}
                                                       {...user}/>) :
                                 friendsList.filter(user => !chatDetails.users.includes(user.id)).map(user =>
-                                    <CreateGroupChatItem key={user.id} {...user}/>)
+                                    <CreateGroupChatItem key={user.id} {...user} onChange={onChangeNewUser}/>)
                         }
                     </div>
                 </div>

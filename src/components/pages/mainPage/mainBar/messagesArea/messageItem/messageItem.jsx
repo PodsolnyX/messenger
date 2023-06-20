@@ -4,8 +4,6 @@ import {getFileLinkToDownload, getFileLinkToView} from "../../../../../../helper
 
 const MessageItem = (props) => {
 
-    console.log(props)
-
     return (
         <div className={`message-item-container-${props.isIncoming ? "incoming" : "exiting"}`}
         >

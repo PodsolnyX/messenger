@@ -35,8 +35,6 @@ const MessagesArea = (props) => {
 
     let isOnline = false;
 
-    console.log(chatDetails)
-
     if (chatDetails.users) {
         isOnline = usersOnline.includes(
             chatDetails.administrators.length === 0 ?
@@ -62,8 +60,6 @@ const MessagesArea = (props) => {
             dispatch(viewMessage(messages[0].id))
     }, [messages])
 
-    console.log(chatDetails)
-
     return (
         isLoading && messages.length === 0 ? <div className={"messages-list-empty"}>
                 <Loader/>
@@ -73,6 +69,7 @@ const MessagesArea = (props) => {
                         callback={() => {
                             dispatch(setViewChatList());
                             navigate("/");
+                            dispatch(setChatId(""))
                         }}>
                     <div className={"messages-area-nav"}>
                         <div>

@@ -12,8 +12,6 @@ const MainBar = (props) => {
     const { chatId } = useParams();
     const isView = !!((chatId && isMobile) || !isMobile);
 
-    console.log(currentView)
-
     return (
         <div className={"main-bar"} style={!isView ? {display: "none"} : {}}>
             { chatId && currentView === VIEWS.MESSAGES_AREA && <MessagesArea/> }

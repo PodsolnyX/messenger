@@ -54,10 +54,11 @@
 .chat-settings-user-list-header {
     display: flex;
     justify-content: space-between;
+    margin: 0 25px;
 }
 
 .chat-settings-user-list-header > h4 {
-    margin: 0 0 0 25px;
+    margin: 0;
     font-weight: normal;
     font-size: 18px;
 }

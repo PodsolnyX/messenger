@@ -1,12 +1,11 @@
 import {chatAPI} from "../../api/chatAPI";
-import {setErrorToast, setInformationToast} from "./toasterReducer";
+import {setErrorToast, setInformationToast, setSuccessToast} from "./toasterReducer";
 import {setViewChatList, setViewMessagesArea} from "./generalReducer";
 import {userAPI} from "../../api/userAPI";
 import {messageAPI} from "../../api/messageAPI";
 import {FILE_TYPE, FILE_TYPE_RATIO, NULL_PHOTO, SIZE_MESSAGE_PAGE} from "../../helpers/constants";
 import {filesAPI} from "../../api/filesAPI";
 import {convertFileToFormData} from "../../helpers/helpers";
-import {setFriendsList, setLoadingFriends} from "./friendReducer";
 
 const SET_PREVIEW_CHATS = "SET_PREVIEW_CHATS",
     SET_MESSAGES = "SET_MESSAGES",
@@ -15,7 +14,8 @@ const SET_PREVIEW_CHATS = "SET_PREVIEW_CHATS",
     SET_LOADING_MESSAGES = "SET_LOADING_MESSAGES",
     SET_LOADING_SEND_MESSAGE = "SET_LOADING_SEND_MESSAGE",
     RESET_CHAT = "RESET_CHAT",
-    SET_CHAT_DETAILS = "SET_CHAT_DETAILS"
+    SET_CHAT_DETAILS = "SET_CHAT_DETAILS",
+    SET_NOTE_PREFERENCE = "SET_NOTE_PREFERENCE"
 ;
 
 let initialState = {
@@ -24,6 +24,7 @@ let initialState = {
     messagesPageCount: 1,
     chatId: "",
     chatDetails: {},
+    notePreference: "All",
     isLoading: false,
     isLoadingMessages: false,
     isLoadingSendMessage: false
@@ -67,6 +68,11 @@ const chatReducer = (state = initialState, action) => {
                 ...state,
                 chatDetails: action.chatDetails
             }
+        case SET_NOTE_PREFERENCE:
+            return {
+                ...state,
+                notePreference: action.notePreference
+            }
         case SET_LOADING_CHAT:
             return {
                 ...state,
@@ -92,6 +98,7 @@ export const setMessages = (messages, messagesPageCount) => ({type: SET_MESSAGES
 export const setNewMessage = (message, messagesPageCount) => ({type: SET_NEW_MESSAGE, message, messagesPageCount});
 export const resetChat = (chatId) => ({type: RESET_CHAT, chatId});
 export const setChatDetails = (chatDetails) => ({type: SET_CHAT_DETAILS, chatDetails});
+export const setNotificationPreference = (notePreference) => ({type: SET_NOTE_PREFERENCE, notePreference});
 export const setLoadingChat = (isLoading) => ({type: SET_LOADING_CHAT, isLoading});
 export const setLoadingMessages = (isLoading) => ({type: SET_LOADING_MESSAGES, isLoading});
 export const setLoadingSendMessage = (isLoading) => ({type: SET_LOADING_SEND_MESSAGE, isLoading});
@@ -163,14 +170,15 @@ export const getChatMessages = (chatId, withLoading = true, callback) => async (
 
 }
 
-export const getNewMessage = (chatId) => async (dispatch, getState) => {
+export const getNewMessage = (chatId, isMuted = false) => async (dispatch, getState) => {
+
     if (getState().chat.chatId === chatId) {
         const response = await chatAPI.getMessages(getState().chat.chatId, 1, SIZE_MESSAGE_PAGE)
         const message = await getMessageWithFiles(response.data.items[0]);
         if (response.status === 200)
             dispatch(setNewMessage(message, response.data.pages_amount))
-    } else if (getState().chat.chatId || chatId) {
-        dispatch(setInformationToast("Вам пришло сообщение"))
+    } else {
+        if (!isMuted) dispatch(setInformationToast("Вам пришло сообщение"))
     }
 }
 
@@ -187,6 +195,27 @@ export const getChatDetails = (chatId) => async (dispatch, getState) => {
 
     } else dispatch(setErrorToast("Беда"))
 
+}
+
+export const getNotificationPreference = (chatId) => (dispatch) => {
+    chatAPI.getNotificationPreference(chatId)
+        .then(response => {
+            if (response.status === 200)
+                dispatch(setNotificationPreference(response.data))
+        })
+}
+
+export const editNotificationPreference = (chatId, preferenceType) => (dispatch) => {
+    chatAPI.editNotificationPreference(chatId, preferenceType)
+        .then(response => {
+            if (response.status === 200) {
+                dispatch(setNotificationPreference(preferenceType));
+                dispatch(setSuccessToast("Успешно"))
+            }
+            else {
+                dispatch(setErrorToast("Ошибка"))
+            }
+        })
 }
 
 export const createPrivateChat = (userId, callback) => (dispatch) => {
@@ -227,8 +256,6 @@ export const createGroupChat = (users, avatarFile, chatName) => async (dispatch)
     } else
         dispatch(setErrorToast("Беда"))
     dispatch(setLoadingChat(false));
-
-
 }
 
 async function uploadFile(file, isPublic = false) {
@@ -267,6 +294,78 @@ export const viewMessage = (messageId) => (dispatch) => {
         .then(response => {
             if (response.status === 200)
                 dispatch(getPreviewChats(false))
+        })
+}
+
+export const deleteChat = (chatId) => (dispatch) => {
+    chatAPI.deleteChat(chatId)
+        .then(response => {
+            if (response.status === 200) {
+                dispatch(setSuccessToast("Чат успешно удалён"))
+                dispatch(getChatDetails(chatId));
+            }
+            else
+                dispatch(setErrorToast("Ошибка"))
+        })
+}
+
+export const leaveGroupChat = (chatId, callback) => (dispatch) => {
+    chatAPI.leaveGroupChat(chatId)
+        .then(response => {
+            if (response.status === 200) {
+                dispatch(setSuccessToast("Вы успешно вышли из чата"))
+                callback();
+                dispatch(getPreviewChats())
+            }
+            else
+                dispatch(setErrorToast("Ошибка"))
+        })
+}
+
+export const leavePrivateChat = (chatId) => (dispatch) => {
+    chatAPI.leavePrivateChat(chatId)
+        .then(response => {
+            if (response.status === 200)
+                dispatch(setSuccessToast("Вы успешно вышли из чата"))
+            else
+                dispatch(setErrorToast("Ошибка"))
+        })
+}
+
+export const deleteUserFromChat = (chatId, userId) => (dispatch) => {
+    chatAPI.deleteUserFromChat(chatId, userId)
+        .then(response => {
+            if (response.status === 200) {
+                dispatch(setSuccessToast("Пользователь исключен из чата"));
+                dispatch(getChatDetails(chatId));
+            }
+            else
+                dispatch(setErrorToast("Ошибка"))
+        })
+}
+
+export const addUserToChat = (chatId, userId) => (dispatch) => {
+    chatAPI.addUserToChat(chatId, userId)
+        .then(response => {
+            if (response.status === 200) {
+                dispatch(setSuccessToast("Пользователь приглашён в чат"))
+                dispatch(getChatDetails(chatId));
+            }
+            else
+                dispatch(setErrorToast("Ошибка"))
+        })
+}
+
+export const makeUserAdmin = (chatId, userId) => (dispatch) => {
+    chatAPI.makeUserAdmin(chatId, userId)
+        .then(response => {
+            if (response.status === 200) {
+                dispatch(getChatDetails(chatId));
+                dispatch(setSuccessToast("Пользователь стал администратором"))
+            }
+
+            else
+                dispatch(setErrorToast("Ошибка"))
         })
 }
 

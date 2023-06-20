@@ -1,5 +1,5 @@
 import {instance} from "./instance";
-import {NULL_NAME, NULL_PHOTO, SIZE_MESSAGE_PAGE} from "../helpers/constants";
+import {NULL_NAME, NULL_PHOTO} from "../helpers/constants";
 
 const getPreviewChats = () => {
     return instance.get(`/backend/chats/preview`)
@@ -15,6 +15,18 @@ const getMessages = (id, page, pageSize) => {
 
 const getChatDetails = (id) => {
     return instance.get(`/backend/chat/${id}/details`)
+        .then(response =>  response)
+        .catch(error => error.response);
+}
+
+const getNotificationPreference = (chatId) => {
+    return instance.get(`/backend/chat/${chatId}/notification-preference`)
+        .then(response =>  response)
+        .catch(error => error.response);
+}
+
+const editNotificationPreference = (chatId, preferenceType) => {
+    return instance.put(`/backend/chat/${chatId}/notification-preference?preferenceType=${preferenceType}`)
         .then(response =>  response)
         .catch(error => error.response);
 }
@@ -47,8 +59,32 @@ const deleteChat = (id) => {
         .catch(error => error.response);
 }
 
+const leaveGroupChat = (id) => {
+    return instance.delete(`/backend/chat/group/${id}/leave`)
+        .then(response =>  response)
+        .catch(error => error.response);
+}
+
 const leavePrivateChat = (id) => {
     return instance.delete(`/backend/chat/private/${id}/leave`)
+        .then(response =>  response)
+        .catch(error => error.response);
+}
+
+const addUserToChat = (chatId, userId) => {
+    return instance.post(`/backend/chat/group/${chatId}/user/${userId}`)
+        .then(response =>  response)
+        .catch(error => error.response);
+}
+
+const deleteUserFromChat = (chatId, userId) => {
+    return instance.delete(`/backend/chat/group/${chatId}/user/${userId}`)
+        .then(response =>  response)
+        .catch(error => error.response);
+}
+
+const makeUserAdmin = (chatId, userId) => {
+    return instance.post(`/backend/chat/${chatId}/user/${userId}/admin`)
         .then(response =>  response)
         .catch(error => error.response);
 }
@@ -57,8 +93,14 @@ export const chatAPI = {
     getPreviewChats,
     getMessages,
     getChatDetails,
+    getNotificationPreference,
+    editNotificationPreference,
     createPrivateChat,
     createGroupChat,
     deleteChat,
-    leavePrivateChat
+    leaveGroupChat,
+    leavePrivateChat,
+    addUserToChat,
+    deleteUserFromChat,
+    makeUserAdmin
 };

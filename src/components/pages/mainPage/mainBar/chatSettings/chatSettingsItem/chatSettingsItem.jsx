@@ -13,8 +13,8 @@ const ChatSettingsItem = (props) => {
                 {
                     !props.isAdmin && props.userIsAdmin ?
                     <div>
-                        <Icon icon={star} size={23}/>
-                        <Icon icon={deleteUser} size={25}/>
+                        <Icon icon={star} size={23} callback={() => props.makeAdmin(props.id)}/>
+                        <Icon icon={deleteUser} size={25} callback={() => props.deleteFromChat(props.id)}/>
                     </div> : undefined
                 }
             </div>
