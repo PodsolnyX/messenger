@@ -2,6 +2,8 @@
     width: 90%;
     margin: 0 auto;
     transition: 0.2s;
+    color: var(--color-text-tertiary);
+    text-align: center;
 }
 
 .messages-area-container {

@@ -8,7 +8,7 @@ import {
     deleteChat, deleteUserFromChat, editChatAvatar,
     editNotificationPreference,
     getChatDetails,
-    getNotificationPreference, leaveGroupChat, makeUserAdmin,
+    getNotificationPreference, leaveGroupChat, leavePrivateChat, makeUserAdmin,
     setChatId
 } from "../../../../../store/reducers/chatReducer";
 import {useNavigate, useParams} from "react-router-dom";
@@ -22,7 +22,6 @@ import exitIcon from "../../../../../assets/icons/exit.svg";
 import trashIcon from "../../../../../assets/icons/trash.svg";
 import CreateGroupChatItem from "../../sideBar/createGroupChat/createGroupChatItem/createGroupChatItem";
 import {getFriendsList} from "../../../../../store/reducers/friendReducer";
-import {editAvatarProfile} from "../../../../../store/reducers/userReducer";
 
 const ChatSettings = (props) => {
 
@@ -38,7 +37,7 @@ const ChatSettings = (props) => {
     const friendsList = useSelector(state => state.friends.friendsList);
     const userId = useSelector(state => state.user.userData?.id);
 
-    const userIsAdmin = chatDetails.administrators.includes(userId);
+    const userIsAdmin = chatDetails.administrators.includes(userId) && !chatDetails.deletedTime;
 
     useEffect(() => {
         if (currentChatId !== chatId)
@@ -73,77 +72,104 @@ const ChatSettings = (props) => {
         <div>
             <Navbar title={"Настройки чата"} withBG={true}
                     callback={() => dispatch(setViewMessagesArea())}/>
-            <div className={"chat-settings-container"}>
-                <div className={"chat-settings-info"} style={!userIsAdmin ? {pointerEvents: "none"} : {}}>
-                    <div className={"edit-chat-avatar"}>
-                        <input type={"file"} id="avatar-input" onChange={onChangeAvatar}
-                               accept="image/png, image/gif, image/jpeg"/>
-                        <label htmlFor="avatar-input">
-                            <img src={getFileLinkToView(chatDetails.chatAvatarId)} alt=""/>
-                        </label>
-                    </div>
-                    <div>
-                        {chatDetails.chatName}
-                    </div>
-                </div>
-                <div className={"profile-actions"}>
-                    <div className={"profile-btn-secondary"}>
-                        <Icon clickable={false} icon={noteIcon} size={25}/>
-                        Уведомления:
-                        <SelectInput
-                            callback={(value) => dispatch(editNotificationPreference(chatId, value))}
-                            value={notePreference}
-                            options={NOTIFICATION_PREFERENCE_OPTIONS}
-                        />
-                    </div>
-                    <div className={"profile-btn-secondary"}
-                         onClick={() => dispatch(leaveGroupChat(chatId, () => navigate("/")))}
-                    >
-                        <Icon clickable={false} icon={exitIcon} size={25}/>
-                        Выйти из чата
-                    </div>
-                    {
-                        userIsAdmin &&
-                        <div className={"profile-btn-secondary"} onClick={() => dispatch(deleteChat(chatId))}>
-                            <Icon clickable={false} icon={trashIcon} size={25}/>
-                            Удалить чат
+            {
+                chatDetails.administrators.length !== 0 ?
+                    <div className={"chat-settings-container"}>
+                        <div className={"chat-settings-info"}
+                             style={!userIsAdmin ? {pointerEvents: "none"} : {}}>
+                            <div className={"edit-chat-avatar"}>
+                                <input type={"file"} id="avatar-input" onChange={onChangeAvatar}
+                                       accept="image/png, image/gif, image/jpeg"/>
+                                <label htmlFor="avatar-input">
+                                    <img src={getFileLinkToView(chatDetails.chatAvatarId)} alt=""/>
+                                </label>
+                            </div>
+                            <div>
+                                {chatDetails.chatName}
+                            </div>
                         </div>
-                    }
-                </div>
-                <div className={"chat-settings-user-list-header"}>
-                    <h4>{!isAddNewUsers ? "Участники чата" : "Добавление новых участников"}</h4>
-                    {
-                        userIsAdmin ?
-                            !isAddNewUsers ?
-                                <div>
-                                    <button onClick={() => setIsAddNewUsers(true)}>
-                                        Добавить участников
-                                    </button>
-                                </div> :
-                                <div>
-                                    <button onClick={onSaveNewUsers}>Сохранить</button>
-                                    <button onClick={() => setIsAddNewUsers(false)}>
-                                        Отмена
-                                    </button>
+                        <div className={"profile-actions"}>
+                            {
+                                !chatDetails.deletedTime &&
+                                <div className={"profile-btn-secondary"}>
+                                    <Icon clickable={false} icon={noteIcon} size={25}/>
+                                    Уведомления:
+                                    <SelectInput
+                                        callback={(value) => dispatch(editNotificationPreference(chatId, value))}
+                                        value={notePreference}
+                                        options={NOTIFICATION_PREFERENCE_OPTIONS}
+                                    />
                                 </div>
-                            : undefined
-                    }
-                </div>
-                <div className={"chat-settings-user-list"}>
-                    {
-                        !isAddNewUsers ?
-                            chatDetails.usersDetails.map(user =>
-                                <ChatSettingsItem key={user.id}
-                                                  makeAdmin={(userId) => dispatch(makeUserAdmin(chatId, userId))}
-                                                  deleteFromChat={(userId) => dispatch(deleteUserFromChat(chatId, userId))}
-                                                  userIsAdmin={userIsAdmin}
-                                                  isAdmin={chatDetails.administrators.includes(user.id)}
-                                                  {...user}/>) :
-                            friendsList.filter(user => !chatDetails.users.includes(user.id)).map(user =>
-                                <CreateGroupChatItem key={user.id} {...user} onChange={onChangeNewUser}/>)
-                    }
-                </div>
-            </div>
+                            }
+                            <div className={"profile-btn-secondary"}
+                                 onClick={() => dispatch(leaveGroupChat(chatId, () => navigate("/")))}
+                            >
+                                <Icon clickable={false} icon={exitIcon} size={25}/>
+                                Выйти из чата
+                            </div>
+                            {
+                                userIsAdmin &&
+                                <div className={"profile-btn-secondary"} onClick={() => dispatch(deleteChat(chatId))}>
+                                    <Icon clickable={false} icon={trashIcon} size={25}/>
+                                    Удалить чат
+                                </div>
+                            }
+                        </div>
+                        <div className={"chat-settings-user-list-header"}>
+                            <h4>{!isAddNewUsers ? "Участники чата" : "Добавление новых участников"}</h4>
+                            {
+                                userIsAdmin ?
+                                    !isAddNewUsers ?
+                                        <div>
+                                            <button onClick={() => setIsAddNewUsers(true)}>
+                                                Добавить участников
+                                            </button>
+                                        </div> :
+                                        <div>
+                                            <button onClick={onSaveNewUsers}>Сохранить</button>
+                                            <button onClick={() => setIsAddNewUsers(false)}>
+                                                Отмена
+                                            </button>
+                                        </div>
+                                    : undefined
+                            }
+                        </div>
+                        <div className={"chat-settings-user-list"}>
+                            {
+                                !isAddNewUsers ?
+                                    chatDetails.usersDetails.map(user =>
+                                        <ChatSettingsItem key={user.id}
+                                                          makeAdmin={(userId) => dispatch(makeUserAdmin(chatId, userId))}
+                                                          deleteFromChat={(userId) => dispatch(deleteUserFromChat(chatId, userId))}
+                                                          userIsAdmin={userIsAdmin}
+                                                          isAdmin={chatDetails.administrators.includes(user.id)}
+                                                          {...user}/>) :
+                                    friendsList.filter(user => !chatDetails.users.includes(user.id)).map(user =>
+                                        <CreateGroupChatItem key={user.id} {...user} onChange={onChangeNewUser}/>)
+                            }
+                        </div>
+                    </div> :
+                    <div className={"chat-settings-container"}>
+                        <div className={"profile-actions"}>
+                            <div className={"profile-btn-secondary"}>
+                                <Icon clickable={false} icon={noteIcon} size={25}/>
+                                Уведомления:
+                                <SelectInput
+                                    callback={(value) => dispatch(editNotificationPreference(chatId, value))}
+                                    value={notePreference}
+                                    options={NOTIFICATION_PREFERENCE_OPTIONS}
+                                />
+                            </div>
+                            <div className={"profile-btn-secondary"}
+                                 onClick={() => dispatch(leavePrivateChat(chatId, () => navigate("/")))}
+                            >
+                                <Icon clickable={false} icon={exitIcon} size={25}/>
+                                Выйти из чата
+                            </div>
+                        </div>
+                    </div>
+            }
+
         </div>
 
     );

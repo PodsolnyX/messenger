@@ -84,10 +84,7 @@ const MessagesArea = (props) => {
                                 }
                             </div>
                         </div>
-                        {
-                            chatDetails?.administrators?.length !== 0 &&
-                            <Icon icon={other} size={35} callback={() => dispatch(setViewChatSettings())}/>
-                        }
+                        <Icon icon={other} size={35} callback={() => dispatch(setViewChatSettings())}/>
                     </div>
                 </Navbar>
                 <div className={"main-bar-content"}>
@@ -114,13 +111,19 @@ const MessagesArea = (props) => {
                                 </div>
                         }
                     </div>
-                    <div className={"input-container"}>
-                        <MessageInput
-                            isLoading={isLoadingSendMessage}
-                            callback={(textMessage, files) =>
-                                dispatch(sendMessage(chatId, textMessage, files))}
-                        />
-                    </div>
+                    {
+                        !chatDetails.deletedTime ?
+                        <div className={"input-container"}>
+                            <MessageInput
+                                isLoading={isLoadingSendMessage}
+                                callback={(textMessage, files) =>
+                                    dispatch(sendMessage(chatId, textMessage, files))}
+                            />
+                        </div> :
+                            <div className={"input-container"}>
+                                Данный чат был удалён. Вы больше не можете писать сообщения и изменять настройки.
+                            </div>
+                    }
                 </div>
             </div>
 

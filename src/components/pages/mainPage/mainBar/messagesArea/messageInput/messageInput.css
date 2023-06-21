@@ -3,6 +3,7 @@
     display: flex;
     justify-content: space-between;
     align-items: end;
+    text-align: start;
     width: 90%;
     bottom: 20px;
 }

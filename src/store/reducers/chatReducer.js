@@ -361,11 +361,14 @@ export const leaveGroupChat = (chatId, callback) => (dispatch) => {
         })
 }
 
-export const leavePrivateChat = (chatId) => (dispatch) => {
+export const leavePrivateChat = (chatId, callback) => (dispatch) => {
     chatAPI.leavePrivateChat(chatId)
         .then(response => {
-            if (response.status === 200)
+            if (response.status === 200) {
                 dispatch(setSuccessToast("Вы успешно вышли из чата"))
+                callback();
+                dispatch(getPreviewChats())
+            }
             else
                 dispatch(setErrorToast("Ошибка"))
         })
