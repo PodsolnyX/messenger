@@ -4,6 +4,7 @@
     background-color: var(--color-bg-secondary);
     transition: 0.2s;
     box-shadow: 0 2px 10px 0 var(--color-bg-primary) inset;
+    position: relative;
 }
 
 @media (min-width: 1050px) {
@@ -20,7 +21,6 @@
 
 .side-bar-content {
     height: calc(100% - 65px);
-    position: relative;
     overflow-y: auto;
 }
 
